@@ -2,6 +2,8 @@
 
 Control Sonoff switches using Homey.
 
+Based on https://blog.ipsumdomus.com/sonoff-switch-complete-hack-without-firmware-upgrade-1b2d6632c01
+
 ##### Initial device setup
 
 This driver works with Sonoff devices that run the original Sonoff firmware. The hardware setup mimics the Sonoff _eWelink_ mobile app by tricking the device into using the Homey as its cloud server. Once the hardware setup is complete, the device will not be using the Chinese cloud service, but your Homey.
@@ -35,3 +37,11 @@ curl --data-binary @pair.json -XPOST -H 'content-type: application/json' http://
 The response should be `{"error":0}`
 
 After this, the device should announce itself to the Homey, and is ready to be paired with it.
+
+##### Pairing
+
+When pairing a device, it works best to unplug the device until the Homey driver starts looking for it. When you plug in the device at that point, it should get discovered quite quickly.
+
+##### Remarks
+
+When the device has lost its connection to Homey, it may take some time (a minute or 2) before it connects again. The Homey cannot force a connection, it has to wait for the device to contact it before it can be used.

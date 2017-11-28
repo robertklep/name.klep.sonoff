@@ -5,6 +5,7 @@ const WebSocket   = require('ws');
 const API_KEY_PREFIX  = '4087EA6CA-1337-1337-1337-00';
 const KEYS            = require('./keys.json');
 const PORT            = 8305;
+const json            = JSON.stringify.bind(JSON);
 
 class Deferred {
   constructor() {
@@ -33,7 +34,7 @@ module.exports = class SonoffDriver extends Homey.Driver {
 
       // Default response to point Sonoff to this server.
       res.setHeader('content-type', 'application/json');
-      res.end(JSON.stringify({
+      res.end(json({
         error  : 0,
         reason : 'ok',
         IP     : internalIp,
@@ -59,11 +60,13 @@ module.exports = class SonoffDriver extends Homey.Driver {
         this.connectedDevices[deviceId] = socket;
 
         // Dispatch message to method.
-        let method = 'on' + message.action[0].toUpperCase() + message.action.substring(1);
-        if (method in this) {
-          this[method](DeviceObject(message, socket), message);
-        } else {
-          this.log('[WS] received unhandled message', message);
+        if ('action' in message) {
+          let method = 'on' + message.action[0].toUpperCase() + message.action.substring(1);
+          if (method in this) {
+            this[method](DeviceObject(message, socket), message);
+          } else {
+            this.log('[WS] received unhandled message', message);
+          }
         }
       }).on('error', err => {
         this.log('[WS] socket error', err.message);
@@ -93,7 +96,7 @@ module.exports = class SonoffDriver extends Homey.Driver {
     // Return a registration response. We accept registration
     // requests from all devices, since we assume they either
     // are paired already, or they should be paired.
-    return device.socket.send(JSON.stringify({
+    return device.socket.send(json({
       error    : 0,
       deviceid : device.deviceId,
       apikey   : device.apiKey,
@@ -101,7 +104,7 @@ module.exports = class SonoffDriver extends Homey.Driver {
   }
 
   onDate(device) {
-    return device.socket.send(JSON.stringify({
+    return device.socket.send(json({
       error    : 0,
       date     : new Date().toISOString(),
       deviceid : device.deviceId,
@@ -119,14 +122,22 @@ module.exports = class SonoffDriver extends Homey.Driver {
   }
 
   switchDevice(device, state) {
-    let socket = this.connectedDevices[device.getDeviceId()];
+    let deviceId = device.getDeviceId();
+    let socket   = this.connectedDevices[deviceId];
     if (! socket) {
       return this.log(`[SWITCH] asked to switch unconnected device ${ device.getName() }`);
     }
+    let data = device.getData();
     this.log(`[SWITCH] ${ device.getName() } → ${ state ? 'on' : 'off' }`);
-    socket.send(JSON.stringify({
-      action : 'update',
-      value  : {
+    socket.send(json({
+      action    : 'update',
+      deviceid  : deviceId,
+      apikey    : data.apiKey,
+      sequence  : String(Date.now()),
+      userAgent : 'app',
+      from      : 'app',
+      ts        : 0,
+      params    : {
         switch : state ? 'on' : 'off'
       }
     }));
