@@ -1,0 +1,10 @@
+{
+  "name": "name.klep.sonoff",
+  "version": "1.0.0",
+  "description": "Control Sonoff devices using Homey",
+  "author": "Robert Klep <robert@klep.name>",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^3.3.2"
+  }
+}
