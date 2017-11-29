@@ -43,3 +43,7 @@ When pairing a device, it works best to unplug the device until the Homey driver
 ##### Remarks
 
 When the device has lost its connection to Homey, it may take some time (a minute or 2) before it connects again. The Homey cannot force a connection, it has to wait for the device to contact it before it can be used.
+
+### OMGWTFBBQ YOU COMMITTED TLS PRIVATE KEYS
+
+Yes, I know. I don't consider it to be a security risk.
