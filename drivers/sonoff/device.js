@@ -27,19 +27,18 @@ module.exports = class SonoffDevice extends Homey.Device {
     return this.getData().deviceId;
   }
 
-  // this method is called when the Device is added
   onAdded() {
-    this.log('device added');
+    this.setAvailable();
+    // XXX: `this.driver` may not yet exist here.
+    this.getDriver().onAdded(this);
   }
 
-  // this method is called when the Device is deleted
   onDeleted() {
-    this.log('device deleted');
+    this.driver.onDeleted(this);
   }
 
-  // this method is called when the Device has requested a state change (turned on or off)
   onCapabilityOnoff(value, opts, callback) {
-    this.driver.switchDevice(this, value);
+    this.driver.switchDevice(this.getDeviceId(), value);
     return callback(null);
   }
 }

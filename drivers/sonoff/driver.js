@@ -1,6 +1,7 @@
-const Homey       = require('homey');
-const https       = require('https');
-const WebSocket   = require('ws');
+const Homey         = require('homey');
+const https         = require('https');
+const WebSocket     = require('ws');
+const DeviceManager = require('./device-manager');
 
 const API_KEY_PREFIX  = '4087EA6CA-1337-1337-1337-00';
 const KEYS            = require('./keys.json');
@@ -22,31 +23,39 @@ class Deferred {
 
 module.exports = class SonoffDriver extends Homey.Driver {
   async onInit() {
-    this.log('[INIT] registered devices:', this.getDevices().map(d => d.getDeviceId()));
+    this.log('[INIT]');
 
     // Determine local IP address for Homey.
     let internalIp = (await Homey.ManagerCloud.getLocalAddress()).replace(/:.*/, '');
 
+    // Instantiate device manager. The manager associates Homey devices with
+    // hardware devices.
+    this.manager = new DeviceManager(this);
+
     // Start HTTPS.
     this.log('[INIT] starting HTTPS and WS servers');
     this.server = https.createServer(KEYS, (req, res) => {
-      //this.log(`received request from ${ req.socket.localAddress }`, req.headers);
+      if (req.method === 'POST' && req.url === '/dispatch/device') {
+        this.log(`[HTTPS] received dispatch request from ${ req.socket.remoteAddress }`);
 
-      // Default response to point Sonoff to this server.
-      res.setHeader('content-type', 'application/json');
-      res.end(json({
-        error  : 0,
-        reason : 'ok',
-        IP     : internalIp,
-        port   : PORT
-      }));
+        // Default response to point Sonoff to this server.
+        res.setHeader('content-type', 'application/json');
+        return res.end(json({
+          error  : 0,
+          reason : 'ok',
+          IP     : internalIp,
+          port   : PORT
+        }));
+      }
+
+      // Any other requests aren't handled.
+      res.statusCode = 404;
+      res.end();
     }).listen(PORT);
 
     // Attach WS.
-    this.connectedDevices = {};
     this.wss = new WebSocket.Server({ server : this.server }).on('connection', socket => {
-      //this.log('new WS connection');
-      let deviceId;
+      let device;
       socket.on('message', message => {
         //this.log('received message', message);
         try {
@@ -55,92 +64,36 @@ module.exports = class SonoffDriver extends Homey.Driver {
           return this.log('[WS] malformed message')
         }
 
-        // Store device id and connection.
-        deviceId = message.deviceid;
-        this.connectedDevices[deviceId] = socket;
+        // Register managed device.
+        device = this.manager.registerDevice(message, socket);
 
-        // Dispatch message to method.
+        // Dispatch message to device.
         if ('action' in message) {
-          let method = 'on' + message.action[0].toUpperCase() + message.action.substring(1);
-          if (method in this) {
-            this[method](DeviceObject(message, socket), message);
-          } else {
-            this.log('[WS] received unhandled message', message);
+          device.dispatch(message.action, message);
+
+          // If we're waiting for a device to pair, resolve the deferred
+          // when this is a registration message.
+          if (message.action === 'register' && this.waitingToPair) {
+            this.waitingToPair.resolve(device);
           }
         }
       }).on('error', err => {
         this.log('[WS] socket error', err.message);
-        delete this.connectedDevices[deviceId];
+        this.manager.unregisterDevice(device.deviceId);
       }).on('close', () => {
-        delete this.connectedDevices[deviceId];
+        this.manager.unregisterDevice(device.deviceId);
       });
     }).on('error', err => {
       this.log('[WS] server error', err.message);
     });
   }
 
-  onRegister(device) {
-    let knownDevice = this.getDeviceForId(device.deviceId);
-    this.log(`[REGISTER] ${ knownDevice ? knownDevice.getName() : device.deviceId }, ${ knownDevice ? '' : 'un' }known device`);
-
-    // If we're waiting for a device to pair, and this device isn't
-    // yet known to us, resolve the deferred so the device can be
-    // presented in the list of devices.
-    if (this.waitingForDevice && ! knownDevice) {
-      this.waitingForDevice.resolve(device);
+  switchDevice(deviceId, state) {
+    let managedDevice = this.manager.deviceForId(deviceId);
+    if (! managedDevice) {
+      return this.log(`[SWITCH] asked to switch unmanaged device (${ deviceId })`);
     }
-
-    // Set availability state for known devices.
-    knownDevice && knownDevice.setAvailable();
-
-    // Return a registration response. We accept registration
-    // requests from all devices, since we assume they either
-    // are paired already, or they should be paired.
-    return device.socket.send(json({
-      error    : 0,
-      deviceid : device.deviceId,
-      apikey   : device.apiKey,
-    }));
-  }
-
-  onDate(device) {
-    return device.socket.send(json({
-      error    : 0,
-      date     : new Date().toISOString(),
-      deviceid : device.deviceId,
-      apikey   : device.apiKey
-    }));
-  }
-
-  onUpdate(device, message) {
-    // Find device to update.
-    device = this.getDeviceForId(device.deviceId);
-    if (device) {
-      this.log(`[UPDATE] ${ device.getName() } → ${ message.params.switch }`);
-      device.setCapabilityValue('onoff', message.params.switch === 'on');
-    }
-  }
-
-  switchDevice(device, state) {
-    let deviceId = device.getDeviceId();
-    let socket   = this.connectedDevices[deviceId];
-    if (! socket) {
-      return this.log(`[SWITCH] asked to switch unconnected device ${ device.getName() }`);
-    }
-    let data = device.getData();
-    this.log(`[SWITCH] ${ device.getName() } → ${ state ? 'on' : 'off' }`);
-    socket.send(json({
-      action    : 'update',
-      deviceid  : deviceId,
-      apikey    : data.apiKey,
-      sequence  : String(Date.now()),
-      userAgent : 'app',
-      from      : 'app',
-      ts        : 0,
-      params    : {
-        switch : state ? 'on' : 'off'
-      }
-    }));
+    managedDevice.switch(state);
   }
 
   getDeviceForId(id) {
@@ -150,30 +103,35 @@ module.exports = class SonoffDriver extends Homey.Driver {
   onPairListDevices(data, callback) {
     this.log('[PAIRING] waiting for device to pair');
     // Wait for first device to announce itself.
-    let defer = this.waitingForDevice = new Deferred();
-    defer.then(deviceObj => {
-      this.log('[PAIRING] got pairing request from', deviceObj.deviceId);
-      this.waitingForDevice = null;
+    let defer = this.waitingToPair = new Deferred();
+    defer.then(device => {
+      let name = `${ device.data.model }@${ device.deviceId} (ROM ${ device.data.romVersion })`;
+      this.log('[PAIRING] got pairing request from', name);
+      this.waitingToPair = null;
       return callback(null, [{
-        name : `${ deviceObj.model }@${ deviceObj.deviceId} (ROM ${ deviceObj.romVersion })`,
-        data : deviceObj
+        name,
+        data : {
+          id       : device.id,
+          deviceId : device.deviceId,
+          apiKey   : device.apiKey,
+          data     : device.data
+        }
       }]);
     }).catch(e => {
-      this.waitingForDevice = null;
+      this.waitingToPair = null;
       this.log('[PAIRING] error', e.message);
     });
   }
-}
 
-function DeviceObject(message, socket) {
-  let obj = {
-    id         : message.deviceid,
-    deviceId   : message.deviceid,
-    apiKey     : API_KEY_PREFIX + message.deviceid,
-    romVersion : message.romVersion,
-    model      : message.model,
-    version    : message.version
+  onDeleted(device) {
+    this.log('[DRIVER] device got deleted', device.getName());
+    this.manager.unregisterDevice(device.getDeviceId());
   }
-  Object.defineProperty(obj, 'socket', { value : socket });
-  return obj;
+
+  onAdded(device) {
+    let managedDevice = this.manager.deviceForId(device.getDeviceId());
+    if (managedDevice) {
+      managedDevice.setHomeyDevice(device);
+    }
+  }
 }

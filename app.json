@@ -18,7 +18,10 @@
   "drivers": [
     {
       "id": "sonoff",
-      "name": { "en": "Generic Switch" },
+      "name": {
+        "en": "Switch",
+        "nl": "Schakelaar"
+      },
       "class": "socket",
       "capabilities": [
         "onoff"
