@@ -91,7 +91,7 @@ class ManagedDevice {
 
   onRegister(param) {
     this.log(
-      `registered ${this.homeyDevice ? this.homeyDevice.getName() : param.deviceid}, ${this.homeyDevice ? '' : 'un'}known device`
+      `discovered ${this.homeyDevice ? this.homeyDevice.getName() : param.deviceid}, ${this.homeyDevice ? '' : 'un'}known device`
     );
 
     // Set availability state for Homey device.

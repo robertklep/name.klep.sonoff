@@ -1,12 +1,10 @@
 # Sonoff
 
-Control Sonoff switches using Homey.
-
-Based on https://blog.ipsumdomus.com/sonoff-switch-complete-hack-without-firmware-upgrade-1b2d6632c01
+Control Sonoff WiFi devices using Homey.
 
 ##### Initial device setup
 
-This driver works with Sonoff devices that run the original Sonoff firmware. The hardware setup mimics the Sonoff _eWelink_ mobile app by tricking the device into using the Homey as its cloud server. Once the hardware setup is complete, the device will not be using the Chinese cloud service, but your Homey.
+This driver works with Sonoff WiFi devices that run the original Sonoff firmware. The hardware setup mimics the Sonoff _eWelink_ mobile app by tricking the device into using the Homey as its cloud server. Once the hardware setup is complete, the device will not be using the Chinese cloud service, but your Homey.
 
 The initial device setup cannot be performed from Homey, and requires a computer that can connect to WiFi networks. The Sonoff app for Homey should already be running.
 
