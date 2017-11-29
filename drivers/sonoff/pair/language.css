@@ -1,0 +1,19 @@
+[language-en], [language-nl] {
+  display: none;
+}
+
+body.language-nl [language-en] {
+  display: none;
+}
+
+body.language-en [language-nl] {
+  display: none;
+}
+
+body.language-en [language-en] {
+  display: inherit !important;
+}
+
+body.language-nl [language-nl] {
+  display: inherit !important;
+}

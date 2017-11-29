@@ -28,6 +28,12 @@
       ],
       "pair": [
         {
+          "id" : "intro",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -37,6 +43,12 @@
         {
           "id": "add_devices",
           "template": "add_devices"
+        },
+        {
+          "id" : "device-setup",
+          "navigation": {
+            "next": "list_devices"
+          }
         }
       ]
     }

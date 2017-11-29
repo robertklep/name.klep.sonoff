@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+    <link rel='stylesheet' href='language.css'>
+    <style>
+      pre, code {
+        font-family: monospace;
+      }
+      pre {
+        padding : 0.5em;
+        border  : 1px solid #eee;
+      }
+      li {
+        margin : 0.25em 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div language-en>
+      Before a Sonoff device can be paired with Homey, it needs to be told to use Homey as its server. Prerequisites for this procedure: a computer that can connect to a WiFi network, a command line terminal, and the <code>curl</code> command line tool:
+      <ul>
+        <li>Create a file called <code>pair.json</code> containing the following:
+            <pre><code>{
+  "version": 4,
+  "ssid": "WIFI NETWORK NAME",
+  "password": "WIFI PASSWORD",
+  "serverName": "HOMEY IP ADDRESS",
+  "port": 8305
+}</code></pre>
+            Replace <i>WIFI NETWORK NAME</i> with the name of your own WiFi network, <i>WIFI PASSWORD</i> with its password, and <i>HOMEY IP ADDRESS</i> with the IP address of your Homey.
+        <li>Plug in your Sonoff device
+        <li>Press its button for 5 seconds, or until the green light starts flashing quickly; this puts the device in WiFi Access Point mode
+        <li>Connect your computer to the device's WiFi network. This is the network with the name starting with <i>ITEAD-1000</i>. When asked for a password, enter <i>12345678</i>
+        <li>When your computer has successfully connected, you should open a terminal or command line prompt and execute the following command (all on one line) from the same directory where the <code>pair.json</code> file is stored:
+          <pre><code style='white-space: pre-wrap'>curl --data-binary @pair.json -XPOST -H 'content-type: application/json' http://10.10.7.1/ap</code></pre>
+          The response should be: <code>{"error":0}</code>
+        <li>The device will now use Homey as its server. Switch back to your regular WiFi network and go to the next step.
+      </ul>
+    </div>
+    <div language-nl>
+      Voordat een Sonoff apparaat toegevoegd kan worden aan Homey, moet het zo ingesteld worden dat Homey als de server gebruikt wordt.
+      Benodigdheden voor deze procedure: een computer die met WiFi netwerken kan verbinden, een command line terminal, en de <code>curl</code> command line tool:
+      <ul>
+        <li>Maak een nieuw bestand aan genaamd <code>pair.json</code> met daarin het volgende:
+            <pre><code>{
+  "version": 4,
+  "ssid": "WIFI NETWERK NAAM",
+  "password": "WIFI WACHTWOORD",
+  "serverName": "HOMEY IP ADRES",
+  "port": 8305
+}</code></pre>
+            Vervang <i>WIFI NETWERK NAAM</i> met de naam van je eigen WiFi netwerk, <i>WIFI WACHTWOORD</i> met het WiFi wachtwoord, en <i>HOMEY IP ADRES</i> met het IP adres van je Homey.
+        <li>Stop het Sonoff apparaat in het stopcontact
+        <li>Druk de knop 5 seconden in, of totdat het groene lampje snel gaat knipperen; hiermee wordt het apparaat in de WiFi Access Point modus gezet
+        <li>Verbinding de computer met het WiFi netwerk van het apparaat. Dat is het netwerk waarvan de naam begint met <i>ITEAD-1000</i>. Als er om een wachtwoord gevraagd wordt, gebruik <i>12345678</i>
+        <li>Als de verbinding succesvol is opgezet, open een terminal of command line prompt en voer het volgende command (als één regel) uit in dezelfde directory als waar het <code>pair.json</code> bestand is opgeslagen:
+          <pre><code style='white-space: pre-wrap'>curl --data-binary @pair.json -XPOST -H 'content-type: application/json' http://10.10.7.1/ap</code></pre>
+          Het antwoord moet zijn: <code>{"error":0}</code>
+        <li>Het apparaat zal nu Homey gebruiken als z'n server. Maak weer verbinding met je normale WiFi netwerk en ga naar de volgende stap.
+      </ul>
+    </div>
+    <script>document.body.classList.add('language-' + window.language)</script>
+  </body>
+</html>
+

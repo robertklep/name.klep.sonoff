@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel='stylesheet' href='language.css'>
+    <style>
+      a[onclick] {
+        color : #00e;
+      }
+
+      a:hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div language-en>
+      Before a Sonoff device can be added, it should be configured to use Homey its server.<br>
+      For more information about how to set up your device, <a onclick='Homey.showView("device-setup")'>click here</a>.
+    </div>
+    <div language-nl>
+      Voordat een Sonoff apparaat toegevoegd kan worden moet het zo ingesteld zijn dat het de Homey als server gebruikt.</br>
+      Voor meer informatie over het configureren van het apparaat, <a onclick='Homey.showView("device-setup")'>klik hier</a>.
+    </div>
+    <script>document.body.classList.add('language-' + window.language)</script>
+  </body>
+</html>
+
