@@ -1,12 +1,14 @@
-const Homey = require('homey');
-const json  = JSON.stringify.bind(JSON);
+const Homey            = require('homey');
+const { EventEmitter } = require('events');
+const json             = JSON.stringify.bind(JSON);
 
 // A semi-random API key prefix that we'll use to give each device
 // a new unique API key. The device is concatenated to it.
 const API_KEY_PREFIX = '4087EA6CA-1337-1337-1337-00';
 
-class DeviceManager {
+class DeviceManager extends EventEmitter {
   constructor(driver) {
+    super();
     this.driver         = driver;
     this.managedDevices = {};
     this.connections    = {};
@@ -26,19 +28,32 @@ class DeviceManager {
   }
 
   registerDevice(device, socket) {
+    // If we already manage this device, only update it.
     if (device.deviceid in this.managedDevices) {
       device = this.managedDevices[device.deviceid];
     }
+
+    // Instantiate new device.
     if (! (device instanceof ManagedDevice)) {
       device = this.deviceInstance(device);
     }
+
+    // Set socket for device.
     device.setSocket(socket);
+
+    // Find associated Homey device (if the device was paired before).
     let homeyDevice = this.homeyDeviceForId(device.deviceId);
     if (homeyDevice) {
       device.setHomeyDevice(homeyDevice);
+    } else {
+      setImmediate(() => this.emit('new_device', device));
     }
+
+    // Housekeeping.
     this.managedDevices[device.deviceId] = device;
-    this.connections[device.deviceId]    = socket;
+    this.connections   [device.deviceId] = socket;
+
+    // Done.
     return device;
   }
 
@@ -58,35 +73,43 @@ class DeviceManager {
 
 }
 
-class ManagedDevice {
+class ManagedDevice extends EventEmitter {
   constructor(manager, data) {
+    super();
     this.id      = this.deviceId = data.deviceid;
     this.apiKey  = API_KEY_PREFIX + data.deviceid;
     this.data    = data;
     this.manager = manager;
     this.driver  = manager.driver;
-    this.log('started managing', this.deviceId);
+    this.log('became managed');
+
+    // Action handlers.
+    this.on('register', this.onRegister.bind(this));
+    this.on('date',     this.onDate.bind(this));
+    this.on('update',   this.onUpdate.bind(this));
   }
 
   log() {
-    return this.driver.log('[MANAGED DEVICE]', ...arguments);
-  }
-
-  setSocket(socket) {
-    this.socket = socket;
+    return this.driver.log(`[${ this.deviceId }]`, ...arguments);
   }
 
   setHomeyDevice(homeyDevice) {
     this.homeyDevice = homeyDevice;
   }
 
-  dispatch(action, param) {
-    let method = 'on' + action[0].toUpperCase() + action.substring(1);
-    if (method in this) {
-      this[method](param);
-    } else {
-      this.log('unknown action', action);
-    }
+  setSocket(socket) {
+    if (this.socket === socket) return;
+    this.socket = socket.on('message', message => {
+      try {
+        this.dispatch(JSON.parse(message));
+      } catch(e) {
+        this.log('malformed message', message);
+      }
+    });
+  }
+
+  dispatch(message) {
+    this.emit(message.action || 'unknown', message);
   }
 
   onRegister(param) {
