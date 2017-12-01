@@ -8,11 +8,11 @@ module.exports = class SonoffDevice extends Homey.Device {
     // itself will it become available.
     this.setUnavailable(Homey.__('device.waiting'));
 
-    // register a capability listener
-    this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this))
-
     // Get driver instance.
     this.driver = await this.getReadyDriver();
+
+    // Register a capability listener.
+    this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this))
   }
 
   // Get a (ready) instance of the driver.

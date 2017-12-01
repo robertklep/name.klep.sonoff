@@ -4,7 +4,7 @@ const json             = JSON.stringify.bind(JSON);
 
 // A semi-random API key prefix that we'll use to give each device
 // a new unique API key. The device is concatenated to it.
-const API_KEY_PREFIX = '4087EA6CA-1337-1337-1337-00';
+const API_KEY_PREFIX = '4087EA6CA-1337-1337-1337-0';
 
 class DeviceManager extends EventEmitter {
   constructor(driver) {
@@ -87,6 +87,7 @@ class ManagedDevice extends EventEmitter {
     this.on('register', this.onRegister.bind(this));
     this.on('date',     this.onDate.bind(this));
     this.on('update',   this.onUpdate.bind(this));
+    this.on('query',    this.onQuery.bind(this));
   }
 
   log() {
@@ -134,6 +135,10 @@ class ManagedDevice extends EventEmitter {
     if (! this.homeyDevice) return;
     this.log(`[UPDATE] ${ this.homeyDevice.getName() } → ${ param.params.switch }`);
     this.homeyDevice.setCapabilityValue('onoff', param.params.switch === 'on');
+  }
+
+  onQuery(param) {
+    this.log('[QUERY]', param);
   }
 
   send(data) {
