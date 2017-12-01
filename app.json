@@ -8,6 +8,10 @@
     "nl": "Bedien Sonoff apparaten met Homey",
     "en": "Control Sonoff devices using Homey"
   },
+  "images": {
+    "large": "assets/images/large.jpg",
+    "small": "assets/images/small.jpg"
+  },
   "category": "appliances",
   "version": "1.0.0",
   "compatibility": ">=1.5.0",
@@ -26,9 +30,13 @@
       "capabilities": [
         "onoff"
       ],
+      "images": {
+        "large": "drivers/sonoff/assets/images/large.png",
+        "small": "drivers/sonoff/assets/images/small.png"
+      },
       "pair": [
         {
-          "id" : "intro",
+          "id": "intro",
           "navigation": {
             "next": "list_devices"
           }
@@ -45,7 +53,7 @@
           "template": "add_devices"
         },
         {
-          "id" : "device-setup",
+          "id": "device-setup",
           "navigation": {
             "next": "list_devices"
           }

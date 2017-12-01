@@ -1,6 +1,6 @@
 # Sonoff
 
-Control Sonoff WiFi devices using Homey.
+Control ITEAD Sonoff WiFi devices using Homey.
 
 ##### Initial device setup
 
