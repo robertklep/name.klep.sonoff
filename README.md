@@ -27,12 +27,12 @@ This should put the device in WiFi-AP mode, meaning it will provide a WiFi netwo
 
 When your computer has successfully connected, you should open a terminal or command line prompt and execute the following command from the same directory where the `pair.json` file was stored:
 ```
-curl --data-binary @pair.json -XPOST -H 'content-type: application/json' http://10.10.7.1/ap
+curl --data-binary @pair.json -XPOST -H "content-type: application/json" http://10.10.7.1/ap
 ```
 
 (this requires the `curl` tool to be installed).
 
-The response should be `{"error":0}`
+The response should be `{"error":0}`. If it doesn't work, try `--data-ascii` instead of `--data-binary`.
 
 After this, the device should announce itself to the Homey, and is ready to be paired with it.
 

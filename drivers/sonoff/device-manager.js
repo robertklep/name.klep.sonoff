@@ -1,9 +1,8 @@
 const Homey            = require('homey');
 const { EventEmitter } = require('events');
-const json             = JSON.stringify.bind(JSON);
 
 // A semi-random API key prefix that we'll use to give each device
-// a new unique API key. The device is concatenated to it.
+// a new unique API key. The device id is concatenated to it.
 const API_KEY_PREFIX = '4087EA6CA-1337-1337-1337-0';
 
 class DeviceManager extends EventEmitter {
@@ -46,12 +45,12 @@ class DeviceManager extends EventEmitter {
       device = this.managedDevices[device.deviceid];
     }
 
-    // Instantiate new device.
+    // Instantiate new device?
     if (! (device instanceof ManagedDevice)) {
       device = this.deviceInstance(device);
     }
 
-    // Set socket for device.
+    // Set WebSocket for device.
     device.setSocket(socket);
 
     // Find associated Homey device (if the device was paired before).
@@ -159,10 +158,12 @@ class ManagedDevice extends EventEmitter {
     return this.send({ date: new Date().toISOString() });
   }
 
-  onUpdate(param) {
-    if (! this.homeyDevice) return;
-    this.log(`[UPDATE] ${ this.homeyDevice.getName() } → ${ param.params.switch }`);
-    this.homeyDevice.setCapabilityValue('onoff', param.params.switch === 'on');
+  async onUpdate(param) {
+    if (! this.homeyDevice || ! param.params) return;
+    if ('switch' in param.params) {
+      this.log(`[UPDATE] ${ this.homeyDevice.getName() } → ${ param.params.switch }`);
+      this.homeyDevice.setCapabilityValue('onoff', param.params.switch === 'on');
+    }
   }
 
   onQuery(param) {
@@ -176,7 +177,7 @@ class ManagedDevice extends EventEmitter {
 
   send(data) {
     return this.socket.send(
-      json(
+      JSON.stringify(
         Object.assign({
           error    : 0,
           deviceid : this.deviceId,

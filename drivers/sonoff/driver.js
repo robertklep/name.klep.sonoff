@@ -3,9 +3,11 @@ const https         = require('https');
 const WebSocket     = require('ws');
 const DeviceManager = require('./device-manager');
 
-const KEYS            = require('./keys.json');
-const PORT            = 8305;
-const json            = JSON.stringify.bind(JSON);
+// TLS keys.
+const KEYS = require('./keys.json');
+
+// Port that the HTTPS and WS servers are listening on.
+const PORT = 8305;
 
 module.exports = class SonoffDriver extends Homey.Driver {
   async onInit() {
@@ -25,13 +27,14 @@ module.exports = class SonoffDriver extends Homey.Driver {
         this.log(`[HTTPS] received dispatch request from ${ req.socket.remoteAddress }`);
         // Default response to point Sonoff to this server.
         res.setHeader('content-type', 'application/json');
-        res.end(json({
+        res.end(JSON.stringify({
           error  : 0,
           reason : 'ok',
           IP     : internalIp,
           port   : PORT
         }));
       } else {
+        this.log('[HTTPS] Unhandled request', req.method, req.url);
         // Any other requests aren't handled.
         res.statusCode = 404;
         res.end();
@@ -48,7 +51,7 @@ module.exports = class SonoffDriver extends Homey.Driver {
           return this.log('[WS] malformed message')
         }
 
-        // Sanity check
+        // Make sure we can id the device that sent the message.
         if (! message.deviceid) {
           return this.log('[WS] unknown message')
         }
