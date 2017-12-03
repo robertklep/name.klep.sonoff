@@ -19,14 +19,22 @@
     "name": "Robert Klep",
     "email": "robert@klep.name"
   },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Robert Klep",
+        "email": "robert@klep.name"
+      }
+    ]
+  },
   "drivers": [
     {
       "id": "sonoff",
+      "class": "socket",
       "name": {
         "en": "Switch",
         "nl": "Schakelaar"
       },
-      "class": "socket",
       "capabilities": [
         "onoff"
       ],
@@ -60,5 +68,6 @@
         }
       ]
     }
-  ]
+  ],
+  "flow": {}
 }
