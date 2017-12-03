@@ -90,21 +90,32 @@ module.exports = class SonoffDriver extends Homey.Driver {
   }
 
   onPairListDevices(data, callback) {
-    this.log('[PAIRING] waiting for device to pair');
-    // Wait for first device to announce itself.
-    this.manager.once('new_device', device => {
-      let name = `${ device.data.model }@${ device.deviceId} (ROM ${ device.data.romVersion })`;
-      this.log('[PAIRING] got pairing request from', name);
-      return callback(null, [{
-        name,
-        data : {
-          id       : device.id,
-          deviceId : device.deviceId,
-          apiKey   : device.apiKey,
-          data     : device.data
+    const pairDevices = devices => {
+      return callback(null, devices.map(device => {
+        let name = `${ device.data.model }@${ device.deviceId} (ROM ${ device.data.romVersion })`;
+        this.log('[PAIRING] got pairing request from', name);
+        return {
+          name,
+          data : {
+            id       : device.id,
+            deviceId : device.deviceId,
+            apiKey   : device.apiKey,
+            data     : device.data
+          }
         }
-      }]);
-    });
+      }));
+    }
+
+    // Check if the manager is managing any unpaired devices.
+    let unpaired = this.manager.unpairedDevices();
+    if (unpaired.length) {
+      this.log(`[PAIRING] got ${ unpaired.length } device(s) ready to pair`);
+      pairDevices(unpaired);
+    } else {
+      // Wait for first device to announce itself.
+      this.log('[PAIRING] waiting for device to pair');
+      this.manager.once('new_device', device => pairDevices([ device ]));
+    }
   }
 
   onDeleted(device) {

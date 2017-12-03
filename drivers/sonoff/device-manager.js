@@ -27,6 +27,19 @@ class DeviceManager extends EventEmitter {
     return this.managedDevices[id];
   }
 
+  // Find devices that are managed (discovered)
+  // but unpaired (not added to Homey yet).
+  unpairedDevices() {
+    let unpaired = [];
+    for (let id in this.managedDevices) {
+      let device = this.managedDevices[id];
+      if (! this.managedDevices[id].getHomeyDevice()) {
+        unpaired.push(device);
+      }
+    }
+    return unpaired;
+  }
+
   registerDevice(device, socket) {
     // If we already manage this device, only update it.
     if (device.deviceid in this.managedDevices) {
@@ -46,6 +59,8 @@ class DeviceManager extends EventEmitter {
     if (homeyDevice) {
       device.setHomeyDevice(homeyDevice);
     } else {
+      // Emit an event to tell listeners (the driver) that we discovered a new
+      // device. If the driver is in pairing mode, it will wait for this event.
       setImmediate(() => this.emit('new_device', device));
     }
 
@@ -61,7 +76,11 @@ class DeviceManager extends EventEmitter {
     if (deviceId in this.managedDevices) {
       this.log('unregistering device', deviceId);
       delete this.managedDevices[deviceId];
-      delete this.connections   [deviceId];
+      if (deviceId in this.connections) {
+        // Forceably close the connection.
+        this.connections[deviceId].terminate();
+        delete this.connections[deviceId];
+      }
       return true;
     }
     return false;
@@ -88,6 +107,7 @@ class ManagedDevice extends EventEmitter {
     this.on('date',     this.onDate.bind(this));
     this.on('update',   this.onUpdate.bind(this));
     this.on('query',    this.onQuery.bind(this));
+    this.on('error',    this.onError.bind(this));
   }
 
   log() {
@@ -98,8 +118,13 @@ class ManagedDevice extends EventEmitter {
     this.homeyDevice = homeyDevice;
   }
 
+  getHomeyDevice() {
+    return this.homeyDevice;
+  }
+
   setSocket(socket) {
     if (this.socket === socket) return;
+    // Instance will handle any incoming messages from the hardware device.
     this.socket = socket.on('message', message => {
       try {
         this.dispatch(JSON.parse(message));
@@ -110,12 +135,15 @@ class ManagedDevice extends EventEmitter {
   }
 
   dispatch(message) {
+    if ('error' in message && message.error !== 0) {
+      return this.emit('error', message);
+    }
     this.emit(message.action || 'unknown', message);
   }
 
   onRegister(param) {
     this.log(
-      `discovered ${this.homeyDevice ? this.homeyDevice.getName() : param.deviceid}, ${this.homeyDevice ? '' : 'un'}known device`
+      `registered ${this.homeyDevice ? this.homeyDevice.getName() : param.deviceid}, ${this.homeyDevice ? '' : 'un'}paired device`
     );
 
     // Set availability state for Homey device.
@@ -139,6 +167,11 @@ class ManagedDevice extends EventEmitter {
 
   onQuery(param) {
     this.log('[QUERY]', param);
+    return this.send();
+  }
+
+  onError(param) {
+    this.log('[ERROR]', param.reason);
   }
 
   send(data) {
