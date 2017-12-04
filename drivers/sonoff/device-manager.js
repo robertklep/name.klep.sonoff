@@ -136,6 +136,9 @@ class ManagedDevice extends EventEmitter {
   dispatch(message) {
     if ('error' in message && message.error !== 0) {
       return this.emit('error', message);
+    } else if ('sequence' in message && message.sequence === 'Invalid sequence') {
+      message.reason = message.sequence;
+      return this.emit('error', message);
     }
     this.emit(message.action || 'unknown', message);
   }
@@ -159,16 +162,36 @@ class ManagedDevice extends EventEmitter {
   }
 
   async onUpdate(param) {
-    if (! this.homeyDevice || ! param.params) return;
-    if ('switch' in param.params) {
+    // Switch Homey device (if any).
+    if (this.homeyDevice && param.params && 'switch' in param.params) {
       this.log(`[UPDATE] ${ this.homeyDevice.getName() } → ${ param.params.switch }`);
       this.homeyDevice.setCapabilityValue('onoff', param.params.switch === 'on');
     }
+    // Acknowledge.
+    this.send();
   }
 
   onQuery(param) {
     this.log('[QUERY]', param);
-    return this.send();
+    if (Array.isArray(param.params) && param.params.includes('timers')) {
+      return this.send();
+      /*
+      return this.send({
+        action   : 'update',
+        sequence : String(Date.now()),
+        params   : {
+          timers : [{
+            enabled : 1,
+            type    : 'once',
+            at      : new Date(Date.now() + 5000).toISOString(),
+            do      : { switch : 'on' }
+          }]
+        }
+      });
+      */
+    } else {
+      return this.send();
+    }
   }
 
   onError(param) {
