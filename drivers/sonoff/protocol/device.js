@@ -1,97 +1,10 @@
-const Homey            = require('homey');
 const { EventEmitter } = require('events');
 
 // A semi-random API key prefix that we'll use to give each device
 // a new unique API key. The device id is concatenated to it.
 const API_KEY_PREFIX = '4087EA6CA-1337-1337-1337-0';
 
-class DeviceManager extends EventEmitter {
-  constructor(driver) {
-    super();
-    this.driver         = driver;
-    this.managedDevices = {};
-    this.connections    = {};
-    this.log('instantiated, paired devices:', driver.getDevices().map(d => d.getDeviceId()));
-  }
-
-  log() {
-    return this.driver.log('[MANAGER]', ...arguments);
-  }
-
-  homeyDeviceForId(id) {
-    return this.driver.getDevices().find(device => device.getDeviceId() === id);
-  }
-
-  deviceForId(id) {
-    return this.managedDevices[id];
-  }
-
-  // Find devices that are managed (discovered)
-  // but unpaired (not added to Homey yet).
-  unpairedDevices() {
-    let unpaired = [];
-    for (let id in this.managedDevices) {
-      let device = this.managedDevices[id];
-      if (! this.managedDevices[id].getHomeyDevice()) {
-        unpaired.push(device);
-      }
-    }
-    return unpaired;
-  }
-
-  registerDevice(device, socket) {
-    // If we already manage this device, only update it.
-    if (device.deviceid in this.managedDevices) {
-      device = this.managedDevices[device.deviceid];
-    }
-
-    // Instantiate new device?
-    if (! (device instanceof ManagedDevice)) {
-      device = this.deviceInstance(device);
-    }
-
-    // Set WebSocket for device.
-    device.setSocket(socket);
-
-    // Find associated Homey device (if the device was paired before).
-    let homeyDevice = this.homeyDeviceForId(device.deviceId);
-    if (homeyDevice) {
-      device.setHomeyDevice(homeyDevice);
-    } else {
-      // Emit an event to tell listeners (the driver) that we discovered a new
-      // device. If the driver is in pairing mode, it will wait for this event.
-      setImmediate(() => this.emit('new_device', device));
-    }
-
-    // Housekeeping.
-    this.managedDevices[device.deviceId] = device;
-    this.connections   [device.deviceId] = socket;
-
-    // Done.
-    return device;
-  }
-
-  unregisterDevice(deviceId) {
-    if (deviceId in this.managedDevices) {
-      this.log('unregistering device', deviceId);
-      delete this.managedDevices[deviceId];
-      if (deviceId in this.connections) {
-        // Forceably close the connection.
-        this.connections[deviceId].terminate();
-        delete this.connections[deviceId];
-      }
-      return true;
-    }
-    return false;
-  }
-
-  deviceInstance(data) {
-    return new ManagedDevice(this, data);
-  }
-
-}
-
-class ManagedDevice extends EventEmitter {
+module.exports = class ManagedDevice extends EventEmitter {
   constructor(manager, data) {
     super();
     this.id      = this.deviceId = data.deviceid;
@@ -164,7 +77,7 @@ class ManagedDevice extends EventEmitter {
   async onUpdate(param) {
     // Switch Homey device (if any).
     if (this.homeyDevice && param.params && 'switch' in param.params) {
-      this.log(`[UPDATE] ${ this.homeyDevice.getName() } → ${ param.params.switch }`);
+      this.log(`[update] ${ this.homeyDevice.getName() } → ${ param.params.switch }`);
       this.homeyDevice.setCapabilityValue('onoff', param.params.switch === 'on');
     }
     // Acknowledge.
@@ -172,7 +85,7 @@ class ManagedDevice extends EventEmitter {
   }
 
   onQuery(param) {
-    this.log('[QUERY]', param);
+    this.log('[query]', param);
     if (Array.isArray(param.params) && param.params.includes('timers')) {
       return this.send();
       /*
@@ -195,7 +108,7 @@ class ManagedDevice extends EventEmitter {
   }
 
   onError(param) {
-    this.log('[ERROR]', param.reason);
+    this.log('[error]', param.reason);
   }
 
   send(data) {
@@ -212,7 +125,7 @@ class ManagedDevice extends EventEmitter {
 
   switch(state) {
     state = state ? 'on' : 'off';
-    this.log(`[SWITCH] ${ this.homeyDevice.getName() } → ${ state }`);
+    this.log(`[switch] ${ this.homeyDevice.getName() } → ${ state }`);
     return this.send({
       action    : 'update',
       sequence  : String(Date.now()),
@@ -223,5 +136,3 @@ class ManagedDevice extends EventEmitter {
     });
   }
 }
-
-module.exports = DeviceManager;
