@@ -143,6 +143,7 @@ module.exports = class ProtocolManager extends EventEmitter {
   unregisterDevice(deviceId) {
     if (deviceId in this.devices) {
       this.log('unregistering device', deviceId);
+      this.devices[deviceId].unregister();
       delete this.devices[deviceId];
       if (deviceId in this.connections) {
         // Forceably close the connection.

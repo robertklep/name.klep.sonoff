@@ -1,5 +1,6 @@
 {
   "device" : {
-    "waiting" : "Waiting for device to connect..."
+    "waiting" : "Waiting for device to connect...",
+    "connection_lost" : "Connection with device lost"
   }
 }

@@ -5,6 +5,7 @@
   "author": "Robert Klep <robert@klep.name>",
   "license": "MIT",
   "dependencies": {
+    "watchout": "0.0.5",
     "ws": "^3.3.2"
   }
 }

@@ -1,6 +1,7 @@
 {
   "device" : {
-    "waiting" : "Wachten op verbinding met apparaat..."
+    "waiting" : "Wachten op verbinding met apparaat...",
+    "connection_lost" : "Verbinding met apparaat verloren"
   }
 }
 

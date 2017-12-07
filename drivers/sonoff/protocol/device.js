@@ -1,4 +1,6 @@
+const Homey            = require('homey');
 const { EventEmitter } = require('events');
+const WatchDog         = require('watchout');
 
 // A semi-random API key prefix that we'll use to give each device
 // a new unique API key. The device id is concatenated to it.
@@ -19,6 +21,7 @@ module.exports = class ManagedDevice extends EventEmitter {
     this.on('date',     this.onDate.bind(this));
     this.on('update',   this.onUpdate.bind(this));
     this.on('query',    this.onQuery.bind(this));
+    this.on('unknown',  this.onUnknown.bind(this));
     this.on('error',    this.onError.bind(this));
   }
 
@@ -34,6 +37,11 @@ module.exports = class ManagedDevice extends EventEmitter {
     return this.homeyDevice;
   }
 
+  unregister() {
+    // Stop watchdog.
+    this.watchdog && this.watchdog.pass();
+  }
+
   setSocket(socket) {
     if (this.socket === socket) return;
     // Instance will handle any incoming messages from the hardware device.
@@ -42,6 +50,21 @@ module.exports = class ManagedDevice extends EventEmitter {
         this.dispatch(JSON.parse(message));
       } catch(e) {
         this.log('malformed message', message);
+      }
+    });
+
+    // Start watchdog.
+    let watchdogInterval = setInterval(() => {
+      this.send({ action : 'update', sequence : 'ping', params : { ping : true } });
+    }, 2000);
+    this.watchdog = new WatchDog(15000, wasHalted => {
+      clearInterval(watchdogInterval);
+      if (! wasHalted) {
+        this.log('watchdog triggered');
+        this.homeyDevice && this.homeyDevice.setUnavailable(Homey.__('device.connection_lost'));
+        this.manager.unregisterDevice(this.deviceId);
+      } else {
+        this.log('watchdog stopped');
       }
     });
   }
@@ -105,6 +128,14 @@ module.exports = class ManagedDevice extends EventEmitter {
     } else {
       return this.send();
     }
+  }
+
+  onUnknown(param) {
+    // Check if this is a ping response. If so, reset watchdog.
+    if (param.sequence === 'ping') {
+      return this.watchdog.reset();
+    }
+    this.log('[unknown]', param);
   }
 
   onError(param) {
