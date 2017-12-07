@@ -19,6 +19,7 @@ This driver has been tested with the following devices:
 * Sonoff Basic WiFi Wireless Switch
 * Sonoff S20 Smart Socket
 * Sonoff RF WiFi Wireless Smart Switch With RF Receiver
+* Sonoff Slampher
 
 For now, only switching the device on/off is supported (no timers or temperature/humidity/power usage sensors).
 
