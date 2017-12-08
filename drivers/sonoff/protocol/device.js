@@ -1,4 +1,5 @@
 const Homey            = require('homey');
+const { OPEN }         = require('ws');
 const { EventEmitter } = require('events');
 const WatchDog         = require('watchout');
 
@@ -143,6 +144,9 @@ module.exports = class ManagedDevice extends EventEmitter {
   }
 
   send(data) {
+    if (this.socket.readyState !== OPEN) {
+      return this.log(`trying to send on socket that isn't open`);
+    }
     return this.socket.send(
       JSON.stringify(
         Object.assign({

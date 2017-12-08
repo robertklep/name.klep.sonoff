@@ -2,7 +2,7 @@ const Homey = require('homey');
 
 module.exports = class SonoffDevice extends Homey.Device {
   async onInit() {
-    this.log(`device init: name = ${ this.getName() }, device id = ${ this.getDeviceId() }`);
+    this.log(`device init: name = ${ this.getName() }, model = ${ this.getModel() }, id = ${ this.getDeviceId() }`);
 
     // Device starts out as being unavailable, only when it has registered
     // itself will it become available.
@@ -25,6 +25,10 @@ module.exports = class SonoffDevice extends Homey.Device {
 
   getDeviceId() {
     return this.getData().deviceId;
+  }
+
+  getModel() {
+    return (this.getData().data || {}).model;
   }
 
   onAdded() {
