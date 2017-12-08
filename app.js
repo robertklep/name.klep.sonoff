@@ -1,5 +1,9 @@
 const Homey = require('homey');
 
+if (Homey.env.DEBUG) {
+  require('homey-syslog')();
+}
+
 module.exports = class SonoffApp extends Homey.App {
   onInit() {
     this.log('SonoffApp is running...');
