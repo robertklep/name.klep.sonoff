@@ -5,7 +5,7 @@
   "author": "Robert Klep <robert@klep.name>",
   "license": "MIT",
   "dependencies": {
-    "homey-syslog": "^1.0.0",
+    "homey-syslog": "^1.1.0",
     "watchout": "0.0.5",
     "ws": "^3.3.2"
   }

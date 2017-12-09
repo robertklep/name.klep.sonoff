@@ -1,6 +1,6 @@
 const Homey = require('homey');
 
-if (Homey.env.DEBUG) {
+if (Homey.env.DEBUG && Homey.env.SYSLOG_HOST) {
   require('homey-syslog')();
 }
 

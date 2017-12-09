@@ -38,6 +38,11 @@
       "capabilities": [
         "onoff"
       ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "greyout": false
+        }
+      },
       "images": {
         "large": "drivers/sonoff/assets/images/large.png",
         "small": "drivers/sonoff/assets/images/small.png"
