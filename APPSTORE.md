@@ -29,5 +29,11 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
 
+1.1.0 (2017-12-09):
+- Rewritten device manager
+- Added device watchdog to faster catch devices that went offline
+- Added syslog support as development aid
+- Faster pairing in certain situations
+
 1.0.0 (2017-12-01):
 - Initial beta release
