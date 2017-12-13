@@ -49,6 +49,9 @@
       },
       "pair": [
         {
+          "id": "list-devices"
+        },
+        {
           "id": "intro",
           "navigation": {
             "next": "list_devices"

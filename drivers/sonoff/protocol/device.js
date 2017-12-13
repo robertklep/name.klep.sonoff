@@ -160,7 +160,7 @@ module.exports = class ManagedDevice extends EventEmitter {
 
   switch(state) {
     state = state ? 'on' : 'off';
-    this.log(`[switch] ${ this.homeyDevice.getName() } → ${ state }`);
+    this.log(`[switch] ${ this.homeyDevice ? this.homeyDevice.getName() : this.deviceId } → ${ state }`);
     return this.send({
       action    : 'update',
       sequence  : String(Date.now()),

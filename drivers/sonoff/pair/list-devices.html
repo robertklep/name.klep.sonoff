@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+    <link rel='stylesheet' href='semantic.min.css'>
+    <script src='vue.min.js'></script>
+    <style>
+      .image-container {
+        display         : flex;
+        justify-content : center;
+        align-items     : center;
+        width           : 50px;
+        height          : 50px;
+      }
+
+      .image-container img {
+        max-width  : 100%;
+        max-height : 100%;
+      }
+
+      /* override Homey's button style */
+      #app button {
+        height: auto !important;
+      }
+
+      [contenteditable="true"] {
+        padding : 0.5rem;
+        border  : 1px solid transparent;
+      }
+      
+      [contenteditable="true"]:active, [contenteditable="true"]:focus {
+        outline       : none;
+        border-radius : 0.3rem;
+        border        : 1px solid #eee;
+        color         : #2185d0;
+      }
+
+      button.positive, button.negative {
+        padding-left : 1em !important;
+        padding-right: 1em !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='app'>
+      <div id='error' class='error' v-show='!!error'>
+        {{ error }
+      </div>
+      <div id='loading' v-show='waitingForDevice' class='center-div'>
+        <p data-i18n='pair.waiting_for_devices'>Scanning for devices...</p>
+        <div class='fa fa-cog fa-spin fa-2x'></div>
+      </div>
+      <div id='device-list' v-show='devices.length'>
+        <div style='font-size: 125%' data-i18n='pair.select'>Select device(s) to add:</div>
+        <table class='ui compact small blue table unstackable'>
+          <tbody>
+            <tr v-for='device in devices'>
+              <td class='collapsing'>
+                <div class='image-container'>
+                  <img v-if='!! device.type' :src='"assets/" + device.type + ".svg"'>
+                </div>
+              </td>
+              <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
+              <td class='collapsing'>
+                <select class='ui dropdown' v-model='device.type'>
+                  <option value='' disabled selected>Choose a device type:</option>
+                  <option value='s20'>Sonoff S20</option>
+                  <option value='s30'>Sonoff S30</option>
+                  <option value='basic'>Sonoff Basic</option>
+                  <option value='rf'>Sonoff RF</option>
+                  <option value='pow'>Sonoff POW</option>
+                  <option value='generic'>Other Sonoff WiFi Device</option>
+                </select>
+              </td>
+              <td class='collapsing'>
+                <button @click='identify(device)' v-bind:class='{ ui : true, button : true, basic : true, primary : true, disabled : !! device.identifying }'>identify</button>
+              </td>
+              <td class='collapsing'>
+                <button v-if='device.selected' @click.stop.prevent='device.selected = false' class='ui negative button'>－</button>
+                <button v-else                 @click.stop.prevent='device.selected = true'  class='ui positive button'>＋</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if='!! numberOfDevicesToPair' class='ui padded grid'>
+          <div class='right aligned column' style='padding: 0'>
+            <button @click='addDevices' class='ui button green basic' style='margin: 0' data-i18n='pair.add'>
+              Add device{{ numberOfDevicesToPair === 1 ? '' : 's' }}&emsp;→ 
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      if (! Homey) {
+        let el = document.getElementById('app');
+        el.style.width   = '720px';
+        el.style.border  = '1px solid #ccc';
+        el.style.padding = '20px';
+        var __ = () => {};
+        var Homey = {
+          setTitle() {},
+          emit(ev) {
+            let cb = arguments[arguments.length - 1];
+            if (ev === 'device.list') {
+              setTimeout(() => {
+                cb(null, [
+                  { name : 'PSA-B01-GL@100001a462' },
+                  { name : 'ITA-GZ1-GL@100003840d' },
+                ]);
+              }, 100);
+            } else if (ev === 'device.identify') {
+              setTimeout(() => cb(), 1000);
+            }
+          }
+        };
+      }
+
+      Homey.setTitle(__('pair.setup'));
+
+      Vue.component('editable', {
+        template : '<div contenteditable="true" @keydown="onKeydown" @input="onInput"></div>',
+        props    : [ 'content' ],
+        mounted  : function() {
+          this.$el.innerText = this.content;
+        },
+        methods : {
+          onKeydown : function(ev) {
+            if ([ 9, 13, 27 ].includes(ev.keyCode)) {
+              ev.preventDefault();
+              ev.target.blur();
+            }
+          },
+          onInput : function(ev) {
+            this.$emit('update', ev.target.innerText.trim());
+          }
+        }
+      });
+
+      new Vue({
+        el   : '#app',
+        data : {
+          waitingForDevice : true,
+          error            : false,
+          devices          : [],
+        },
+        mounted() {
+          this.waitingForDevice = true;
+          this.error            = null;
+          Homey.emit('device.list', (err, devices) => {
+            this.waitingForDevice = false;
+            if (err) return this.showError(err);
+            this.devices = devices.map(device => {
+              return {
+                name        : device.name,
+                type        : '',
+                selected    : false,
+                identifying : false,
+                device
+              }
+            });
+          });
+        },
+        computed : {
+          numberOfDevicesToPair : function() {
+            return this.devices.filter(d => d.selected).length;
+          }
+        },
+        methods : {
+          identify(device) {
+            device.identifying = true;
+            Homey.emit('device.identify', device.device, () => {
+              device.identifying = false;
+            });
+          },
+          addDevices() {
+            let unwrapped = JSON.parse(JSON.stringify(this.$data));
+            let devices   = unwrapped.devices.filter(d => d.selected).map(d => d.device);
+            console.log('should add', devices);
+          },
+          showError(err) {
+            this.error = err;
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
