@@ -33,12 +33,11 @@ module.exports = class SonoffDevice extends Homey.Device {
 
   onAdded() {
     this.setAvailable();
-    // XXX: `this.driver` may not yet exist here.
     this.getDriver().onAdded(this);
   }
 
   onDeleted() {
-    this.driver.onDeleted(this);
+    this.getDriver().onAdded(this);
   }
 
   onCapabilityOnoff(value, opts, callback) {
