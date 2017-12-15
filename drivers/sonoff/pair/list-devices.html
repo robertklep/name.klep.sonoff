@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
-    <link rel='stylesheet' href='semantic.min.css'>
+    <link rel='stylesheet' href='semantic-custom.min.css'>
     <script src='vue.min.js'></script>
     <style>
       .image-container {
@@ -47,8 +47,8 @@
         {{ error }
       </div>
       <div id='loading' v-show='waitingForDevice' class='center-div'>
-        <p data-i18n='pair.waiting'>Waiting for devices...</p>
-        <div class='fa fa-cog fa-spin fa-2x'></div>
+        <span data-i18n='pair.waiting'>Waiting for devices...</span>
+        <div class='fa fa-cog fa-spin fa-1x'></div>
       </div>
       <div id='device-list' v-show='devices.length'>
         <div style='font-size: 125%' data-i18n='pair.select'>Select device(s) to add:</div>
@@ -141,7 +141,7 @@
         el   : '#app',
         data : {
           waitingForDevice : true,
-          error            : false,
+          error            : null,
           devices          : [],
         },
         mounted() {
@@ -194,7 +194,7 @@
             });
           },
           showError(err) {
-            this.error = err;
+            this.error = err.message;
           }
         }
       })
