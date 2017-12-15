@@ -1,4 +1,14 @@
 {
+  "pair" : {
+    "setup" : "Sonoff Device Pairing",
+    "waiting" : "Waiting for devices...",
+    "select" : "Select device(s) to add:",
+    "choose" : "Choose a device type:",
+    "other" : "Other Sonoff WiFi Device",
+    "identify" : "identify",
+    "add_singular" : "Add device",
+    "add_multiple" : "Add devices"
+  },
   "device" : {
     "waiting" : "Waiting for device to connect...",
     "connection_lost" : "Connection with device lost"

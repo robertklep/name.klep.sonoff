@@ -1,4 +1,14 @@
 {
+  "pair" : {
+    "setup" : "Sonoff Apparaten Toevoegen",
+    "waiting" : "Wacht op apparaten...",
+    "select" : "Selecteer apparaat/apparaten om toe te voegen:",
+    "choose" : "Kies een apparaat type:",
+    "other" : "Ander Sonoff WiFi Apparaat",
+    "identify" : "identificeer",
+    "add_singular" : "Voeg apparaat toe",
+    "add_multiple" : "Voeg apparaten toe"
+  },
   "device" : {
     "waiting" : "Wachten op verbinding met apparaat...",
     "connection_lost" : "Verbinding met apparaat verloren"

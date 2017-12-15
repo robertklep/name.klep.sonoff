@@ -27,7 +27,7 @@
         padding : 0.5rem;
         border  : 1px solid transparent;
       }
-      
+
       [contenteditable="true"]:active, [contenteditable="true"]:focus {
         outline       : none;
         border-radius : 0.3rem;
@@ -47,7 +47,7 @@
         {{ error }
       </div>
       <div id='loading' v-show='waitingForDevice' class='center-div'>
-        <p data-i18n='pair.waiting_for_devices'>Scanning for devices...</p>
+        <p data-i18n='pair.waiting'>Waiting for devices...</p>
         <div class='fa fa-cog fa-spin fa-2x'></div>
       </div>
       <div id='device-list' v-show='devices.length'>
@@ -57,23 +57,23 @@
             <tr v-for='device in devices'>
               <td class='collapsing'>
                 <div class='image-container'>
-                  <img v-if='!! device.type' :src='"assets/" + device.type + ".svg"'>
+                  <img :src='"../assets/icons/" + device.device.icon'>
                 </div>
               </td>
               <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
               <td class='collapsing'>
-                <select class='ui dropdown' v-model='device.type'>
-                  <option value='' disabled selected>Choose a device type:</option>
-                  <option value='s20'>Sonoff S20</option>
-                  <option value='s30'>Sonoff S30</option>
-                  <option value='basic'>Sonoff Basic</option>
-                  <option value='rf'>Sonoff RF</option>
-                  <option value='pow'>Sonoff POW</option>
-                  <option value='generic'>Other Sonoff WiFi Device</option>
+                <select class='ui dropdown' v-model='device.device.icon'>
+                  <option value='generic.svg' disabled selected>{{ Homey.__('pair.choose') }}</option>
+                  <option value='s20.svg'>Sonoff S20</option>
+                  <option value='s30.svg'>Sonoff S30</option>
+                  <option value='basic.svg'>Sonoff Basic</option>
+                  <option value='rf.svg'>Sonoff RF</option>
+                  <option value='pow.svg'>Sonoff POW</option>
+                  <option value='other.svg'>{{ Homey.__('pair.other') }}</option>
                 </select>
               </td>
               <td class='collapsing'>
-                <button @click='identify(device)' v-bind:class='{ ui : true, button : true, basic : true, primary : true, disabled : !! device.identifying }'>identify</button>
+                <button @click='identify(device)' v-bind:class='{ ui : true, button : true, basic : true, primary : true, disabled : !! device.identifying }'>{{ Homey.__('pair.identify') }}</button>
               </td>
               <td class='collapsing'>
                 <button v-if='device.selected' @click.stop.prevent='device.selected = false' class='ui negative button'>－</button>
@@ -84,8 +84,8 @@
         </table>
         <div v-if='!! numberOfDevicesToPair' class='ui padded grid'>
           <div class='right aligned column' style='padding: 0'>
-            <button @click='addDevices' class='ui button green basic' style='margin: 0' data-i18n='pair.add'>
-              Add device{{ numberOfDevicesToPair === 1 ? '' : 's' }}&emsp;→ 
+            <button @click='addDevices' class='ui button green basic' style='margin: 0'>
+              <span>{{ Homey.__('pair.add_' + (numberOfDevicesToPair === 1 ? 'singular' : 'multiple')) }}</span>&emsp;→
             </button>
           </div>
         </div>
@@ -151,6 +151,7 @@
             this.waitingForDevice = false;
             if (err) return this.showError(err);
             this.devices = devices.map(device => {
+              device.icon = 'generic.svg';
               return {
                 name        : device.name,
                 type        : '',
@@ -176,7 +177,21 @@
           addDevices() {
             let unwrapped = JSON.parse(JSON.stringify(this.$data));
             let devices   = unwrapped.devices.filter(d => d.selected).map(d => d.device);
-            console.log('should add', devices);
+            let addDevice = function(device) {
+              // Fix icon path.
+              device.icon = '/app/name.klep.sonoff/drivers/sonoff/assets/icons/' + device.icon;
+              return new Promise((resolve, reject) => {
+                Homey.addDevice(device, e => e ? reject(e) : resolve());
+              });
+            };
+
+            Promise.all( devices.map(addDevice) ).then(_ => {
+              Homey.done();
+            }).catch(e => {
+              Homey.alert(e.message, 'error', _ => {
+                Homey.done();
+              });
+            });
           },
           showError(err) {
             this.error = err;
