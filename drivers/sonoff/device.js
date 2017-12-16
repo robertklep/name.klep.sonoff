@@ -37,7 +37,7 @@ module.exports = class SonoffDevice extends Homey.Device {
   }
 
   onDeleted() {
-    this.getDriver().onAdded(this);
+    this.getDriver().onDeleted(this);
   }
 
   onCapabilityOnoff(value, opts, callback) {
