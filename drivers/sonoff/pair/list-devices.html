@@ -5,7 +5,7 @@
     <link rel='stylesheet' href='semantic-custom.min.css'>
     <script src='vue.min.js'></script>
     <style>
-      .image-container {
+      #list-devices-view .image-container {
         display         : flex;
         justify-content : center;
         align-items     : center;
@@ -13,36 +13,38 @@
         height          : 50px;
       }
 
-      .image-container img {
+      #list-devices-view .image-container img {
         max-width  : 100%;
         max-height : 100%;
       }
 
       /* override Homey's button style */
-      #app button {
+      #list-devices-view button {
         height: auto !important;
       }
 
-      [contenteditable="true"] {
+      #list-devices-view [contenteditable="true"] {
         padding : 0.5rem;
         border  : 1px solid transparent;
       }
 
-      [contenteditable="true"]:active, [contenteditable="true"]:focus {
+      #list-devices-view [contenteditable="true"]:active,
+      #list-devices-view [contenteditable="true"]:focus {
         outline       : none;
         border-radius : 0.3rem;
         border        : 1px solid #eee;
         color         : #2185d0;
       }
 
-      button.positive, button.negative {
+      #list-devices-view button.positive,
+      #list-devices-view button.negative {
         padding-left : 1em !important;
         padding-right: 1em !important;
       }
     </style>
   </head>
   <body>
-    <div id='app'>
+    <div id='list-devices-view'>
       <div id='error' class='error' v-show='!!error'>
         {{ error }
       </div>
@@ -92,30 +94,6 @@
       </div>
     </div>
     <script>
-      if (! Homey) {
-        let el = document.getElementById('app');
-        el.style.width   = '720px';
-        el.style.border  = '1px solid #ccc';
-        el.style.padding = '20px';
-        var __ = () => {};
-        var Homey = {
-          setTitle() {},
-          emit(ev) {
-            let cb = arguments[arguments.length - 1];
-            if (ev === 'device.list') {
-              setTimeout(() => {
-                cb(null, [
-                  { name : 'PSA-B01-GL@100001a462' },
-                  { name : 'ITA-GZ1-GL@100003840d' },
-                ]);
-              }, 100);
-            } else if (ev === 'device.identify') {
-              setTimeout(() => cb(), 1000);
-            }
-          }
-        };
-      }
-
       Homey.setTitle(__('pair.setup'));
 
       Vue.component('editable', {
@@ -138,7 +116,7 @@
       });
 
       new Vue({
-        el   : '#app',
+        el   : '#list-devices-view',
         data : {
           waitingForDevice : true,
           error            : null,
