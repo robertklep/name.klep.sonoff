@@ -29,6 +29,10 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
 
+1.2.0 (2017-12-16):
+- Improved pairing
+- Using icon set kindly provided by Ivo Derksen
+
 1.1.0 (2017-12-09):
 - Rewritten device manager
 - Added device watchdog to faster catch devices that went offline
