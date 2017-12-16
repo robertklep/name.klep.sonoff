@@ -32,8 +32,8 @@
       "id": "sonoff",
       "class": "socket",
       "name": {
-        "en": "Switch",
-        "nl": "Schakelaar"
+        "en": "WiFi Device",
+        "nl": "WiFi Apparaat"
       },
       "capabilities": [
         "onoff"
@@ -49,30 +49,13 @@
       },
       "pair": [
         {
-          "id": "list-devices"
-        },
-        {
           "id": "intro",
           "navigation": {
-            "next": "list_devices"
+            "next": "list-devices"
           }
         },
         {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        },
-        {
-          "id": "device-setup",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "list-devices"
         }
       ]
     }
