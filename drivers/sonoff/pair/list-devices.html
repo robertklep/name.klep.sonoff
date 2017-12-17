@@ -16,6 +16,11 @@
       #list-devices-view .image-container img {
         max-width  : 100%;
         max-height : 100%;
+        cursor     : pointer;
+      }
+
+      #list-devices-view .image-container img.disabled {
+        opacity : 0.1;
       }
 
       /* override Homey's button style */
@@ -59,7 +64,7 @@
             <tr v-for='device in devices'>
               <td class='collapsing'>
                 <div class='image-container'>
-                  <img :src='"../assets/icons/" + device.device.icon'>
+                  <img @click='identify(device)' :src='"../assets/icons/" + device.device.icon' v-bind:class='{ disabled : !! device.identifying }'>
                 </div>
               </td>
               <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
@@ -75,7 +80,12 @@
                 </select>
               </td>
               <td class='collapsing'>
-                <button @click='identify(device)' v-bind:class='{ ui : true, button : true, basic : true, primary : true, disabled : !! device.identifying }'>{{ Homey.__('pair.identify') }}</button>
+                <select class='ui dropdown'>
+                  <option value='' disabled selected>Socket</option>
+                  <option v-for='virtualClass in virtualClasses'>
+                    {{ virtualClass.name[language] }}
+                  </option>
+                </select>
               </td>
               <td class='collapsing'>
                 <button v-if='device.selected' @click.stop.prevent='device.selected = false' class='ui negative button'>－</button>
@@ -119,8 +129,10 @@
         el   : '#list-devices-view',
         data : {
           waitingForDevice : true,
+          language         : window.language || 'en',
           error            : null,
           devices          : [],
+          virtualClasses   : [],
         },
         mounted() {
           this.waitingForDevice = true;
@@ -136,6 +148,11 @@
                 selected    : false,
                 identifying : false,
                 device
+              }
+            });
+            Homey.getVirtualClasses([ 'onoff' ], (err, classes) => {
+              if (! err) {
+                this.virtualClasses = classes;
               }
             });
           });
