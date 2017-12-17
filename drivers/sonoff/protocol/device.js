@@ -57,8 +57,8 @@ module.exports = class ManagedDevice extends EventEmitter {
     // Start watchdog.
     let watchdogInterval = setInterval(() => {
       this.send({ action : 'update', sequence : 'ping', params : { ping : true } });
-    }, 2000);
-    this.watchdog = new WatchDog(15000, wasHalted => {
+    }, 5000);
+    this.watchdog = new WatchDog(20000, wasHalted => {
       clearInterval(watchdogInterval);
       if (! wasHalted) {
         this.log('watchdog triggered');
@@ -135,6 +135,10 @@ module.exports = class ManagedDevice extends EventEmitter {
     // Check if this is a ping response. If so, reset watchdog.
     if (param.sequence === 'ping') {
       return this.watchdog.reset();
+    } else if (param.sequence === this.lastSequence) {
+      // Response to a `switch` command.
+      this.log('received ACK on sequence', this.lastSequence);
+      return;
     }
     this.log('[unknown]', param);
   }
@@ -159,11 +163,12 @@ module.exports = class ManagedDevice extends EventEmitter {
   }
 
   switch(state) {
+    this.lastSequence = String(Date.now());
     state = state ? 'on' : 'off';
     this.log(`[switch] ${ this.homeyDevice ? this.homeyDevice.getName() : this.deviceId } → ${ state }`);
     return this.send({
       action    : 'update',
-      sequence  : String(Date.now()),
+      sequence  : this.lastSequence,
       userAgent : 'app',
       from      : 'app',
       ts        : 0,
