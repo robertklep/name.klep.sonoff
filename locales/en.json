@@ -1,10 +1,11 @@
 {
   "pair" : {
-    "setup" : "Sonoff Device Pairing",
+    "setup" : "Add Devices",
     "waiting" : "Waiting for devices...",
     "select" : "Select device(s) to add:",
-    "choose" : "Choose a device type:",
-    "other" : "Other Sonoff WiFi Device",
+    "model" : "Choose model:",
+    "type" : "Choose type:",
+    "other" : "Other",
     "identify" : "identify",
     "add_singular" : "Add device",
     "add_multiple" : "Add devices"

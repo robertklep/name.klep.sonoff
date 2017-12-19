@@ -6,21 +6,21 @@
     <script src='vue.min.js'></script>
     <style>
       #list-devices-view .image-container {
-        display         : flex;
-        justify-content : center;
-        align-items     : center;
-        width           : 50px;
-        height          : 50px;
+        display               : flex;
+        justify-content       : center;
+        align-items           : center;
+        width                 : 50px;
+        height                : 50px;
+        cursor                : pointer;
+        -webkit-mask-position : center;
+        -webkit-mask-repeat   : no-repeat;
+        -webkit-mask-size     : 45px 45px;
+        background            : black;
       }
 
-      #list-devices-view .image-container img {
-        max-width  : 100%;
-        max-height : 100%;
-        cursor     : pointer;
-      }
-
-      #list-devices-view .image-container img.disabled {
-        opacity : 0.1;
+      #list-devices-view .image-container.disabled {
+        cursor    : normal;
+        background: #ccc;
       }
 
       /* override Homey's button style */
@@ -63,14 +63,15 @@
           <tbody>
             <tr v-for='device in devices'>
               <td class='collapsing'>
-                <div class='image-container'>
-                  <img @click='identify(device)' :src='"../assets/icons/" + device.device.icon' v-bind:class='{ disabled : !! device.identifying }'>
-                </div>
+                <div  @click = 'identify(device)'
+                      :class = '{ "image-container" : true, disabled : !! device.identifying }'
+                      :style = '{ "-webkit-mask-image" : "url(../assets/icons/" + device.device.icon + ")" }'
+                ></div>
               </td>
               <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
               <td class='collapsing'>
                 <select class='ui dropdown' v-model='device.device.icon'>
-                  <option value='generic.svg' disabled selected>{{ Homey.__('pair.choose') }}</option>
+                  <option value='generic.svg' disabled selected>{{ Homey.__('pair.model') }}</option>
                   <option value='s20.svg'>Sonoff S20</option>
                   <option value='s30.svg'>Sonoff S30</option>
                   <option value='basic.svg'>Sonoff Basic</option>
@@ -80,10 +81,10 @@
                 </select>
               </td>
               <td class='collapsing'>
-                <select class='ui dropdown'>
-                  <option value='' disabled selected>Socket</option>
-                  <option v-for='virtualClass in virtualClasses'>
-                    {{ virtualClass.name[language] }}
+                <select class='ui dropdown' v-model='device.device.virtualClass'>
+                  <option value='' disabled selected>{{ Homey.__('pair.type') }}</option>
+                  <option v-for='(instance, name) in virtualClasses' :value='name'>
+                    {{ instance.name[window.language] || instance.name }}
                   </option>
                 </select>
               </td>
@@ -132,7 +133,7 @@
           language         : window.language || 'en',
           error            : null,
           devices          : [],
-          virtualClasses   : [],
+          virtualClasses   : {},
         },
         mounted() {
           this.waitingForDevice = true;
@@ -141,7 +142,8 @@
             this.waitingForDevice = false;
             if (err) return this.showError(err);
             this.devices = devices.map(device => {
-              device.icon = 'generic.svg';
+              device.icon         = 'generic.svg';
+              device.virtualClass = 'socket';
               return {
                 name        : device.name,
                 type        : '',

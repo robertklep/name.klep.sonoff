@@ -1,10 +1,11 @@
 {
   "pair" : {
-    "setup" : "Sonoff Apparaten Toevoegen",
+    "setup" : "Apparaten Toevoegen",
     "waiting" : "Wacht op apparaten...",
     "select" : "Selecteer apparaat/apparaten om toe te voegen:",
-    "choose" : "Kies een apparaat type:",
-    "other" : "Ander Sonoff WiFi Apparaat",
+    "model" : "Kies model:",
+    "type" : "Kies type:",
+    "other" : "Anders",
     "identify" : "identificeer",
     "add_singular" : "Voeg apparaat toe",
     "add_multiple" : "Voeg apparaten toe"
