@@ -81,14 +81,6 @@
                 </select>
               </td>
               <td class='collapsing'>
-                <select class='ui dropdown' v-model='device.device.virtualClass'>
-                  <option value='' disabled selected>{{ Homey.__('pair.type') }}</option>
-                  <option v-for='(instance, name) in virtualClasses' :value='name'>
-                    {{ instance.name[window.language] || instance.name }}
-                  </option>
-                </select>
-              </td>
-              <td class='collapsing'>
                 <button v-if='device.selected' @click.stop.prevent='device.selected = false' class='ui negative button'>－</button>
                 <button v-else                 @click.stop.prevent='device.selected = true'  class='ui positive button'>＋</button>
               </td>
@@ -133,7 +125,6 @@
           language         : window.language || 'en',
           error            : null,
           devices          : [],
-          virtualClasses   : {},
         },
         mounted() {
           this.waitingForDevice = true;
@@ -142,19 +133,13 @@
             this.waitingForDevice = false;
             if (err) return this.showError(err);
             this.devices = devices.map(device => {
-              device.icon         = 'generic.svg';
-              device.virtualClass = 'socket';
+              device.icon = 'generic.svg';
               return {
                 name        : device.name,
                 type        : '',
                 selected    : false,
                 identifying : false,
                 device
-              }
-            });
-            Homey.getVirtualClasses([ 'onoff' ], (err, classes) => {
-              if (! err) {
-                this.virtualClasses = classes;
               }
             });
           });
