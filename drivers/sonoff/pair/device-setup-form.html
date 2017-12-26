@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel='stylesheet' href='semantic-custom.min.css'>
+    <script src='vue.min.js'></script>
+    <style>
+      #device-setup-form-view {
+        padding : 1rem;
+      }
+
+      #device-setup-form-view .fade-enter-active, .fade-leave-active {
+        transition: opacity .75s
+      }
+
+      #device-setup-form-view .fade-enter, .fade-leave-to {
+        opacity: 0
+      }
+
+      /* override Homey's button style */
+      #device-setup-form-view button {
+        height : auto !important;
+        top    : auto !important;
+        right  : auto !important;
+        bottom : auto !important;
+        left   : auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='device-setup-form-view'>
+      <div>
+        <div class='ui grid'>
+          <div class='row'>
+            <div class='column'>
+              <h3>Procedure</h3>
+              <ul>
+                <li><strong>Keep this page open throughout the procedure. DON'T RELOAD!</strong></li>
+                <li>Put the Sonoff device in setup mode by keeping its button depressed for about 10 seconds. In setup mode, the green light will start blinking at regular intervals.</li>
+                <li>Connect your computer to the Sonoff device's WiFi network (name: <i>ITEAD-1000XXX</i>, password: <i>12345678</i>).</li>
+                <li>Once connected, click the <i>Start!</i> button.</li>
+              </ul>
+              <button v-if='! started' @click='started = true' class='ui positive button'>Start!</button>
+            </div>
+          </div>
+        </div>
+        <transition name='fade'>
+          <div v-if='started' class='ui grid'>
+            <div class='row'>
+              <div class='column'>
+                <h3>WiFi Details</h3>
+                <div>
+                  <ul>
+                    <li>Fill in the details of your WiFi network and Homey's IP address (might already be filled in).</li>
+                    <li>Click the <i>Setup!</i> button to send the setup data to the Sonoff device.</li>
+                  </ul>
+                </div>
+                <div class='ui labeled input padded grid'>
+                  <div class='ui label four wide column'>
+                    WiFi Network Name
+                  </div>
+                  <input type=text placeholder='SSID' v-model='ssid'>
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='column'>
+                <div class='ui labeled input padded grid'>
+                  <div class='ui label four wide column'>
+                    WiFi Password
+                  </div>
+                  <input type=text placeholder='Password' v-model='password'>
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='column'>
+                <div class='ui labeled input padded grid'>
+                  <div class='ui label four wide column'>
+                    Homey IP Address
+                  </div>
+                  <input id=homey type=text v-model='serverName'>
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='right aligned column'>
+                <button :class='{
+                  ui       : true,
+                  button   : true,
+                  positive : true,
+                  loading  : isPairing,
+                  disabled : ! validForm || isPairing
+                }' @click='pair'>Setup!</button>
+              </div>
+            </div>
+            <transition name='fade'>
+              <div v-if='pairingError' class='row'>
+                <div class='column'>
+                  <div class='ui negative message'>
+                    <div class='header'>Setup failed</div>
+                    <ul>
+                      <li>The most likely cause is that the Homey application was unable to connect to the Sonoff device.</li>
+                      <li>Make sure that your computer is connected to the Sonoff device's WiFi network.</li>
+                      <li>
+                          Possibly, an explicit network route has to be created to the Sonoff device. For more information about how to do this, open the following URL in a browser once you've connected to your WiFi network again:<br>
+                          <code>https://blog.ipsumdomus.com/sonoff-switch-complete-hack-without-firmware-upgrade-1b2d6632c01#e0d7</code>
+                      </li>
+                    </ul>
+                    <b>Next Steps:</b>
+                    <ul>
+                      <li>Try again by clicking the <i>Setup!</i> button once more.</li>
+                      <li>Or: Reconnect to your regular WiFi network (<i>wait to make sure it's connected before the next step</i>) and <a @click='Homey.showView("device-setup")'>try the manual setup method.</a>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div v-if='pairingOkay' class='row'>
+                <div class='column'>
+                  <div class='ui positive message'>
+                    <div class='header'>Setup possibly okay</div>
+                    <p>Due to technical limitations, it's not possible to provide feedback if the setup procedure was successful or not.</p>
+                    <p>However, the green blinking light on the device provides some feedback:
+                      <ul>
+                        <li>One flash at (about) two-second intervals means the device is trying to connect to the WiFi network.<br>If this takes more than 30 seconds, it's likely that it can't connect to your network.<br>Check the WiFi credentials and restart the procedure.</li>
+                        <li>Two flashes at two-second intervals means the device has connected to the WiFi network and is now looking to connect to Homey.</li>
+                        <li>Continuous green light: the device has successfully set up with Homey! Before continuing, wait for this. If it doesn't happen within a few minutes, try clicking the <i>Setup!</i> button again.</li>
+                      </ul>
+                    </p>
+                    <p>
+                      <b>Next Steps:</b>
+                      <ul>
+                        <li>Reconnect to your regular WiFi network (<i>wait to make sure it's connected before the next step</i>)</li>
+                        <li><a @click='Homey.showView("list-devices")'>Add some devices to Homey!</a></li>
+                        <li><a @click='Homey.showView("device-setup-form")'>Or restart the procedure to set up another device</a></li>
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </transition>
+    </div>
+    <script>
+      // Instantiate interaction handler.
+      new Vue({
+        el       : '#device-setup-form-view',
+        data     : {
+          started      : false,
+          isPairing    : false,
+          pairingOkay  : false,
+          pairingError : false,
+          ssid         : '',
+          password     : '',
+          serverName   : location.hostname || '',
+        },
+        methods : {
+          pair() {
+            this.pairingError = this.pairingOkay = false;
+            this.isPairing = true;
+            fetch('http://10.10.7.1/ap', {
+              method  : 'POST',
+              mode    : 'no-cors',
+              headers : { 'content-type' : 'application/json' },
+              body    : JSON.stringify({
+                version    : 4,
+                ssid       : this.ssid,
+                password   : this.password,
+                serverName : this.serverName,
+                port       : 8305
+              })
+            }).then(response => {
+              this.isPairing   = false;
+              this.pairingOkay = true;
+            }).catch(e => {
+              this.isPairing    = false;
+              this.pairingError = true;
+            });
+          }
+        },
+        computed : {
+          validForm() {
+            return this.ssid.trim().length && this.password.trim().length && this.serverName.trim().length;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

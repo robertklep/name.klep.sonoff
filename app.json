@@ -58,6 +58,9 @@
           "id": "list-devices"
         },
         {
+          "id": "device-setup-form"
+        },
+        {
           "id": "device-setup",
           "navigation": {
             "next": "list-devices"
