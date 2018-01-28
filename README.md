@@ -2,11 +2,21 @@
 
 Control ITEAD Sonoff WiFi devices using Homey.
 
-##### Initial device setup
+#### Initial device setup (original firmware)
 
 This driver works with Sonoff WiFi devices that run the original Sonoff firmware. The hardware setup mimics the Sonoff _eWelink_ mobile app by tricking the device into using the Homey as its cloud server. Once the hardware setup is complete, the device will not be using the Chinese cloud service, but your Homey.
 
-The initial device setup cannot be performed from Homey, and requires a computer that can connect to WiFi networks. The Sonoff app for Homey should already be running.
+**NOTICE**: *more recent Sonoff firmware versions don't allow this method anymore. The setup procedure may seem to work, but the device will never contact the Homey Sonoff app properly. There is no known workaround at this moment.*
+
+*The only alternative is to use an alternative (unofficial) firmware. At the moment, [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota/) is supported. However, installing an alternative firmware requires you to open up the device (voiding its warranty), soldering connectors to it, and flashing the firmware using a USB-to-serial dongle.*
+
+###### Device setup from Homey desktop app
+
+The initial device setup can be performed from the Homey desktop app. Follow the instructions when creating a new device. This requires that the computer running the Homey desktop app can connect to WiFi network.
+
+###### Device setup from terminal/command line
+
+If the device setup from the Homey desktop app doesn't work, there's an alternative method that requires a terminal, command line, or "shell". The Sonoff app for Homey should already be running.
 
 First, prepare a file called `pair.json`, that contains the following:
 ```
@@ -43,6 +53,14 @@ When pairing a device, it works best to unplug the device until the Homey driver
 ##### Remarks
 
 When the device has lost its connection to Homey, it may take some time (a minute or 2) before it connects again. The Homey cannot force a connection, it has to wait for the device to contact it before it can be used.
+
+#### Sonoff-Tasmota firmware
+
+This driver also supports devices that are using the [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota/) firmware (how to install this firmware is beyond the scope of this document).
+
+For now, the only supported communication protocol is MQTT, which requires a separate _MQTT broker_. The Homey [MQTT Broker](https://apps.athom.com/app/nl.scanno.mqttbroker) app, which runs an MQTT broker on Homey itself, will work just fine.
+
+Pairing the device should be self-explanatory.
 
 ### OMGWTFBBQ YOU COMMITTED TLS PRIVATE KEYS
 

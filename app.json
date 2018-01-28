@@ -32,8 +32,8 @@
       "id": "sonoff",
       "class": "socket",
       "name": {
-        "en": "WiFi Device",
-        "nl": "WiFi Apparaat"
+        "en": "Original Firmware",
+        "nl": "Originele Firmware"
       },
       "capabilities": [
         "onoff"
@@ -65,7 +65,260 @@
           "navigation": {
             "next": "list-devices"
           }
-         }
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota",
+      "class": "socket",
+      "name": {
+        "en": "Tasmota"
+      },
+      "capabilities": [
+        "onoff"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "greyout": false
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed" : true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Device Settings",
+            "nl": "Apparaat Instellingen"
+          },
+          "children": [
+            {
+              "id": "powerOnState",
+              "type": "dropdown",
+              "label": {
+                "en": "Power On State",
+                "nl": "Power On Instelling"
+              },
+              "hint": {
+                "en": "State of device after it powers on and connects with Homey.",
+                "nl": "Instelling van het apparaat nadat het is aangezet en verbonden met Homey."
+              },
+              "value": "3",
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "Off",
+                    "nl": "Uit"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "On",
+                    "nl": "Aan"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "Toggle from previous state",
+                    "nl": "Wissel af met vorige instelling"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "Switch to previously saved state",
+                    "nl": "Schakel naar vorige opgeslagen instelling"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "Switch on and disallow any more changes",
+                    "nl": "Schakel aan en sta geen wijzigingen meer toe"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ledState",
+              "type": "dropdown",
+              "label": {
+                "en": "LED State",
+                "nl": "LED Instelling"
+              },
+              "hint" : {
+                "en" : "Settings for device LED",
+                "nl" : "Instellingen voor LED op apparaat"
+              },
+              "value": "0",
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "Disable use of LED as much as possible",
+                    "nl": "Gebruik LED zo min mogelijk"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "LED shows power state",
+                    "nl": "LED laat inschakelstatus zien"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "Show MQTT subscriptions as a led blink",
+                    "nl": "LED wordt gebruikt voor MQTT subscriptions"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "Show power state and MQTT subscriptions as a led blink",
+                    "nl": "LED wordt gebruikt voor inschakelstatus en MQTT subscriptions"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "Show MQTT publications as a led blink",
+                    "nl": "LED wordt gebruikt voor MQTT publications"
+                  }
+                },
+                {
+                  "id": "5",
+                  "label": {
+                    "en": "Show power state and MQTT publications as a led blink",
+                    "nl": "LED wordt gebruikt voor inschakelstatus en MQTT publications"
+                  }
+                },
+                {
+                  "id": "6",
+                  "label": {
+                    "en": "Show all MQTT messages as a led blink",
+                    "nl": "LED wordt gebruikt voor alle MQTT berichten"
+                  }
+                },
+                {
+                  "id": "7",
+                  "label": {
+                    "en": "Show power state and all MQTT messages as a led blink",
+                    "nl": "LED wordt gebruikt voor inschakelstatus en alle MQTT berichten"
+                  }
+                }
+              ]
+            }
+          ]
+        }
       ]
     }
   ],

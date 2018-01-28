@@ -8,11 +8,33 @@
     "other" : "Anders",
     "identify" : "identificeer",
     "add_singular" : "Voeg apparaat toe",
-    "add_multiple" : "Voeg apparaten toe"
+    "add_multiple" : "Voeg apparaten toe",
+    "close" : "Sluit scherm",
+    "tasmota" : {
+      "intro" : {
+        "test" : "Test Connectie",
+        "next" : "Volgende stap...",
+        "mqtt" : {
+          "error" : "MQTT connectie kon niet gemaakt worden.",
+          "success" : "MQTT connectie succesvol!"
+        }
+      },
+      "list" : {
+        "error" : "Kon geen lijst van apparaten opvragen.",
+        "waiting" : "Wacht op apparaten (als dit te lang duurt, schakel het toe te voegen apparaat uit en weer aan)",
+        "no_devices" : "Geen unpaired apparaten gevonden."
+      }
+    }
   },
   "device" : {
     "waiting" : "Wachten op verbinding met apparaat...",
-    "connection_lost" : "Verbinding met apparaat verloren"
+    "connection_lost" : "Verbinding met apparaat verloren",
+    "connection_error" : "Verbinden met apparaat mislukt"
+  },
+  "mqtt" : {
+    "waiting" : "Wachten op verbinding met MQTT broker...",
+    "connection_lost" : "Verbinding met MQTT broker verloren",
+    "connection_error" : "Verbinden met MQTT broker mislukt"
   }
 }
 

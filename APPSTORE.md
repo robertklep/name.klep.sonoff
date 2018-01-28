@@ -21,14 +21,16 @@ Recently, new Sonoff firmware updates have been released that prevent this app f
 
 As of yet, there is no solution to this problem. Other projects that work in a similar way, like [SonOTA](https://github.com/mirko/SonOTA/issues/87), are also faced with this problem.
 
+As an alternative, this app supports Sonoff devices running the (unofficial) [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota/) firmware. However, installing an alternative firmware requires you to open up the device (voiding its warranty), soldering connectors to it, and flashing the firmware using a USB-to-serial dongle. It also requires an MQTT broker to be running; you can use the Homey [MQTT Broker](https://apps.athom.com/app/nl.scanno.mqttbroker) app for this.
+
 ### Tested devices
 
 This driver has been tested with the following devices:
 
-* Sonoff Basic WiFi Wireless Switch
-* Sonoff S20 Smart Socket
-* Sonoff RF WiFi Wireless Smart Switch With RF Receiver
-* Sonoff Slampher
+* Sonoff Basic WiFi Wireless Switch (original firmware)
+* Sonoff S20 Smart Socket (original firmware and Sonoff-Tasmota)
+* Sonoff RF WiFi Wireless Smart Switch With RF Receiver (original firmware)
+* Sonoff Slampher (original firmware)
 
 For now, only switching the device on/off is supported (no timers or temperature/humidity/power usage sensors).
 
@@ -37,6 +39,13 @@ For now, only switching the device on/off is supported (no timers or temperature
 Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
+
+2.0.0 (2018-02-05):
+- Support for Sonoff-Tasmota firmware
+- Power On State settings
+
+1.3.0 (2018-01-23):
+- Ability to set up a fresh Sonoff device through the Homey desktop app, instead of having to use `curl` 
 
 1.2.0 (2017-12-16):
 - Improved pairing

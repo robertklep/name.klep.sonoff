@@ -8,10 +8,32 @@
     "other" : "Other",
     "identify" : "identify",
     "add_singular" : "Add device",
-    "add_multiple" : "Add devices"
+    "add_multiple" : "Add devices",
+    "close" : "Close window",
+    "tasmota" : {
+      "intro" : {
+        "test" : "Test Connection",
+        "next" : "Next Step..",
+        "mqtt" : {
+          "error" : "MQTT connection unsuccessful.",
+          "success" : "MQTT connection successful!"
+        }
+      },
+      "list" : {
+        "error" : "Unable to retrieve list of devices.",
+        "waiting" : "Waiting for devices (if this takes too long, unplug and replug the device you want to add)",
+        "no_devices" : "No unpaired devices were found."
+      }
+    }
   },
   "device" : {
     "waiting" : "Waiting for device to connect...",
-    "connection_lost" : "Connection with device lost"
+    "connection_lost" : "Connection with device lost",
+    "connection_error" : "Connection with device failed"
+  },
+  "mqtt" : {
+    "waiting" : "Connecting to MQTT broker...",
+    "connection_lost" : "Connection with MQTT broker lost",
+    "connection_error" : "Connection with MQTT broker failed"
   }
 }

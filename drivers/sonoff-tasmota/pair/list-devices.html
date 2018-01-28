@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel='stylesheet' href='../../../assets/semantic-custom.min.css'>
     <script src='../../../assets/vue.min.js'></script>
     <script src='../../../assets/vue.components.js'></script>
@@ -52,10 +52,13 @@
   <body>
     <div id='list-devices-view'>
       <div id='error' class='error' v-show='!!error'>
-        {{ error }}
+        <p>
+          {{ error }}
+        </p>
+        <button @click='close' class='ui negative button' data-i18n='pair.close'>Close window</button>
       </div>
       <div id='loading' v-show='waitingForDevice' class='center-div'>
-        <span data-i18n='pair.waiting'>Waiting for devices...</span>
+        <span data-i18n='pair.tasmota.list.waiting'>Waiting for devices...</span>
         <div class='fa fa-cog fa-spin fa-1x'></div>
       </div>
       <div id='device-list' v-show='devices.length'>
@@ -66,10 +69,13 @@
               <td class='collapsing'>
                 <div  @click = 'identify(device)'
                       :class = '{ "image-container" : true, disabled : !! device.identifying }'
-                      :style = '{ "-webkit-mask-image" : "url(../assets/icons/" + device.device.icon + ")" }'
+                      :style = '{ "-webkit-mask-image" : "url(../../sonoff/assets/icons/" + device.device.icon + ")" }'
                 ></div>
               </td>
               <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
+              <td class='collapsing'>
+                <i>Firmware v{{ device.device.store.version }}</i>
+              </td>
               <td class='collapsing'>
                 <select class='ui dropdown' v-model='device.device.icon'>
                   <option value='generic.svg' disabled selected>{{ Homey.__('pair.model') }}</option>
@@ -114,6 +120,9 @@
           Homey.emit('device.list', (err, devices) => {
             this.waitingForDevice = false;
             if (err) return this.showError(err);
+            if (! (devices || []).length) {
+              return this.showError(Error(Homey.__('pair.tasmota.list.no_devices')));
+            }
             this.devices = devices.map(device => {
               device.icon = 'generic.svg';
               return {
@@ -141,6 +150,7 @@
           addDevices() {
             let unwrapped = JSON.parse(JSON.stringify(this.$data));
             let devices   = unwrapped.devices.filter(d => d.selected).map(d => d.device);
+
             let addDevice = function(device) {
               // Fix icon path.
               device.icon = '/app/name.klep.sonoff/drivers/sonoff/assets/icons/' + device.icon;
@@ -149,19 +159,20 @@
               });
             };
 
-            Promise.all( devices.map(addDevice) ).then(_ => {
-              Homey.done();
-            }).catch(e => {
-              Homey.alert(e.message, 'error', _ => {
-                Homey.done();
-              });
-            });
+            Promise .all( devices.map(addDevice) )
+                    .then(() => Homey.done())
+                    .catch(e => {
+                      Homey.alert(e.message, 'error', () => Homey.done());
+                    });
           },
           showError(err) {
             this.error = err.message;
+          },
+          close() {
+            Homey.done();
           }
-        }
-      })
+        },
+      });
     </script>
   </body>
 </html>
