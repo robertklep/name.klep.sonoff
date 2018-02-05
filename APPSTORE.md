@@ -42,10 +42,9 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 2.0.0 (2018-02-05):
 - Support for Sonoff-Tasmota firmware
-- Power On State settings
 
 1.3.0 (2018-01-23):
-- Ability to set up a fresh Sonoff device through the Homey desktop app, instead of having to use `curl` 
+- Ability to set up a fresh Sonoff device through the Homey desktop app, instead of having to use `curl`
 
 1.2.0 (2017-12-16):
 - Improved pairing
