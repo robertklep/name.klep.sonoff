@@ -40,6 +40,9 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
 
+2.0.1 (2018-02-09):
+- Better MQTT broker offline handling
+
 2.0.0 (2018-02-05):
 - Support for Sonoff-Tasmota firmware
 
