@@ -1,5 +1,6 @@
-const Homey = require('homey');
-const mqtt  = require('./mqtt');
+const Homey     = require('homey');
+const mqtt      = require('./mqtt');
+const { delay } = require('./utils');
 
 module.exports = class SonoffTasmotaDevice extends Homey.Device {
   async onInit() {
@@ -38,9 +39,24 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
       this.client = await mqtt.connect(mqttHost, mqttPort, mqttUser, mqttPassword);
       this.log(`connected to MQTT broker @ ${ mqttHost }:${ mqttPort }`);
     } catch(e) {
+      this.log(`error connecting to MQTT broker @ ${ mqttHost }:${ mqttPort }:`, e.message);
+      if (e.message === 'CONNECTION_FAILED') {
+        return delay(5000).then(() => {
+          this.log('retrying MQTT broker...');
+          return this.connect();
+        });
+      }
       this.setUnavailable(Homey.__('mqtt.connection_error'));
-      return this.log(`error connecting to MQTT broker @ ${ mqttHost }:${ mqttPort }:`, e.message);
     }
+
+    // Handle MQTT broker going offline.
+    this.client.on('offline', async () => {
+      this.client.end();
+      this.log('MQTT broker connection lost...');
+      this.setUnavailable(Homey.__('mqtt.connection_lost'));
+      await delay(1000);
+      await this.connect();
+    });
 
     // Still waiting for device.
     this.setUnavailable(Homey.__('device.waiting'));
