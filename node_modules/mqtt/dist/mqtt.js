@@ -744,6 +744,11 @@ MqttClient.prototype._cleanUp = function (forced, done) {
     this.pingTimer.clear()
     this.pingTimer = null
   }
+
+  if (!this.connected) {
+    this.stream.removeListener('close', done)
+    done()
+  }
 }
 
 /**

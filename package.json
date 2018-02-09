@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "homey-syslog": "^1.1.0",
-    "mqtt": "^2.15.1",
+    "mqtt": "^2.15.2",
     "watchout": "0.0.5",
     "ws": "^3.3.2"
   }
