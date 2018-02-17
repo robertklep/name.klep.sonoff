@@ -137,9 +137,19 @@ module.exports = class SonoffTasmotaDriver extends Homey.Driver {
   }
 
   triggerRfReceive(device, tokens, state) {
+    // Trigger "RF Received" flow
     this.flowTriggerRfReceive.trigger(device, tokens, state).catch(e => {
       this.log('flowTriggerRfReceive error', e);
     });
+
+    // Emit realtime event (used in the RF sniffer in the app settings).
+    Homey.ManagerApi.realtime('rf.receive', Object.assign({
+      timestamp : new Date(),
+      device    : {
+        id   : device.getData().id,
+        name : device.getName(),
+      },
+    }, tokens));
   }
 
   onDeleted(device) {

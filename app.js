@@ -23,4 +23,9 @@ module.exports = class SonoffApp extends Homey.App {
           return args.device.transmit(args.sync, args.high, args.low, args.code);
         })
   }
+
+  async apiListRfDevices() {
+    let driver = Homey.ManagerDrivers.getDriver('sonoff-tasmota');
+    return driver.getDevices().filter(device => device.hasCapability('rf_receive'));
+  }
 }

@@ -4,6 +4,7 @@
   "name": {
     "en": "Sonoff"
   },
+  "permissions" : [ "homey:manager:api" ],
   "description": {
     "nl": "Bedien Sonoff apparaten met Homey",
     "en": "Control Sonoff devices using Homey"

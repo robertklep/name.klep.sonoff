@@ -31,14 +31,18 @@ This driver has been tested with the following devices:
 * Sonoff S20 Smart Socket (original firmware and Sonoff-Tasmota)
 * Sonoff RF WiFi Wireless Smart Switch With RF Receiver (original firmware)
 * Sonoff Slampher (original firmware)
+* Sonoff RF Bridge (Sonoff-Tasmota)
 
-For now, only switching the device on/off is supported (no timers or temperature/humidity/power usage sensors).
+Support for features besides switching the device on/off (i.e. timers, temperature/humidity/power sensors) is limited. The only additional feature, only tested on the RF Bridge, is sending and receiving RF codes.
 
 ### Issues
 
 Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
+
+2.1.0 (2018-02-17):
+- Support for receiving/transmitting RF codes (Tasmota firmware only, and requires a device that can receive/transmit RF). Only tested with the RF Bridge.
 
 2.0.1 (2018-02-09):
 - Better MQTT broker offline handling
