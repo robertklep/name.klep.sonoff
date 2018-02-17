@@ -163,7 +163,7 @@
             Promise .all( devices.map(addDevice) )
                     .then(() => Homey.done())
                     .catch(e => {
-                      Homey.alert(e.message, 'error', () => Homey.done());
+                      Homey.alert(e, 'error', () => Homey.done());
                     });
           },
           showError(err) {

@@ -13,7 +13,7 @@
     "small": "assets/images/small.jpg"
   },
   "category": "appliances",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "compatibility": ">=1.5.0",
   "author": {
     "name": "Robert Klep",
@@ -26,6 +26,28 @@
         "email": "robert@klep.name"
       }
     ]
+  },
+  "capabilities": {
+    "rf_transmit": {
+      "type": "boolean",
+      "title": {
+        "en": "RF Transmit",
+        "nl": "RF Zenden"
+      },
+      "getable": true,
+      "setable": false,
+      "preventInsights": true
+    },
+    "rf_receive": {
+      "type": "boolean",
+      "title": {
+        "en": "RF Receive",
+        "nl": "RF Ontvangen"
+      },
+      "getable": true,
+      "setable": false,
+      "preventInsights": true
+    }
   },
   "drivers": [
     {
@@ -75,7 +97,9 @@
         "en": "Tasmota"
       },
       "capabilities": [
-        "onoff"
+        "onoff",
+        "rf_transmit",
+        "rf_receive"
       ],
       "capabilitiesOptions": {
         "onoff": {
@@ -147,7 +171,7 @@
             {
               "type": "group",
               "label": "Topics",
-              "collapsed" : true,
+              "collapsed": true,
               "children": [
                 {
                   "id": "topic",
@@ -253,9 +277,9 @@
                 "en": "LED State",
                 "nl": "LED Instelling"
               },
-              "hint" : {
-                "en" : "Settings for device LED",
-                "nl" : "Instellingen voor LED op apparaat"
+              "hint": {
+                "en": "Settings for device LED",
+                "nl": "Instellingen voor LED op apparaat"
               },
               "value": "0",
               "values": [
@@ -322,5 +346,94 @@
       ]
     }
   ],
-  "flow": {}
+  "flow": {
+    "triggers": [
+      {
+        "id": "rf-receive",
+        "title": {
+          "en": "RF code received",
+          "nl": "RF code ontvangen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
+          }
+        ],
+        "tokens" : [
+          {
+            "name" : "code",
+            "type" : "string",
+            "title" : { "en" : "Code" }
+          },
+          {
+            "name" : "sync",
+            "type" : "number",
+            "title" : { "en" : "Sync" }
+          },
+          {
+            "name" : "low",
+            "type" : "number",
+            "title" : { "en" : "Low" }
+          },
+          {
+            "name" : "high",
+            "type" : "number",
+            "title" : { "en" : "High" }
+          },
+          {
+            "name" : "key",
+            "type" : "number",
+            "title" : { "en" : "Key" }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "rf_transmit",
+        "title": {
+          "en": "Send RF code",
+          "nl": "Stuur RF code"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
+          },
+          {
+            "name" : "sync",
+            "type" : "number",
+            "min"  : 2,
+            "max"  : 32767,
+            "step" : 1,
+            "placeholder" : { "en" : "Sync" }
+          },
+          {
+            "name" : "low",
+            "type" : "number",
+            "min"  : 2,
+            "max"  : 32767,
+            "step" : 1,
+            "placeholder" : { "en" : "Low" }
+          },
+          {
+            "name" : "high",
+            "type" : "number",
+            "min"  : 2,
+            "max"  : 32767,
+            "step" : 1,
+            "placeholder" : { "en" : "High" }
+          },
+          {
+            "name" : "code",
+            "type" : "text",
+            "placeholder" : { "en" : "Code" }
+          }
+        ]
+      }
+    ]
+  }
 }

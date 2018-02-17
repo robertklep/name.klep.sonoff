@@ -15,6 +15,11 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
     // Connect to broker.
     this.setUnavailable(Homey.__('mqtt.waiting'));
     await this.connect();
+
+    // If device supports RF, start listening for received RF codes.
+    if (this.hasCapability('rf_receive')) {
+      this.rfReceiveLoop();
+    }
   }
 
   getId() {
@@ -133,6 +138,28 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
         return this.setAvailable();
       }
     }
+  }
+
+  async rfReceiveLoop() {
+    let driver = this.getDriver();
+
+    while (true) {
+      let data = (await this.waitFor('RfReceived')).RfReceived;
+      driver.triggerRfReceive(this, {
+        sync : Number(data.Sync),
+        low  : Number(data.Low),
+        high : Number(data.High),
+        code : data.Data,
+        key  : data.RfKey === 'None' ? -1 : Number(data.RfKey)
+      });
+    }
+  }
+
+  async transmit(sync, high, low, code) {
+    let payload = `rfsync ${ sync }; rfhigh ${ high }; rflow ${ low }; rfcode #${ code }`;
+    this.log('transmitting:', payload);
+    this.sendCommand('backlog', payload);
+    return true;
   }
 
   onCapabilityOnoff(value, opts, callback) {

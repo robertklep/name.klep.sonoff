@@ -13,5 +13,14 @@ module.exports = class SonoffApp extends Homey.App {
     if (Homey.env.UPLOADER) {
       require('homey-app-upload-lib')(this.manifest);
     }
+    this.registerFlowActions();
+  }
+
+  registerFlowActions() {
+    new Homey.FlowCardAction('rf_transmit')
+        .register()
+        .registerRunListener((args, state) => {
+          return args.device.transmit(args.sync, args.high, args.low, args.code);
+        })
   }
 }
