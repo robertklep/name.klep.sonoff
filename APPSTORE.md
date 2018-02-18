@@ -33,7 +33,9 @@ This driver has been tested with the following devices:
 * Sonoff Slampher (original firmware)
 * Sonoff RF Bridge (Sonoff-Tasmota)
 
-Support for features besides switching the device on/off (i.e. timers, temperature/humidity/power sensors) is limited. The only additional feature, only tested on the RF Bridge, is sending and receiving RF codes.
+Support for features besides switching the device on/off (i.e. timers, temperature/humidity/power sensors) is limited.
+
+For the Sonoff RF Bridge running the Sonoff-Tasmota firmware, sending and receiving 433Mhz codes is supported.
 
 ### Issues
 
@@ -41,8 +43,8 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
 
-2.1.0 (2018-02-17):
-- Support for receiving/transmitting RF codes (Tasmota firmware only, and requires a device that can receive/transmit RF). Only tested with the RF Bridge.
+2.1.0 (2018-02-19):
+- Support for receiving/transmitting RF codes (with the Sonoff RF Bridge running the Tasmota firmware)
 
 2.0.1 (2018-02-09):
 - Better MQTT broker offline handling
