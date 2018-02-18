@@ -7,12 +7,17 @@ if (Homey.env.SYSLOG_HOST) {
 module.exports = class SonoffApp extends Homey.App {
   onInit() {
     this.log('SonoffApp is running...');
-    if (Homey.env.INSPECTOR) {
-      require('inspector').open(9229, '0.0.0.0');
-    }
-    if (Homey.env.UPLOADER) {
-      require('homey-app-upload-lib')(this.manifest);
-    }
+
+    // Various debugging/development tools.
+    Homey.env.INSPECTOR && require('inspector').open(9229, '0.0.0.0');
+    Homey.env.UPLOADER  && require('homey-app-upload-lib')(this.manifest);
+
+    // Let devices register themselves with the app (useful in settings).
+    this.sonoffDevices  = [];
+    this.tasmotaDevices = [];
+    this.rfDevices      = [];
+
+    // Register flow actions.
     this.registerFlowActions();
   }
 
@@ -24,8 +29,19 @@ module.exports = class SonoffApp extends Homey.App {
         })
   }
 
+  registerSonoffDevice(device) {
+    this.sonoffDevices.push(device);
+  }
+
+  registerTasmotaDevice(device) {
+    this.tasmotaDevices.push(device);
+  }
+
+  registerRfDevice(device) {
+    this.rfDevices.push(device);
+  }
+
   async apiListRfDevices() {
-    let driver = Homey.ManagerDrivers.getDriver('sonoff-tasmota');
-    return driver.getDevices().filter(device => device.hasCapability('rf_receive'));
+    return this.rfDevices;
   }
 }

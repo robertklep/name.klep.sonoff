@@ -13,6 +13,9 @@ module.exports = class SonoffDevice extends Homey.Device {
 
     // Register a capability listener.
     this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this))
+
+    // Register device with app.
+    Homey.app.registerSonoffDevice(this);
   }
 
   // Get a (ready) instance of the driver.

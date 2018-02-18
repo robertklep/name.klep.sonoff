@@ -16,8 +16,12 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
     this.setUnavailable(Homey.__('mqtt.waiting'));
     await this.connect();
 
+    // Register device with app.
+    Homey.app.registerTasmotaDevice(this);
+
     // If device supports RF, start listening for received RF codes.
     if (this.hasCapability('rf_receive')) {
+      Homey.app.registerRfDevice(this);
       this.rfReceiveLoop();
     }
   }
