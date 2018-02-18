@@ -43,7 +43,7 @@
                   <tr v-for='entry in snifferLog'>
                     <td>{{ entry.index }}.</td>
                     <td v-bind='{ title : entry.device.id }'>{{ entry.device.name }}</td>
-                    <td>{{ entry.timestamp }}</td>
+                    <td>{{ new Date(entry.timestamp).toString() }}</td>
                     <td>{{ entry.sync }}</td>
                     <td>{{ entry.low }}</td>
                     <td>{{ entry.high }}</td>
