@@ -9,6 +9,10 @@
     "nl": "Bedien Sonoff apparaten met Homey",
     "en": "Control Sonoff devices using Homey"
   },
+  "tags": {
+    "en": [ "sonoff", "tasmota", "itead", "rf", "bridge", "s20", "th10", "th16", "pow", "g1", "4ch", "touch", "slampher", "t1", "b1", "s30", "s31" ],
+    "nl": [ "sonoff", "tasmota", "itead", "rf", "bridge", "s20", "th10", "th16", "pow", "g1", "4ch", "touch", "slampher", "t1", "b1", "s30", "s31" ]
+  },
   "images": {
     "large": "assets/images/large.jpg",
     "small": "assets/images/small.jpg"
