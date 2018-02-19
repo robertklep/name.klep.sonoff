@@ -370,27 +370,32 @@
           {
             "name" : "code",
             "type" : "string",
-            "title" : { "en" : "Code" }
+            "title" : { "en" : "Code" },
+            "example" : "ABC123"
           },
           {
             "name" : "sync",
             "type" : "number",
-            "title" : { "en" : "Sync" }
+            "title" : { "en" : "Sync" },
+            "example" : 8470
           },
           {
             "name" : "low",
             "type" : "number",
-            "title" : { "en" : "Low" }
+            "title" : { "en" : "Low" },
+            "example" : 270
           },
           {
             "name" : "high",
             "type" : "number",
-            "title" : { "en" : "High" }
+            "title" : { "en" : "High" },
+            "example" : 840
           },
           {
             "name" : "key",
             "type" : "number",
-            "title" : { "en" : "Key" }
+            "title" : { "en" : "Key" },
+            "example" : 4
           }
         ]
       }
