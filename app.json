@@ -59,8 +59,7 @@
       "id": "sonoff",
       "class": "socket",
       "name": {
-        "en": "Original Firmware",
-        "nl": "Originele Firmware"
+        "en": "Original"
       },
       "capabilities": [
         "onoff"
