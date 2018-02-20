@@ -56,6 +56,7 @@ module.exports = class SonoffDriver extends Homey.Driver {
   onDeleted(device) {
     this.log('[driver] device got deleted', device.getName());
     this.manager.unregisterDevice(device.getDeviceId());
+    Homey.app.unregisterSonoffDevice(device);
   }
 
   onAdded(device) {

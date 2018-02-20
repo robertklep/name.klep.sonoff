@@ -1,19 +1,38 @@
-const Homey     = require('homey');
-const mqtt      = require('./mqtt');
-const constants = require('./constants');
+const Homey             = require('homey');
+const SonoffTasmotaMqtt = require('sonoff-tasmota-mqtt');
+const constants         = require('./constants');
 
 module.exports = class SonoffTasmotaDriver extends Homey.Driver {
   async onInit() {
     this.log('[init]');
     this.registerFlowTriggers();
+    this.connections = {};
   }
 
   registerFlowTriggers() {
     this.flowTriggerRfReceive = new Homey.FlowCardTriggerDevice('rf-receive').register();
   }
 
+  async getConnectionForDevice(device, { retry = true, settings = null } = {}) {
+    const { mqttHost, mqttPort, mqttUser, mqttPassword } = settings || device.getSettings();
+    let conn = await this.getConnection(mqttHost, mqttPort, mqttUser, mqttPassword, retry);
+    return conn.registerDevice(device.getTopic());
+  }
+
+  async getConnection(host, port, username, password, retry = true) {
+    let key = [ host, port, username, password ].join('\x00');
+    let prefix = 'reusing';
+    if (! this.connections[key]) {
+      prefix = 'creating new';
+      let client = new SonoffTasmotaMqtt(host, { port, username, password });
+      this.connections[key] = client.connect({ retry }); // store the promise
+    }
+    this.log(prefix + ` MQTT connection to ${ host }:${ port }`);
+    return await this.connections[key];
+  }
+
   onPair(socket) {
-    let client, mqttCredentials;
+    let conn, mqttCredentials;
 
     socket.on('pair.init', (data, callback) => {
       return callback(null, {
@@ -27,7 +46,13 @@ module.exports = class SonoffTasmotaDriver extends Homey.Driver {
       let err = null;
 
       try {
-        client          = await mqtt.connect(data.mqttHost, data.mqttPort, data.mqttUser, data.mqttPassword);
+        let { mqttHost, mqttPort, mqttUser, mqttPassword } = data;
+        let client = new SonoffTasmotaMqtt(mqttHost, {
+          port     : mqttPort,
+          username : mqttUser,
+          password : mqttPassword
+        });
+        conn = await client.connect({ retry : false });
         mqttCredentials = Object.assign({}, data);
         this.log('connection successful');
       } catch(e) {
@@ -36,104 +61,86 @@ module.exports = class SonoffTasmotaDriver extends Homey.Driver {
       }
       return callback(err);
     }).on('device.list', async (data, callback) => {
-      if (! client) {
+      if (! conn) {
         return callback({ message : 'invalid pairing sequence' });
       }
-      let status5 = null, info1 = null, rfSupported = null;
+      this.log('waiting for new device...');
+      let device = conn.registerAnyDevice();
 
-      client.subscribe('tele/+/INFO1')
-            .subscribe('stat/+/STATUS5')
-            .subscribe('stat/+/RESULT')
-            .on('message', (topic, message) => {
-              let [ prefix, name, cmnd ] = topic.split('/');
+      // Wait for INFO1
+      let info1 = await device.waitFor('info1');
 
-              // Message payload should be JSON
-              try {
-                message = JSON.parse(message);
-              } catch(e) {
-                client.unsubscribe('#');
-                return callback(new Error('INVALID_DATA'));
-              }
+      // Wait for STATUS5 (network status)
+      let status5 = await device.sendCommand('status', '5').waitFor('status5');
 
-              // Store payload.
-              if (cmnd === 'INFO1') {
-                info1 = message;
-                // Solicit a `STATUS5` response.
-                client.publish(`cmnd/${ name }/status`, '5');
-              } else if (cmnd === 'STATUS5') {
-                status5 = message;
-                // Check if device supports RF
-                client.publish(`cmnd/${ name }/rfcode`, '');
-              } else if (cmnd === 'RESULT') {
-                if ('RfCode' in message) {
-                  rfSupported = true;
-                } else if (message.Command === 'Unknown') {
-                  rfSupported = false;
-                }
-              }
+      // Use device MAC as unique identifier.
+      let id = status5.StatusNET.Mac;
+      this.log('found device with id', id);
 
-              // Got both required messages.
-              if (status5 && info1 && rfSupported !== null) {
-                // Not interested in any messages anymore.
-                client.unsubscribe('#');
-
-                // Use device MAC as unique identifier.
-                let id = status5.StatusNET.Mac;
-
-                // Check if we've already paired with this device.
-                let device = this.getDevice({ id });
-                if (! (device instanceof Error)) {
-                  return callback(null, []);
-                }
-
-                // Build a list of capabilities that the device supports.
-                let capabilities = [ 'onoff' ];
-                if (rfSupported) {
-                  capabilities.push('rf_transmit');
-                  capabilities.push('rf_receive');
-                }
-
-                // Return the device data to the frontend.
-                return callback(null, [{
-                  name  : name,
-                  data  : { id },
-                  store : {
-                    module  : info1.Module,
-                    version : info1.Version,
-                    rfSupported
-                  },
-                  settings : {
-                    topic         : name,
-                    fallbackTopic : info1.FallbackTopic,
-                    groupTopic    : info1.GroupTopic,
-                    powerOnState  : constants.POWER_ON_STATE_SAVED,
-                    ledState      : constants.LED_STATE_OFF,
-                    ...mqttCredentials
-                  },
-                  capabilities
-                }]);
-              }
-            });
-    }).on('device.identify', async (device, callback) => {
-      if (! client) {
-        return callback({ message : 'invalid pairing sequence' });
+      // Check if we've already paired with this device.
+      if (! (this.getDevice({ id }) instanceof Error)) {
+        this.log('device is already paired');
+        conn.unregisterAnyDevice();
+        return callback(null, []);
       }
-      this.switchDevice(client, device.settings.topic, true);
-      setTimeout(() => {
-        this.switchDevice(client, device.settings.topic, false);
-        return callback();
-      }, 1000);
+      this.log('device is not yet paired');
+
+      // Build a list of capabilities that the device supports.
+      let capabilities = [];
+      if (await device.hasPowerSupport()) {
+        capabilities.push('onoff');
+      }
+      if (await device.hasRfSupport()) {
+        capabilities.push('rf_transmit');
+        capabilities.push('rf_receive');
+      }
+      if (await device.hasPowerMonitorSupport()) {
+        capabilities.push('meter_power');
+      }
+      if (await device.hasColorSupport()) {
+        capabilities.push('light_hue');
+        capabilities.push('light_saturation');
+      }
+      if (await device.hasColorTemperatureSupport()) {
+        capabilities.push('light_temperature');
+      }
+      if (await device.hasDimmerSupport()) {
+        capabilities.push('dim');
+      }
+      this.log('detected device capabilities:', capabilities.join(', '));
+
+      // Determine name for device (based on its MQTT topic).
+      let name = device.getTopic();
+
+      // Unregister listeners.
+      conn.unregisterAnyDevice();
+
+      // Return the device data to the frontend.
+      return callback(null, [{
+        name  : name,
+        class : capabilities.includes('onoff') ? 'socket' : 'other',
+        data  : { id },
+        store : {
+          module  : info1.Module,
+          version : info1.Version,
+        },
+        settings : {
+          topic         : name,
+          fallbackTopic : info1.FallbackTopic,
+          groupTopic    : info1.GroupTopic,
+          powerOnState  : constants.POWER_ON_STATE_SAVED,
+          ledState      : constants.LED_STATE_OFF,
+          ...mqttCredentials
+        },
+        capabilities
+      }]);
     }).on('error', err => {
       this.log('pairing socket error', err);
-      client && client.end();
+      conn && conn.end();
     }).on('disconnect', () => {
       // Called when pairing dialog is closed.
-      client && client.end();
+      conn && conn.end();
     });
-  }
-
-  switchDevice(client, topic, state) {
-    client.publish(`cmnd/${ topic }/power`, state ? 'on' : 'off');
   }
 
   triggerRfReceive(device, tokens, state) {
@@ -150,13 +157,5 @@ module.exports = class SonoffTasmotaDriver extends Homey.Driver {
         name : device.getName(),
       },
     }, tokens));
-  }
-
-  onDeleted(device) {
-    this.log('[driver] on added', device);
-  }
-
-  onAdded(device) {
-    this.log('[driver] on added', device);
   }
 }
