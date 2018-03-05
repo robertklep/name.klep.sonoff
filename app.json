@@ -1,24 +1,63 @@
 {
   "id": "name.klep.sonoff",
+  "version": "3.0.0",
+  "athomForumDiscussionId": 4677,
   "sdk": 2,
   "name": {
     "en": "Sonoff"
   },
-  "permissions" : [ "homey:manager:api" ],
+  "permissions": [
+    "homey:manager:api"
+  ],
   "description": {
     "nl": "Bedien Sonoff apparaten met Homey",
     "en": "Control Sonoff devices using Homey"
   },
   "tags": {
-    "en": [ "sonoff", "tasmota", "itead", "rf", "bridge", "s20", "th10", "th16", "pow", "g1", "4ch", "touch", "slampher", "t1", "b1", "s30", "s31" ],
-    "nl": [ "sonoff", "tasmota", "itead", "rf", "bridge", "s20", "th10", "th16", "pow", "g1", "4ch", "touch", "slampher", "t1", "b1", "s30", "s31" ]
+    "en": [
+      "sonoff",
+      "tasmota",
+      "itead",
+      "rf",
+      "bridge",
+      "s20",
+      "th10",
+      "th16",
+      "pow",
+      "g1",
+      "4ch",
+      "touch",
+      "slampher",
+      "t1",
+      "b1",
+      "s30",
+      "s31"
+    ],
+    "nl": [
+      "sonoff",
+      "tasmota",
+      "itead",
+      "rf",
+      "bridge",
+      "s20",
+      "th10",
+      "th16",
+      "pow",
+      "g1",
+      "4ch",
+      "touch",
+      "slampher",
+      "t1",
+      "b1",
+      "s30",
+      "s31"
+    ]
   },
   "images": {
     "large": "assets/images/large.jpg",
     "small": "assets/images/small.jpg"
   },
   "category": "appliances",
-  "version": "2.1.0",
   "compatibility": ">=1.5.0",
   "author": {
     "name": "Robert Klep",
@@ -59,8 +98,7 @@
       "id": "sonoff",
       "class": "socket",
       "name": {
-        "en": "Original Firmware",
-        "nl": "Originele Firmware"
+        "en": "Original"
       },
       "capabilities": [
         "onoff"
@@ -104,7 +142,12 @@
       "capabilities": [
         "onoff",
         "rf_transmit",
-        "rf_receive"
+        "rf_receive",
+        "meter_power",
+        "light_temperature",
+        "light_hue",
+        "light_saturation",
+        "dim"
       ],
       "capabilitiesOptions": {
         "onoff": {
@@ -366,36 +409,46 @@
             "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
           }
         ],
-        "tokens" : [
+        "tokens": [
           {
-            "name" : "code",
-            "type" : "string",
-            "title" : { "en" : "Code" },
-            "example" : "ABC123"
+            "name": "code",
+            "type": "string",
+            "title": {
+              "en": "Code"
+            },
+            "example": "ABC123"
           },
           {
-            "name" : "sync",
-            "type" : "number",
-            "title" : { "en" : "Sync" },
-            "example" : 8470
+            "name": "sync",
+            "type": "number",
+            "title": {
+              "en": "Sync"
+            },
+            "example": 8470
           },
           {
-            "name" : "low",
-            "type" : "number",
-            "title" : { "en" : "Low" },
-            "example" : 270
+            "name": "low",
+            "type": "number",
+            "title": {
+              "en": "Low"
+            },
+            "example": 270
           },
           {
-            "name" : "high",
-            "type" : "number",
-            "title" : { "en" : "High" },
-            "example" : 840
+            "name": "high",
+            "type": "number",
+            "title": {
+              "en": "High"
+            },
+            "example": 840
           },
           {
-            "name" : "key",
-            "type" : "number",
-            "title" : { "en" : "Key" },
-            "example" : 4
+            "name": "key",
+            "type": "number",
+            "title": {
+              "en": "Key"
+            },
+            "example": 4
           }
         ]
       }
@@ -414,33 +467,41 @@
             "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
           },
           {
-            "name" : "sync",
-            "type" : "number",
-            "min"  : 2,
-            "max"  : 32767,
-            "step" : 1,
-            "placeholder" : { "en" : "Sync" }
+            "name": "sync",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "Sync"
+            }
           },
           {
-            "name" : "low",
-            "type" : "number",
-            "min"  : 2,
-            "max"  : 32767,
-            "step" : 1,
-            "placeholder" : { "en" : "Low" }
+            "name": "low",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "Low"
+            }
           },
           {
-            "name" : "high",
-            "type" : "number",
-            "min"  : 2,
-            "max"  : 32767,
-            "step" : 1,
-            "placeholder" : { "en" : "High" }
+            "name": "high",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "High"
+            }
           },
           {
-            "name" : "code",
-            "type" : "text",
-            "placeholder" : { "en" : "Code" }
+            "name": "code",
+            "type": "text",
+            "placeholder": {
+              "en": "Code"
+            }
           }
         ]
       }

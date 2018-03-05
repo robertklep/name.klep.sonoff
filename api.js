@@ -16,4 +16,19 @@ module.exports = [
       }
     }
   },
+  {
+    method : 'GET',
+    path   : '/tasmota-devices/',
+    fn     : async (args, callback) => {
+      try {
+        let devices = await Homey.app.apiListTasmotaDevices();
+        return callback(null, devices.map(device => ({
+          id   : device.getData().id,
+          name : device.getName(),
+        })));
+      } catch(err) {
+        return callback(err);
+      }
+    }
+  },
 ];

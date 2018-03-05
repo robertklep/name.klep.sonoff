@@ -67,9 +67,8 @@
           <tbody>
             <tr v-for='device in devices'>
               <td class='collapsing'>
-                <div  @click = 'identify(device)'
-                      :class = '{ "image-container" : true, disabled : !! device.identifying }'
-                      :style = '{ "-webkit-mask-image" : "url(../../sonoff/assets/icons/" + device.device.icon + ")" }'
+                <div class  = 'image-container'
+                     :style = '{ "-webkit-mask-image" : "url(../../sonoff/assets/icons/" + device.device.icon + ")" }'
                 ></div>
               </td>
               <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
@@ -125,12 +124,26 @@
               return this.showError(Error(Homey.__('pair.tasmota.list.no_devices')));
             }
             this.devices = devices.map(device => {
-              device.icon = 'generic.svg';
+              // Try to map Sonoff-Tasmota module against known
+              // devices so we can set autodetect the device icon.
+              if (device.store && device.store.module) {
+                device.icon = {
+                  'S20 Socket'    : 's20.svg',
+                  'Sonoff RF'     : 'rf.svg',
+                  'Sonoff Basic'  : 'basic.svg',
+                  'Sonoff Bridge' : 'bridge.svg',
+                  'Sonoff Pow'    : 'pow.svg'
+                }[device.store.module];
+              }
+
+              if (! device.icon) {
+                device.icon = 'generic.svg';
+              }
+
               return {
-                name        : device.name,
-                type        : '',
-                selected    : false,
-                identifying : false,
+                name     : device.name,
+                type     : '',
+                selected : false,
                 device
               }
             });
@@ -142,12 +155,6 @@
           }
         },
         methods : {
-          identify(device) {
-            device.identifying = true;
-            Homey.emit('device.identify', device.device, () => {
-              device.identifying = false;
-            });
-          },
           addDevices() {
             let unwrapped = JSON.parse(JSON.stringify(this.$data));
             let devices   = unwrapped.devices.filter(d => d.selected).map(d => d.device);
