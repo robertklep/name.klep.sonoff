@@ -43,6 +43,10 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Changelog
 
+3.0.0 (2018-03-05):
+- Rewritten Tasmota MQTT client
+- Try to automatically identify newly paired device (to provide correct icon)
+
 2.1.0 (2018-02-19):
 - Support for receiving/transmitting RF codes (with the Sonoff RF Bridge running the Tasmota firmware)
 
