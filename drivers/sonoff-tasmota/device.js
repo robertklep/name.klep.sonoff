@@ -96,11 +96,12 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
   async onRfReceived(data) {
     this.log('RF received:', data);
     this.getDriver().triggerRfReceive(this, {
-      sync : Number(data.Sync),
-      low  : Number(data.Low),
-      high : Number(data.High),
-      code : data.Data,
-      key  : data.RfKey === 'None' ? -1 : Number(data.RfKey)
+      sync      : Number(data.Sync),
+      low       : Number(data.Low),
+      high      : Number(data.High),
+      code      : data.Data,
+      key       : data.RfKey === 'None' ? -1 : Number(data.RfKey),
+      timestamp : Date.now()
     });
   }
 

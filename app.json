@@ -449,6 +449,14 @@
               "en": "Key"
             },
             "example": 4
+          },
+          {
+            "name": "timestamp",
+            "type": "number",
+            "title": {
+              "en": "Timestamp"
+            },
+            "example": 143938800000
           }
         ]
       }
