@@ -7,7 +7,9 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
     this.log(`device init: name = ${ this.getName() }, id = ${ this.getId() }, module type = ${ this.getModule() }, version = ${ this.getVersion() }, topic = ${ this.getTopic() }`);
 
     // Register a capability listener.
-    this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this))
+    if (this.hasCapability('onoff')) {
+      this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this))
+    }
 
     // Get MQTT connection handle.
     this.setUnavailable(Homey.__('mqtt.waiting'));
@@ -63,7 +65,9 @@ module.exports = class SonoffTasmotaDevice extends Homey.Device {
     });
 
     // Update on/off status
-    this.setCapabilityValue('onoff', !!status.Power);
+    if (this.hasCapability('onoff')) {
+      this.setCapabilityValue('onoff', !!status.Power);
+    }
 
     // Maintain online/offline status.
     this.conn.on('online', () => {

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "switch-1-on",
+    "title": {
+      "en": "Switch 1 turned on",
+      "nl": "Schakelaar 1 aangezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-dual"
+      }
+    ]
+  },
+  {
+    "id": "switch-2-on",
+    "title": {
+      "en": "Switch 2 turned on",
+      "nl": "Schakelaar 2 aangezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-dual"
+      }
+    ]
+  },
+  {
+    "id": "switch-1-off",
+    "title": {
+      "en": "Switch 1 turned off",
+      "nl": "Schakelaar 1 uitgezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-dual"
+      }
+    ]
+  },
+  {
+    "id": "switch-2-off",
+    "title": {
+      "en": "Switch 2 turned off",
+      "nl": "Schakelaar 2 uitgezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-dual"
+      }
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "id": "bridge-rf-receive",
+  "title": {
+    "en": "RF code received",
+    "nl": "RF code ontvangen"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=sonoff-tasmota-rf-bridge"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "code",
+      "type": "string",
+      "title": {
+        "en": "Code"
+      },
+      "example": "ABC123"
+    },
+    {
+      "name": "sync",
+      "type": "number",
+      "title": {
+        "en": "Sync"
+      },
+      "example": 8470
+    },
+    {
+      "name": "low",
+      "type": "number",
+      "title": {
+        "en": "Low"
+      },
+      "example": 270
+    },
+    {
+      "name": "high",
+      "type": "number",
+      "title": {
+        "en": "High"
+      },
+      "example": 840
+    },
+    {
+      "name": "key",
+      "type": "number",
+      "title": {
+        "en": "Key"
+      },
+      "example": 4
+    },
+    {
+      "name": "timestamp",
+      "type": "number",
+      "title": {
+        "en": "Timestamp"
+      },
+      "example": 143938800000
+    }
+  ]
+}

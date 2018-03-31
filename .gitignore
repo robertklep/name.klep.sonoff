@@ -5,3 +5,4 @@ graphics
 !node_modules
 *.sw?
 .inc
+json-merge-test

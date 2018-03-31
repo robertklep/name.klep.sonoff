@@ -1,0 +1,39 @@
+{
+  "id": "sonoff",
+  "class": "socket",
+  "name": {
+    "en": "Original"
+  },
+  "capabilities": [
+    "onoff"
+  ],
+  "capabilitiesOptions": {
+    "onoff": {
+      "greyout": false
+    }
+  },
+  "images": {
+    "large": "drivers/sonoff/assets/images/large.png",
+    "small": "drivers/sonoff/assets/images/small.png"
+  },
+  "pair": [
+    {
+      "id": "intro",
+      "navigation": {
+        "next": "list-devices"
+      }
+    },
+    {
+      "id": "list-devices"
+    },
+    {
+      "id": "device-setup-form"
+    },
+    {
+      "id": "device-setup",
+      "navigation": {
+        "next": "list-devices"
+      }
+    }
+  ]
+}

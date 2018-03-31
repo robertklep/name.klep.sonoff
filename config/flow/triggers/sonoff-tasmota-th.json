@@ -1,0 +1,82 @@
+[
+  {
+    "id": "th-temperature-changed",
+    "title": {
+      "en": "Temperature changed",
+      "nl": "Temperatuur veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-th"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "temperature",
+        "type": "number",
+        "title": {
+          "en": "Temperature",
+          "nl": "Temperatuur"
+        },
+        "example": {
+          "en": "18.3",
+          "nl": "18.3"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "17.3",
+          "nl": "17.3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "th-humidity-changed",
+    "title": {
+      "en": "Humidity changed",
+      "nl": "Luchtvochtigheid veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-th"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "humidity",
+        "type": "number",
+        "title": {
+          "en": "Humidity",
+          "nl": "Luchtvochtigheid"
+        },
+        "example": {
+          "en": "52",
+          "nl": "52"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "53",
+          "nl": "53"
+        }
+      }
+    ]
+  }
+]

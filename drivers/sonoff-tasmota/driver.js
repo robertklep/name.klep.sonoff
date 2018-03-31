@@ -6,11 +6,20 @@ module.exports = class SonoffTasmotaDriver extends Homey.Driver {
   async onInit() {
     this.log('[init]');
     this.registerFlowTriggers();
+    this.registerFlowActions();
     this.connections = {};
   }
 
   registerFlowTriggers() {
-    this.flowTriggerRfReceive = new Homey.FlowCardTriggerDevice('rf-receive').register();
+    this.flowTriggerRfReceive = new Homey.FlowCardTriggerDevice('rf_receive').register();
+  }
+
+  registerFlowActions() {
+    new Homey.FlowCardAction('rf_transmit')
+        .register()
+        .registerRunListener((args, state) => {
+          return args.device.transmit(args.sync, args.high, args.low, args.code);
+        })
   }
 
   async getConnectionForDevice(device, { retry = true, settings = null } = {}) {

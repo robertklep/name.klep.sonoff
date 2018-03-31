@@ -1,6 +1,6 @@
 {
   "id": "name.klep.sonoff",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "athomForumDiscussionId": 4677,
   "sdk": 2,
   "name": {
@@ -19,6 +19,7 @@
       "tasmota",
       "itead",
       "rf",
+      "dual",
       "bridge",
       "s20",
       "th10",
@@ -38,6 +39,7 @@
       "tasmota",
       "itead",
       "rf",
+      "dual",
       "bridge",
       "s20",
       "th10",
@@ -91,7 +93,473 @@
       "getable": true,
       "setable": false,
       "preventInsights": true
+    },
+    "last_update_timestamp": {
+      "type": "string",
+      "title": {
+        "en": "Last Update",
+        "nl": "Laatste Update"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true
     }
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "switch-1-on",
+        "title": {
+          "en": "Switch 1 turned on",
+          "nl": "Schakelaar 1 aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-2-on",
+        "title": {
+          "en": "Switch 2 turned on",
+          "nl": "Schakelaar 2 aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-1-off",
+        "title": {
+          "en": "Switch 1 turned off",
+          "nl": "Schakelaar 1 uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-2-off",
+        "title": {
+          "en": "Switch 2 turned off",
+          "nl": "Schakelaar 2 uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "bridge-rf-receive",
+        "title": {
+          "en": "RF code received",
+          "nl": "RF code ontvangen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-rf-bridge"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "code",
+            "type": "string",
+            "title": {
+              "en": "Code"
+            },
+            "example": "ABC123"
+          },
+          {
+            "name": "sync",
+            "type": "number",
+            "title": {
+              "en": "Sync"
+            },
+            "example": 8470
+          },
+          {
+            "name": "low",
+            "type": "number",
+            "title": {
+              "en": "Low"
+            },
+            "example": 270
+          },
+          {
+            "name": "high",
+            "type": "number",
+            "title": {
+              "en": "High"
+            },
+            "example": 840
+          },
+          {
+            "name": "key",
+            "type": "number",
+            "title": {
+              "en": "Key"
+            },
+            "example": 4
+          },
+          {
+            "name": "timestamp",
+            "type": "number",
+            "title": {
+              "en": "Timestamp"
+            },
+            "example": 143938800000
+          }
+        ]
+      },
+      {
+        "id": "th-temperature-changed",
+        "title": {
+          "en": "Temperature changed",
+          "nl": "Temperatuur veranderd"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-th"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "temperature",
+            "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            },
+            "example": {
+              "en": "18.3",
+              "nl": "18.3"
+            }
+          },
+          {
+            "name": "previous",
+            "type": "number",
+            "title": {
+              "en": "Previous value",
+              "nl": "Vorige waarde"
+            },
+            "example": {
+              "en": "17.3",
+              "nl": "17.3"
+            }
+          }
+        ]
+      },
+      {
+        "id": "th-humidity-changed",
+        "title": {
+          "en": "Humidity changed",
+          "nl": "Luchtvochtigheid veranderd"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-th"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "humidity",
+            "type": "number",
+            "title": {
+              "en": "Humidity",
+              "nl": "Luchtvochtigheid"
+            },
+            "example": {
+              "en": "52",
+              "nl": "52"
+            }
+          },
+          {
+            "name": "previous",
+            "type": "number",
+            "title": {
+              "en": "Previous value",
+              "nl": "Vorige waarde"
+            },
+            "example": {
+              "en": "53",
+              "nl": "53"
+            }
+          }
+        ]
+      },
+      {
+        "id": "rf_receive",
+        "title": {
+          "en": "RF code received",
+          "nl": "RF code ontvangen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "code",
+            "type": "string",
+            "title": {
+              "en": "Code"
+            },
+            "example": "ABC123"
+          },
+          {
+            "name": "sync",
+            "type": "number",
+            "title": {
+              "en": "Sync"
+            },
+            "example": 8470
+          },
+          {
+            "name": "low",
+            "type": "number",
+            "title": {
+              "en": "Low"
+            },
+            "example": 270
+          },
+          {
+            "name": "high",
+            "type": "number",
+            "title": {
+              "en": "High"
+            },
+            "example": 840
+          },
+          {
+            "name": "key",
+            "type": "number",
+            "title": {
+              "en": "Key"
+            },
+            "example": 4
+          },
+          {
+            "name": "timestamp",
+            "type": "number",
+            "title": {
+              "en": "Timestamp"
+            },
+            "example": 143938800000
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "switch-1-on",
+        "title": {
+          "en": "Switch 1 on",
+          "nl": "Schakelaar 1 aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-2-on",
+        "title": {
+          "en": "Switch 2 on",
+          "nl": "Schakelaar 2 aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-1-off",
+        "title": {
+          "en": "Switch 1 off",
+          "nl": "Schakelaar 1 uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-2-off",
+        "title": {
+          "en": "Switch 2 off",
+          "nl": "Schakelaar 2 uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-1-toggle",
+        "title": {
+          "en": "Toggle switch 1",
+          "nl": "Schakelaar 1 aan of uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "switch-2-toggle",
+        "title": {
+          "en": "Toggle switch 2",
+          "nl": "Schakelaar 2 aan of uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-dual"
+          }
+        ]
+      },
+      {
+        "id": "bridge-rf-transmit",
+        "title": {
+          "en": "Send RF code",
+          "nl": "Stuur RF code"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-rf-bridge"
+          },
+          {
+            "name": "sync",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "Sync"
+            }
+          },
+          {
+            "name": "low",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "Low"
+            }
+          },
+          {
+            "name": "high",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "High"
+            }
+          },
+          {
+            "name": "code",
+            "type": "text",
+            "placeholder": {
+              "en": "Code"
+            }
+          }
+        ]
+      },
+      {
+        "id": "rf_transmit",
+        "title": {
+          "en": "Send RF code",
+          "nl": "Stuur RF code"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
+          },
+          {
+            "name": "sync",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "Sync"
+            }
+          },
+          {
+            "name": "low",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "Low"
+            }
+          },
+          {
+            "name": "high",
+            "type": "number",
+            "min": 2,
+            "max": 32767,
+            "step": 1,
+            "placeholder": {
+              "en": "High"
+            }
+          },
+          {
+            "name": "code",
+            "type": "text",
+            "placeholder": {
+              "en": "Code"
+            }
+          }
+        ]
+      }
+    ]
   },
   "drivers": [
     {
@@ -134,10 +602,875 @@
       ]
     },
     {
+      "id": "sonoff-tasmota-basic",
+      "class": "socket",
+      "name": {
+        "en": "Basic (Tasmota)"
+      },
+      "capabilities": [
+        "onoff"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "greyout": false,
+          "title": {
+            "en": "Switch",
+            "nl": "Schakelaar"
+          }
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota-basic/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-basic/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "mobile": {
+        "components": [
+          {
+            "id": "icon"
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota-s20",
+      "class": "socket",
+      "name": {
+        "en": "S20 (Tasmota)"
+      },
+      "capabilities": [
+        "onoff"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "greyout": false,
+          "title": {
+            "en": "Switch",
+            "nl": "Schakelaar"
+          }
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota-s20/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-s20/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "mobile": {
+        "components": [
+          {
+            "id": "icon"
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota-dual",
+      "class": "socket",
+      "name": {
+        "en": "Dual (Tasmota)"
+      },
+      "capabilities": [
+        "onoff.1",
+        "onoff.2"
+      ],
+      "capabilitiesOptions": {
+        "onoff.1": {
+          "title": {
+            "en": "Switch 1",
+            "nl": "Schakelaar 1"
+          }
+        },
+        "onoff.2": {
+          "title": {
+            "en": "Switch 2",
+            "nl": "Schakelaar 2"
+          }
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota-dual/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-dual/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "mobile": {
+        "components": [
+          {
+            "id": "icon"
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.1"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.2"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota-rf",
+      "class": "socket",
+      "name": {
+        "en": "RF (Tasmota)"
+      },
+      "capabilities": [
+        "onoff"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "greyout": false,
+          "title": {
+            "en": "Switch",
+            "nl": "Schakelaar"
+          }
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota-rf/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-rf/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "mobile": {
+        "components": [
+          {
+            "id": "icon"
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota-th",
+      "class": "socket",
+      "name": {
+        "en": "TH10/TH16 (Tasmota)"
+      },
+      "capabilities": [
+        "onoff",
+        "measure_temperature",
+        "measure_humidity",
+        "last_update_timestamp"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "greyout": false,
+          "title": {
+            "en": "Switch",
+            "nl": "Schakelaar"
+          }
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota-th/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-th/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "mobile": {
+        "components": [
+          {
+            "id": "icon"
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          },
+          {
+            "id": "sensor",
+            "capabilities": [
+              "measure_temperature",
+              "measure_humidity",
+              "last_update_timestamp"
+            ],
+            "options": {
+              "icons": {
+                "last_update_timestamp": "assets/mobile/last_update_timestamp.svg"
+              }
+            }
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota-rf-bridge",
+      "class": "other",
+      "name": {
+        "en": "RF Bridge (Tasmota)"
+      },
+      "capabilities": [
+        "rf_transmit",
+        "rf_receive"
+      ],
+      "images": {
+        "large": "drivers/sonoff-tasmota-rf-bridge/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-rf-bridge/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "sonoff-tasmota",
       "class": "socket",
       "name": {
-        "en": "Tasmota"
+        "en": "Generic (Tasmota)"
       },
       "capabilities": [
         "onoff",
@@ -393,126 +1726,5 @@
         }
       ]
     }
-  ],
-  "flow": {
-    "triggers": [
-      {
-        "id": "rf-receive",
-        "title": {
-          "en": "RF code received",
-          "nl": "RF code ontvangen"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
-          }
-        ],
-        "tokens": [
-          {
-            "name": "code",
-            "type": "string",
-            "title": {
-              "en": "Code"
-            },
-            "example": "ABC123"
-          },
-          {
-            "name": "sync",
-            "type": "number",
-            "title": {
-              "en": "Sync"
-            },
-            "example": 8470
-          },
-          {
-            "name": "low",
-            "type": "number",
-            "title": {
-              "en": "Low"
-            },
-            "example": 270
-          },
-          {
-            "name": "high",
-            "type": "number",
-            "title": {
-              "en": "High"
-            },
-            "example": 840
-          },
-          {
-            "name": "key",
-            "type": "number",
-            "title": {
-              "en": "Key"
-            },
-            "example": 4
-          },
-          {
-            "name": "timestamp",
-            "type": "number",
-            "title": {
-              "en": "Timestamp"
-            },
-            "example": 143938800000
-          }
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "id": "rf_transmit",
-        "title": {
-          "en": "Send RF code",
-          "nl": "Stuur RF code"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=sonoff-tasmota&capabilities=rf_receive"
-          },
-          {
-            "name": "sync",
-            "type": "number",
-            "min": 2,
-            "max": 32767,
-            "step": 1,
-            "placeholder": {
-              "en": "Sync"
-            }
-          },
-          {
-            "name": "low",
-            "type": "number",
-            "min": 2,
-            "max": 32767,
-            "step": 1,
-            "placeholder": {
-              "en": "Low"
-            }
-          },
-          {
-            "name": "high",
-            "type": "number",
-            "min": 2,
-            "max": 32767,
-            "step": 1,
-            "placeholder": {
-              "en": "High"
-            }
-          },
-          {
-            "name": "code",
-            "type": "text",
-            "placeholder": {
-              "en": "Code"
-            }
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }

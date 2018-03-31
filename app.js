@@ -15,17 +15,6 @@ module.exports = class SonoffApp extends Homey.App {
     // Let devices register themselves with the app (useful in settings).
     this.sonoffDevices  = [];
     this.tasmotaDevices = [];
-
-    // Register flow actions.
-    this.registerFlowActions();
-  }
-
-  registerFlowActions() {
-    new Homey.FlowCardAction('rf_transmit')
-        .register()
-        .registerRunListener((args, state) => {
-          return args.device.transmit(args.sync, args.high, args.low, args.code);
-        })
   }
 
   registerSonoffDevice(device) {

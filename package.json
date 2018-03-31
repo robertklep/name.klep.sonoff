@@ -1,13 +1,16 @@
 {
   "name": "name.klep.sonoff",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Control Sonoff devices using Homey",
   "author": "Robert Klep <robert@klep.name>",
   "license": "MIT",
+  "scripts": {
+    "compose": "homeyConfig compose"
+  },
   "dependencies": {
     "homey-syslog": "^1.1.0",
     "mqtt": "^2.17.0",
-    "sonoff-tasmota-mqtt": "github:robertklep/sonoff-tasmota-mqtt#v1.0.0",
+    "sonoff-tasmota-mqtt": "github:robertklep/sonoff-tasmota-mqtt#v1.2.0",
     "watchout": "0.0.5",
     "ws": "^3.3.2"
   },

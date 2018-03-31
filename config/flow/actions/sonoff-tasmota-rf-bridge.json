@@ -1,0 +1,51 @@
+{
+  "id": "bridge-rf-transmit",
+  "title": {
+    "en": "Send RF code",
+    "nl": "Stuur RF code"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=sonoff-tasmota-rf-bridge"
+    },
+    {
+      "name": "sync",
+      "type": "number",
+      "min": 2,
+      "max": 32767,
+      "step": 1,
+      "placeholder": {
+        "en": "Sync"
+      }
+    },
+    {
+      "name": "low",
+      "type": "number",
+      "min": 2,
+      "max": 32767,
+      "step": 1,
+      "placeholder": {
+        "en": "Low"
+      }
+    },
+    {
+      "name": "high",
+      "type": "number",
+      "min": 2,
+      "max": 32767,
+      "step": 1,
+      "placeholder": {
+        "en": "High"
+      }
+    },
+    {
+      "name": "code",
+      "type": "text",
+      "placeholder": {
+        "en": "Code"
+      }
+    }
+  ]
+}
