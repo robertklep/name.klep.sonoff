@@ -47,6 +47,9 @@ The "Heartbeat" icon was created by Creative Stall from the <a href="https://the
 
 ### Changelog
 
+* 4.0.1 (2018-04-05):
+  * Bugfix
+
 * 4.0.0 (2018-04-03):
   * Rewritten Tasmota driver/device
   * New devices supported (Tasmota only):
