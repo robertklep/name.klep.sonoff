@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel='stylesheet' href='../../../assets/semantic-custom.min.css'>
+    <script src='../../../assets/vue.min.js'></script>
+    <script src='../../../assets/vue.components.js'></script>
+    <style>
+      #list-devices-view .image-container {
+        display               : flex;
+        justify-content       : center;
+        align-items           : center;
+        width                 : 50px;
+        height                : 50px;
+        cursor                : pointer;
+        -webkit-mask-position : center;
+        -webkit-mask-repeat   : no-repeat;
+        -webkit-mask-size     : 45px 45px;
+        background            : black;
+      }
+
+      #list-devices-view .image-container.disabled {
+        cursor    : normal;
+        background: #ccc;
+      }
+
+      /* override Homey's button style */
+      #list-devices-view button {
+        height: auto !important;
+      }
+
+      #list-devices-view [contenteditable="true"] {
+        padding : 0.5rem;
+        border  : 1px solid transparent;
+      }
+
+      #list-devices-view [contenteditable="true"]:active,
+      #list-devices-view [contenteditable="true"]:focus {
+        outline       : none;
+        border-radius : 0.3rem;
+        border        : 1px solid #eee;
+        color         : #2185d0;
+      }
+
+      #list-devices-view button.positive,
+      #list-devices-view button.negative {
+        padding-left : 1em !important;
+        padding-right: 1em !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='list-devices-view'>
+      <div id='error' class='error' v-show='!!error'>
+        <p>
+          {{ error }}
+        </p>
+        <button @click='close' class='ui negative button' data-i18n='pair.close'>Close window</button>
+      </div>
+      <div id='loading' v-show='waitingForDevice' class='center-div'>
+        <span data-i18n='pair.tasmota.list.waiting'>Waiting for devices...</span>
+        <div class='fa fa-cog fa-spin fa-1x'></div>
+      </div>
+      <div id='device-list' v-show='devices.length'>
+        <div style='font-size: 125%' data-i18n='pair.select'>Select device(s) to add:</div>
+        <table class='ui compact small blue table unstackable'>
+          <tbody>
+            <tr v-for='device in devices'>
+              <td class='collapsing'>
+                <div class = 'image-container'
+                     style = '-webkit-mask-image : url(../assets/icon.svg)'
+                ></div>
+              </td>
+              <td><editable :content='device.device.name' @update='device.device.name = $event'>{{ device.device.name }}</<editable></td>
+              <td class='collapsing'>
+                <i>Firmware v{{ device.device.store.version }}</i>
+              </td>
+              <td class='collapsing'>
+                <button v-if='device.selected' @click.stop.prevent='device.selected = false' class='ui negative button'>－</button>
+                <button v-else                 @click.stop.prevent='device.selected = true'  class='ui positive button'>＋</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if='!! numberOfDevicesToPair' class='ui padded grid'>
+          <div class='right aligned column' style='padding: 0'>
+            <button @click='addDevices' class='ui button green basic' style='margin: 0'>
+              <span>{{ Homey.__('pair.add_' + (numberOfDevicesToPair === 1 ? 'singular' : 'multiple')) }}</span>&emsp;→
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      Homey.setTitle(__('pair.setup'));
+
+      new Vue({
+        el   : '#list-devices-view',
+        data : {
+          language         : window.language || 'en',
+          waitingForDevice : true,
+          error            : null,
+          devices          : [],
+        },
+        mounted() {
+          this.waitingForDevice = true;
+          this.error            = null;
+          Homey.emit('device.list', (err, devices) => {
+            this.waitingForDevice = false;
+            if (err) return this.showError(err);
+            if (! (devices || []).length) {
+              return this.showError(Error(Homey.__('pair.tasmota.list.no_devices')));
+            }
+            this.devices = devices.map(device => {
+              return {
+                name     : device.name,
+                type     : '',
+                selected : false,
+                device
+              }
+            });
+          });
+        },
+        computed : {
+          numberOfDevicesToPair : function() {
+            return this.devices.filter(d => d.selected).length;
+          }
+        },
+        methods : {
+          addDevices() {
+            let unwrapped = JSON.parse(JSON.stringify(this.$data));
+            let devices   = unwrapped.devices.filter(d => d.selected).map(d => d.device);
+
+            let addDevice = function(device) {
+              return new Promise((resolve, reject) => {
+                Homey.addDevice(device, e => e ? reject(e) : resolve());
+              });
+            };
+
+            Promise .all( devices.map(addDevice) )
+                    .then(() => Homey.done())
+                    .catch(e => {
+                      Homey.alert(e, 'error', () => Homey.done());
+                    });
+          },
+          showError(err) {
+            this.error = err.message;
+          },
+          close() {
+            Homey.done();
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
