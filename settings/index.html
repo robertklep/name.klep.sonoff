@@ -75,10 +75,8 @@
               if (devices.length) {
                 this.activate('sniffer');
                 Homey.on('rf.receive', data => {
-                  this.snifferLog.unshift({
-                    index : ++this.snifferIndex,
-                    ...data
-                  });
+                  data.index = ++this.snifferIndex;
+                  this.snifferLog.unshift(data);
                   if (this.snifferLog.length > 25) {
                     this.snifferLog.length = 25;
                   }
