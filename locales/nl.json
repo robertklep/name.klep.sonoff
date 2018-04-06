@@ -21,8 +21,8 @@
       },
       "list" : {
         "error" : "Kon geen lijst van apparaten opvragen.",
-        "waiting" : "Wacht op apparaten (als dit te lang duurt, schakel het toe te voegen apparaat uit en weer aan)",
-        "no_devices" : "Geen unpaired apparaten gevonden."
+        "waiting" : "(Soft) Reboot het toe te voegen apparaat...",
+        "no_devices" : "Geen nieuwe apparaten gevonden."
       }
     }
   },

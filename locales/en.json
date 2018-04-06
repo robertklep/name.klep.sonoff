@@ -21,8 +21,8 @@
       },
       "list" : {
         "error" : "Unable to retrieve list of devices.",
-        "waiting" : "Waiting for devices (if this takes too long, unplug and replug the device you want to add)",
-        "no_devices" : "No unpaired devices were found."
+        "waiting" : "(Soft) Reboot the device you want to add...",
+        "no_devices" : "No new devices were found."
       }
     }
   },

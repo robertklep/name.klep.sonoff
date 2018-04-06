@@ -1,0 +1,114 @@
+[
+  {
+    "id": "sonoff-tasmota-4ch-switch-1-on",
+    "title": {
+      "en": "Switch 1 turned on",
+      "nl": "Schakelaar 1 aangezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-2-on",
+    "title": {
+      "en": "Switch 2 turned on",
+      "nl": "Schakelaar 2 aangezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-3-on",
+    "title": {
+      "en": "Switch 3 turned on",
+      "nl": "Schakelaar 3 aangezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-4-on",
+    "title": {
+      "en": "Switch 4 turned on",
+      "nl": "Schakelaar 4 aangezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-1-off",
+    "title": {
+      "en": "Switch 1 turned off",
+      "nl": "Schakelaar 1 uitgezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-2-off",
+    "title": {
+      "en": "Switch 2 turned off",
+      "nl": "Schakelaar 2 uitgezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-3-off",
+    "title": {
+      "en": "Switch 3 turned off",
+      "nl": "Schakelaar 3 uitgezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  },
+  {
+    "id": "sonoff-tasmota-4ch-switch-4-off",
+    "title": {
+      "en": "Switch 4 turned off",
+      "nl": "Schakelaar 4 uitgezet"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-4ch"
+      }
+    ]
+  }
+]

@@ -108,7 +108,119 @@
   "flow": {
     "triggers": [
       {
-        "id": "switch-1-on",
+        "id": "sonoff-tasmota-4ch-switch-1-on",
+        "title": {
+          "en": "Switch 1 turned on",
+          "nl": "Schakelaar 1 aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-2-on",
+        "title": {
+          "en": "Switch 2 turned on",
+          "nl": "Schakelaar 2 aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-3-on",
+        "title": {
+          "en": "Switch 3 turned on",
+          "nl": "Schakelaar 3 aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-4-on",
+        "title": {
+          "en": "Switch 4 turned on",
+          "nl": "Schakelaar 4 aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-1-off",
+        "title": {
+          "en": "Switch 1 turned off",
+          "nl": "Schakelaar 1 uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-2-off",
+        "title": {
+          "en": "Switch 2 turned off",
+          "nl": "Schakelaar 2 uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-3-off",
+        "title": {
+          "en": "Switch 3 turned off",
+          "nl": "Schakelaar 3 uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-4-off",
+        "title": {
+          "en": "Switch 4 turned off",
+          "nl": "Schakelaar 4 uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-dual-switch-1-on",
         "title": {
           "en": "Switch 1 turned on",
           "nl": "Schakelaar 1 aangezet"
@@ -122,7 +234,7 @@
         ]
       },
       {
-        "id": "switch-2-on",
+        "id": "sonoff-tasmota-dual-switch-2-on",
         "title": {
           "en": "Switch 2 turned on",
           "nl": "Schakelaar 2 aangezet"
@@ -136,7 +248,7 @@
         ]
       },
       {
-        "id": "switch-1-off",
+        "id": "sonoff-tasmota-dual-switch-1-off",
         "title": {
           "en": "Switch 1 turned off",
           "nl": "Schakelaar 1 uitgezet"
@@ -150,7 +262,7 @@
         ]
       },
       {
-        "id": "switch-2-off",
+        "id": "sonoff-tasmota-dual-switch-2-off",
         "title": {
           "en": "Switch 2 turned off",
           "nl": "Schakelaar 2 uitgezet"
@@ -374,7 +486,175 @@
     ],
     "actions": [
       {
-        "id": "switch-1-on",
+        "id": "sonoff-tasmota-4ch-switch-1-on",
+        "title": {
+          "en": "Switch 1 on",
+          "nl": "Schakelaar 1 aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-2-on",
+        "title": {
+          "en": "Switch 2 on",
+          "nl": "Schakelaar 2 aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-3-on",
+        "title": {
+          "en": "Switch 3 on",
+          "nl": "Schakelaar 3 aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-4-on",
+        "title": {
+          "en": "Switch 4 on",
+          "nl": "Schakelaar 4 aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-1-off",
+        "title": {
+          "en": "Switch 1 off",
+          "nl": "Schakelaar 1 uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-2-off",
+        "title": {
+          "en": "Switch 2 off",
+          "nl": "Schakelaar 2 uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-3-off",
+        "title": {
+          "en": "Switch 3 off",
+          "nl": "Schakelaar 3 uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-4-off",
+        "title": {
+          "en": "Switch 4 off",
+          "nl": "Schakelaar 4 uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-1-toggle",
+        "title": {
+          "en": "Toggle switch 1",
+          "nl": "Schakelaar 1 aan of uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-2-toggle",
+        "title": {
+          "en": "Toggle switch 2",
+          "nl": "Schakelaar 2 aan of uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-3-toggle",
+        "title": {
+          "en": "Toggle switch 3",
+          "nl": "Schakelaar 3 aan of uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-4ch-switch-4-toggle",
+        "title": {
+          "en": "Toggle switch 4",
+          "nl": "Schakelaar 4 aan of uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sonoff-tasmota-4ch"
+          }
+        ]
+      },
+      {
+        "id": "sonoff-tasmota-dual-switch-1-on",
         "title": {
           "en": "Switch 1 on",
           "nl": "Schakelaar 1 aan"
@@ -388,7 +668,7 @@
         ]
       },
       {
-        "id": "switch-2-on",
+        "id": "sonoff-tasmota-dual-switch-2-on",
         "title": {
           "en": "Switch 2 on",
           "nl": "Schakelaar 2 aan"
@@ -402,7 +682,7 @@
         ]
       },
       {
-        "id": "switch-1-off",
+        "id": "sonoff-tasmota-dual-switch-1-off",
         "title": {
           "en": "Switch 1 off",
           "nl": "Schakelaar 1 uit"
@@ -416,7 +696,7 @@
         ]
       },
       {
-        "id": "switch-2-off",
+        "id": "sonoff-tasmota-dual-switch-2-off",
         "title": {
           "en": "Switch 2 off",
           "nl": "Schakelaar 2 uit"
@@ -430,7 +710,7 @@
         ]
       },
       {
-        "id": "switch-1-toggle",
+        "id": "sonoff-tasmota-dual-switch-1-toggle",
         "title": {
           "en": "Toggle switch 1",
           "nl": "Schakelaar 1 aan of uit"
@@ -444,7 +724,7 @@
         ]
       },
       {
-        "id": "switch-2-toggle",
+        "id": "sonoff-tasmota-dual-switch-2-toggle",
         "title": {
           "en": "Toggle switch 2",
           "nl": "Schakelaar 2 aan of uit"
@@ -941,6 +1221,196 @@
             "id": "toggle",
             "capabilities": [
               "onoff.2"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": "MQTT",
+          "children": [
+            {
+              "type": "group",
+              "label": "Broker",
+              "children": [
+                {
+                  "id": "mqttHost",
+                  "type": "text",
+                  "label": {
+                    "en": "Hostname or IP-address",
+                    "nl": "Hostname of IP-adres"
+                  },
+                  "value": ""
+                },
+                {
+                  "id": "mqttPort",
+                  "type": "text",
+                  "label": {
+                    "en": "Port",
+                    "nl": "Poort"
+                  },
+                  "value": "1883",
+                  "pattern": "^[0-9]+$"
+                },
+                {
+                  "id": "mqttUser",
+                  "type": "text",
+                  "label": {
+                    "en": "Username",
+                    "nl": "Gebruikersnaam"
+                  },
+                  "value": "",
+                  "optional": true
+                },
+                {
+                  "id": "mqttPassword",
+                  "type": "password",
+                  "label": {
+                    "en": "Password",
+                    "nl": "Wachtwoord"
+                  },
+                  "value": "",
+                  "optional": true
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Topics",
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "topic",
+                  "type": "label",
+                  "label": {
+                    "en": "Device Topic",
+                    "nl": "Apparaat Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "The specific MQTT topic for this device.",
+                    "nl": "Het specifieke MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "fallbackTopic",
+                  "type": "label",
+                  "label": "Fallback Topic",
+                  "value": "",
+                  "hint": {
+                    "en": "The fallback MQTT topic for this device.",
+                    "nl": "Het backup MQTT topic voor dit apparaat."
+                  }
+                },
+                {
+                  "id": "groupTopic",
+                  "type": "label",
+                  "label": {
+                    "en": "Group Topic",
+                    "nl": "Groep Topic"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "Group topic for this device.",
+                    "nl": "Groep topic voor dit apparaat."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonoff-tasmota-4ch",
+      "class": "socket",
+      "name": {
+        "en": "4CH (Tasmota)"
+      },
+      "capabilities": [
+        "onoff.1",
+        "onoff.2",
+        "onoff.3",
+        "onoff.4"
+      ],
+      "capabilitiesOptions": {
+        "onoff.1": {
+          "title": {
+            "en": "Switch 1",
+            "nl": "Schakelaar 1"
+          }
+        },
+        "onoff.2": {
+          "title": {
+            "en": "Switch 2",
+            "nl": "Schakelaar 2"
+          }
+        },
+        "onoff.3": {
+          "title": {
+            "en": "Switch 3",
+            "nl": "Schakelaar 3"
+          }
+        },
+        "onoff.4": {
+          "title": {
+            "en": "Switch 4",
+            "nl": "Schakelaar 4"
+          }
+        }
+      },
+      "images": {
+        "large": "drivers/sonoff-tasmota-4ch/assets/images/large.png",
+        "small": "drivers/sonoff-tasmota-4ch/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list-devices"
+        }
+      ],
+      "mobile": {
+        "components": [
+          {
+            "id": "icon"
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.1"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.2"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.3"
+            ],
+            "options": {
+              "showTitle": true
+            }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.4"
             ],
             "options": {
               "showTitle": true

@@ -1,6 +1,6 @@
 [
   {
-    "id": "switch-1-on",
+    "id": "sonoff-tasmota-dual-switch-1-on",
     "title": {
       "en": "Switch 1 turned on",
       "nl": "Schakelaar 1 aangezet"
@@ -14,7 +14,7 @@
     ]
   },
   {
-    "id": "switch-2-on",
+    "id": "sonoff-tasmota-dual-switch-2-on",
     "title": {
       "en": "Switch 2 turned on",
       "nl": "Schakelaar 2 aangezet"
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "id": "switch-1-off",
+    "id": "sonoff-tasmota-dual-switch-1-off",
     "title": {
       "en": "Switch 1 turned off",
       "nl": "Schakelaar 1 uitgezet"
@@ -42,7 +42,7 @@
     ]
   },
   {
-    "id": "switch-2-off",
+    "id": "sonoff-tasmota-dual-switch-2-off",
     "title": {
       "en": "Switch 2 turned off",
       "nl": "Schakelaar 2 uitgezet"

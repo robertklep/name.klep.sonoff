@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel='stylesheet' href='../../../assets/semantic-custom.min.css'>
+    <script src='../../../assets/vue.min.js'></script>
+    <style>
+      #intro-view {
+        padding : 1rem;
+      }
+
+      #intro-view a[onclick] {
+        color : #00e;
+      }
+
+      #intro-view a:hover {
+        cursor: pointer;
+      }
+
+      /* override Homey's button style */
+      #intro-view button {
+        height : auto !important;
+        top    : auto !important;
+        right  : auto !important;
+        bottom : auto !important;
+        left   : auto !important;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id='intro-view'>
+      <div v-if='language === "nl"'>
+        <p>
+          Sonoff apparaten die gebruik maken van de Sonoff-Tasmota firmware worden ondersteunt mits ze configureert zijn om gebruik te maken van het MQTT protocol.
+          Vul hieronder de MQTT broker gegevens in (de <i>MQTT Broker</i> app voor Homey kan hiervoor ook gebruikt worden).
+        </p>
+      </div>
+      <div v-else>
+        <p>
+          Sonoff devices that use the Sonoff-Tasmota firmware are supported as long as they're configured to use the MQTT protocol.
+          Enter the MQTT broker credentials below (the <i>MQTT Broker</i> app for Homey can also be used for this).
+        </p>
+      </div>
+      <div class='ui grid'>
+        <div class='row'>
+          <div class='column'>
+            <div class='ui labeled input padded grid'>
+              <div class='ui label four wide column'>
+                MQTT broker hostname/IP
+              </div>
+              <input type=text placeholder='Hostname/IP-address' v-model='mqttHost'>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='column'>
+            <div class='ui labeled input padded grid'>
+              <div class='ui label four wide column'>
+                MQTT broker port
+              </div>
+              <input type=text placeholder='Port' v-model='mqttPort'>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='column'>
+            <div class='ui labeled input padded grid'>
+              <div class='ui label four wide column'>
+                MQTT broker username (optional)
+              </div>
+              <input type=text placeholder='Username' v-model='mqttUser'>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='column'>
+            <div class='ui labeled input padded grid'>
+              <div class='ui label four wide column'>
+                MQTT broker password (optional)
+              </div>
+              <input type=text placeholder='Password' v-model='mqttPassword'>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='right aligned column'>
+            <button :class='{
+              ui       : true,
+              button   : true,
+              positive : true,
+              loading  : isTesting,
+              disabled : ! validForm || isTesting
+            }' @click='validateConnection' data-i18n='pair.tasmota.intro.next'>Next Step</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      new Vue({
+        el   : '#intro-view',
+        data : {
+          language     : window.language || 'en',
+          mqttHost     : '',
+          mqttPort     : '1883',
+          mqttUser     : '',
+          mqttPassword : '',
+          isTesting    : false,
+        },
+        mounted() {
+          Homey.emit('pair.init', (err, data) => {
+            if (err) return console.error(err);
+            Object.assign(this, data || {});
+          });
+        },
+        methods : {
+          validateConnection() {
+            this.isTesting = true;
+            Homey.emit('mqtt.test', {
+              mqttHost     : this.mqttHost,
+              mqttPort     : this.mqttPort,
+              mqttUser     : this.mqttUser,
+              mqttPassword : this.mqttPassword,
+            }, (err, result) => {
+              this.isTesting = false;
+              if (err) {
+                return Homey.alert(Homey.__('pair.tasmota.intro.mqtt.error'), 'error');
+              } else {
+                return Homey.showView('list-devices');
+              }
+            });
+          }
+        },
+        computed : {
+          validForm() {
+            let host = this.mqttHost.trim();
+            let port = this.mqttPort.trim();
+
+            return  host.length && host.match(/^.+\..+$/) &&
+                    port.length && ! isNaN(Number(port));
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
