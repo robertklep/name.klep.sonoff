@@ -36,6 +36,8 @@ This driver has been tested with the following devices:
 * Sonoff RF Bridge (Tasmota)
 * Sonoff TH10/TH16 (Tasmota)
 * Sonoff Dual (Tasmota)
+* Sonoff RF (untested but should work)
+* Sonoff 4CH (untested but should work)
 
 ### Issues
 
@@ -43,9 +45,15 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 
 ### Icon Attribution
 
-The "Heartbeat" icon was created by Creative Stall from the <a href="https://thenounproject.com/">Noun Project</a>. 
+The "Heartbeat" icon was created by Creative Stall from the <a href="https://thenounproject.com/">Noun Project</a>.
 
 ### Changelog
+
+* 4.0.3 (2018-04-08):
+  * Support for 4CH devices
+
+* 4.0.2 (2018-04-05):
+  * Fixed issue with pairing templates
 
 * 4.0.1 (2018-04-05):
   * Bugfix
