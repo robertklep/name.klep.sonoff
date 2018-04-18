@@ -16,12 +16,17 @@ module.exports = class Device extends EventEmitter {
     this.messageQueue = new Queue();
     this.info         = {};
     this.isOnline     = false;
+    this.ended        = false;
     this.debug        = require('debug')('sonoff-tasmota-mqtt:device:' + this.name);
   }
 
   async wait(retryInterval = 1000) {
     // Wait for device to come online.
     while (true) {
+      if (this.ended) {
+        this.debug('device has ended');
+        return null;
+      }
       try {
         return await this.getStatus(5000);
       } catch(e) {
@@ -212,5 +217,6 @@ module.exports = class Device extends EventEmitter {
     // Cleanup.
     this.removeAllListeners();
     this.client.unregisterDevice(this);
+    this.ended = true;
   }
 }

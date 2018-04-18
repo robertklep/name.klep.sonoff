@@ -10,7 +10,7 @@
   "dependencies": {
     "homey-syslog": "^1.1.0",
     "mqtt": "^2.17.0",
-    "sonoff-tasmota-mqtt": "github:robertklep/sonoff-tasmota-mqtt#v1.2.0",
+    "sonoff-tasmota-mqtt": "github:robertklep/sonoff-tasmota-mqtt#v1.2.1",
     "watchout": "0.0.5",
     "ws": "^3.3.2"
   },
