@@ -1,0 +1,161 @@
+{
+  "id": "sonoff-tasmota-t1-3ch",
+  "class": "socket",
+  "name": {
+    "en": "T1 3CH (Tasmota)"
+  },
+  "capabilities": [
+    "onoff.1",
+    "onoff.2",
+    "onoff.3"
+  ],
+  "capabilitiesOptions": {
+    "onoff.1" : {
+      "title" : {
+        "en" : "Switch 1",
+        "nl" : "Schakelaar 1"
+      }
+    },
+    "onoff.2" : {
+      "title" : {
+        "en" : "Switch 2",
+        "nl" : "Schakelaar 2"
+      }
+    },
+    "onoff.3" : {
+      "title" : {
+        "en" : "Switch 3",
+        "nl" : "Schakelaar 3"
+      }
+    }
+  },
+  "images": {
+    "large": "drivers/sonoff-tasmota-t1-3ch/assets/images/large.png",
+    "small": "drivers/sonoff-tasmota-t1-3ch/assets/images/small.png"
+  },
+  "pair": [
+    {
+      "id" : "start"
+    },
+    {
+      "id": "list-devices"
+    }
+  ],
+  "mobile" : {
+    "components": [
+      {
+        "id": "icon"
+      },
+      {
+        "id": "toggle",
+        "capabilities": [ "onoff.1" ],
+        "options" : {
+          "showTitle" : true
+        }
+      },
+      {
+        "id": "toggle",
+        "capabilities": [ "onoff.2" ],
+        "options" : {
+          "showTitle" : true
+        }
+      }
+    ]
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": "MQTT",
+      "children": [
+        {
+          "type": "group",
+          "label": "Broker",
+          "children": [
+            {
+              "id": "mqttHost",
+              "type": "text",
+              "label": {
+                "en": "Hostname or IP-address",
+                "nl": "Hostname of IP-adres"
+              },
+              "value": ""
+            },
+            {
+              "id": "mqttPort",
+              "type": "text",
+              "label": {
+                "en": "Port",
+                "nl": "Poort"
+              },
+              "value": "1883",
+              "pattern": "^[0-9]+$"
+            },
+            {
+              "id": "mqttUser",
+              "type": "text",
+              "label": {
+                "en": "Username",
+                "nl": "Gebruikersnaam"
+              },
+              "value": "",
+              "optional": true
+            },
+            {
+              "id": "mqttPassword",
+              "type": "password",
+              "label": {
+                "en": "Password",
+                "nl": "Wachtwoord"
+              },
+              "value": "",
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Topics",
+          "collapsed": true,
+          "children": [
+            {
+              "id": "topic",
+              "type": "label",
+              "label": {
+                "en": "Device Topic",
+                "nl": "Apparaat Topic"
+              },
+              "value": "",
+              "hint": {
+                "en": "The specific MQTT topic for this device.",
+                "nl": "Het specifieke MQTT topic voor dit apparaat."
+              }
+            },
+            {
+              "id": "fallbackTopic",
+              "type": "label",
+              "label": "Fallback Topic",
+              "value": "",
+              "hint": {
+                "en": "The fallback MQTT topic for this device.",
+                "nl": "Het backup MQTT topic voor dit apparaat."
+              }
+            },
+            {
+              "id": "groupTopic",
+              "type": "label",
+              "label": {
+                "en": "Group Topic",
+                "nl": "Groep Topic"
+              },
+              "value": "",
+              "hint": {
+                "en": "Group topic for this device.",
+                "nl": "Groep topic voor dit apparaat."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

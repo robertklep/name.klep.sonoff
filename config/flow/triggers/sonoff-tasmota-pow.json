@@ -1,0 +1,122 @@
+[
+  {
+    "id": "pow-current-changed",
+    "title": {
+      "en": "Current changed",
+      "nl": "Stroomsterkte veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-pow"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "current",
+        "type": "number",
+        "title": {
+          "en": "Current (A)",
+          "nl": "Stroomsterkte (A)"
+        },
+        "example": {
+          "en": "0.3",
+          "nl": "0.3"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "0.2",
+          "nl": "0.2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "pow-power-changed",
+    "title": {
+      "en": "Power changed",
+      "nl": "Vermogen veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-pow"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "power",
+        "type": "number",
+        "title": {
+          "en": "Power (W)",
+          "nl": "Vermogen (W)"
+        },
+        "example": {
+          "en": "10",
+          "nl": "10"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "123",
+          "nl": "123"
+        }
+      }
+    ]
+  },
+  {
+    "id": "pow-voltage-changed",
+    "title": {
+      "en": "Voltage changed",
+      "nl": "Voltage veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-pow"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "voltage",
+        "type": "number",
+        "title": {
+          "en": "Voltage (V)",
+          "nl": "Voltage (V)"
+        },
+        "example": {
+          "en": "240",
+          "nl": "240"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "230",
+          "nl": "230"
+        }
+      }
+    ]
+  }
+]

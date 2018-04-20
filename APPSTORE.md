@@ -36,8 +36,10 @@ This driver has been tested with the following devices:
 * Sonoff RF Bridge (Tasmota)
 * Sonoff TH10/TH16 (Tasmota)
 * Sonoff Dual (Tasmota)
+* Sonoff POW (Tasmota)
 * Sonoff RF (untested but should work)
 * Sonoff 4CH (untested but should work)
+* Sonoff T1 (untested but should work)
 
 ### Issues
 
@@ -48,6 +50,11 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 The "Heartbeat" icon was created by Creative Stall from the <a href="https://thenounproject.com/">Noun Project</a>.
 
 ### Changelog
+
+* 4.0.4 (2018-04-23):
+  * New devices supported (Tasmota only):
+    * Sonoff T1 (1-, 2- and 3-channel)
+    * Sonoff POW (power/voltage/current)
 
 * 4.0.3 (2018-04-08):
   * Support for 4CH devices

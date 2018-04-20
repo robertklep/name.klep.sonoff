@@ -1,9 +1,9 @@
 const MultiSwitchDriver = require('../../lib/tasmota-driver/multiswitch/driver');
 
 // Supported modules.
-const MODULES = [ 'Sonoff Dual', 'Sonoff Dual R2' ];
+const MODULES = [ 'Sonoff T1 2CH' ];
 
-module.exports = class SonoffTasmotaDualDriver extends MultiSwitchDriver {
+module.exports = class SonoffTasmotaT12CHDriver extends MultiSwitchDriver {
 
   onInit() {
     this.switchCount = 2;
