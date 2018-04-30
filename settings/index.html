@@ -9,12 +9,44 @@
     <div id='app-settings-view'>
       <div class='ui top attached tabular menu'>
         <div class='item' data-tab='settings'>Settings</div>
+        <div class='item' data-tab='tasmota'>Tasmota Devices</div>
         <div class='item' data-tab='sniffer'>RF Sniffer</div>
       </div>
       <div class='ui bottom attached tab segment' data-tab='settings'>
         <div class='ui message'>
           <div class='header'>
             Nothing to see here yet.
+          </div>
+        </div>
+      </div>
+      <div class='ui bottom attached tab segment' data-tab='tasmota'>
+        <div v-if='! tasmotaDevices.length' class='ui negative message'>
+          <div class='header'>
+            No Tasmota devices found
+          </div>
+        </div>
+        <div v-else class='ui grid'>
+          <div class='row'>
+            <div class='column'>
+              <table class='ui compact blue table unstackable'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Topic Name</th>
+                    <th>IP Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for='device in tasmotaDevices'>
+                    <td><b>{{ device.name }}</b></td>
+                    <td>{{ device.id }}</td>
+                    <td><code>{{ device.topic }}</code></td>
+                    <td><a :href="'http://' + device.ipAddress">{{ device.ipAddress }}</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -62,18 +94,29 @@
         new Vue({
           el      : '#app-settings-view',
           data    : {
-            rfDevices    : [],
-            snifferLog   : [],
-            snifferIndex : 0,
+            tasmotaDevices : [],
+            rfDevices      : [],
+            snifferLog     : [],
+            snifferIndex   : 0,
           },
           mounted() {
             this.initializeTabs();
+
+            // Retrieve list of Tasmota devices.
+            Homey.api('GET', '/tasmota-devices/', (err, devices) => {
+              if (err) return Homey.alert(err);
+              console.log('Tasmota devices', JSON.stringify(devices, null, 2));
+              this.tasmotaDevices = devices;
+              if (devices.length) {
+                this.activate('tasmota');
+              }
+            });
+
             // Retrieve list of RF-enabled devices.
             Homey.api('GET', '/rf-devices/', (err, devices) => {
               if (err) return Homey.alert(err);
               this.rfDevices = devices;
               if (devices.length) {
-                this.activate('sniffer');
                 Homey.on('rf.receive', data => {
                   data.index = ++this.snifferIndex;
                   this.snifferLog.unshift(data);
@@ -81,8 +124,6 @@
                     this.snifferLog.length = 25;
                   }
                 });
-              } else {
-                this.activate('settings');
               }
             });
           },
