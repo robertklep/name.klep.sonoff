@@ -51,6 +51,9 @@ The "Heartbeat" icon was created by Creative Stall from the <a href="https://the
 
 ### Changelog
 
+* 4.0.5 (2018-04-30):
+  * Added Tasmota device overview to Settings page
+
 * 4.0.4 (2018-04-23):
   * New devices supported (Tasmota only):
     * Sonoff T1 (1-, 2- and 3-channel)
