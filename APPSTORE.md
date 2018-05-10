@@ -51,6 +51,9 @@ The "Heartbeat" icon was created by Creative Stall from the <a href="https://the
 
 ### Changelog
 
+* 4.0.6 (2018-05-10):
+  * Added setting for TH10/TH16 sensor update interval
+
 * 4.0.5 (2018-04-30):
   * Added Tasmota device overview to Settings page
 
