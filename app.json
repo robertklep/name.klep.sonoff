@@ -2926,6 +2926,28 @@
               ]
             }
           ]
+        },
+        {
+          "type": "group",
+          "label": "TH10/TH16",
+          "children": [
+            {
+              "id": "telePeriod",
+              "type": "number",
+              "label": {
+                "en": "Sensor update interval (sec)"
+              },
+              "hint": {
+                "en": "Special values: 0 means \"disable updates\", 1 means \"reset to default\"",
+                "nl": "Speciale waarden: 0 betekent \"schakel updates uit\", 1 betekent \"reset naar standaardwaarde\""
+              },
+              "value": 300,
+              "attr": {
+                "min": 0,
+                "max": 3600
+              }
+            }
+          ]
         }
       ]
     },

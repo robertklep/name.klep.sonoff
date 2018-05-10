@@ -11,9 +11,13 @@ module.exports = class SonoffTasmotaThDevice extends OnOffDevice {
     if (status) {
       this.setCapabilityValue('onoff', !!status.Power);
     }
+
+    // Retrieve teleperiod and update settings.
+    let telePeriod = Number(await this.conn.sendCommand('teleperiod', '').waitFor('result.teleperiod'));
+    this.setSettings({ telePeriod });
+
     // Retrieve sensor data.
-    let result = await this.conn.sendCommand('status', '10').waitFor('status10.statussns');
-    this.processSensorData(result);
+    this.processSensorData(await this.conn.sendCommand('status', '10').waitFor('status10.statussns'));
   }
 
   onMessageReceived(command, payload) {
@@ -53,5 +57,19 @@ module.exports = class SonoffTasmotaThDevice extends OnOffDevice {
         this.setCapabilityValue('last_update_timestamp', `${ date } ${ time }`);
       }
     }
+  }
+
+  async onSettings(oldSettings, newSettings, changedKeys, callback) {
+    try {
+      await super.onSettings(oldSettings, newSettings, changedKeys, err => { if (err) throw err });
+
+      if (changedKeys.includes('telePeriod')) {
+        await this.conn.sendCommand('teleperiod', String(newSettings.telePeriod));
+      }
+
+    } catch(e) {
+      return callback(e);
+    }
+    return callback();
   }
 }
