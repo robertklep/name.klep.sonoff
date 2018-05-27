@@ -36,7 +36,7 @@ This driver has been tested with the following devices:
 * Sonoff RF Bridge (Tasmota)
 * Sonoff TH10/TH16 (Tasmota)
 * Sonoff Dual (Tasmota)
-* Sonoff POW (Tasmota)
+* Sonoff POW (Tasmota, R2 as well, but untested)
 * Sonoff RF (untested but should work)
 * Sonoff 4CH (untested but should work)
 * Sonoff T1 (untested but should work)
