@@ -51,6 +51,11 @@ The "Heartbeat" icon was created by Creative Stall from the <a href="https://the
 
 ### Changelog
 
+* 4.0.8 (2018-06-12):
+  * Fixed issue with actions for multiswitch devices
+
+* 4.0.7 (2018-05-27)
+
 * 4.0.6 (2018-05-10):
   * Added setting for TH10/TH16 sensor update interval
 
