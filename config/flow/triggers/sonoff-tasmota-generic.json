@@ -1,0 +1,362 @@
+[
+  {
+    "id": "generic-temperature-changed",
+    "title": {
+      "en": "Temperature changed",
+      "nl": "Temperatuur veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_temperature"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "Temperature",
+          "nl": "Temperatuur"
+        },
+        "example": {
+          "en": "18.3",
+          "nl": "18.3"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "17.3",
+          "nl": "17.3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-humidity-changed",
+    "title": {
+      "en": "Humidity changed",
+      "nl": "Luchtvochtigheid veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_humidity"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "Humidity",
+          "nl": "Luchtvochtigheid"
+        },
+        "example": {
+          "en": "52",
+          "nl": "52"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "53",
+          "nl": "53"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-pressure-changed",
+    "title": {
+      "en": "Pressure changed",
+      "nl": "Luchtdruk veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_pressure"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "Pressure",
+          "nl": "Druk"
+        },
+        "example": {
+          "en": "1001",
+          "nl": "1001"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "1334",
+          "nl": "1334"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-distance-changed",
+    "title": {
+      "en": "Distance changed",
+      "nl": "Afstand veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_distance"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "Distance",
+          "nl": "Afstand"
+        },
+        "example": {
+          "en": "32",
+          "nl": "32"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "38",
+          "nl": "38"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-ultraviolet-changed",
+    "title": {
+      "en": "UV changed",
+      "nl": "UV veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_ultraviolet"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "UVI",
+          "nl": "UVI"
+        },
+        "example": {
+          "en": "8",
+          "nl": "8"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "3",
+          "nl": "3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-luminance-changed",
+    "title": {
+      "en": "Luminance changed",
+      "nl": "Luminantie veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_luminance"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "Lux",
+          "nl": "Lux"
+        },
+        "example": {
+          "en": "301",
+          "nl": "301"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "233",
+          "nl": "233"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-voc-changed",
+    "title": {
+      "en": "VOC level changed",
+      "nl": "VOC level veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_voc"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "Ohm",
+          "nl": "Ohm"
+        },
+        "example": {
+          "en": "39381",
+          "nl": "39381"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "28928",
+          "nl": "28928"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-co-changed",
+    "title": {
+      "en": "CO level changed",
+      "nl": "CO niveau veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_co"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "PPM",
+          "nl": "PPM"
+        },
+        "example": {
+          "en": "390",
+          "nl": "390"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "9381",
+          "nl": "9381"
+        }
+      }
+    ]
+  },
+  {
+    "id": "generic-co2-changed",
+    "title": {
+      "en": "CO2 level changed",
+      "nl": "CO2 niveau veranderd"
+    },
+    "args": [
+      {
+        "name": "device",
+        "type": "device",
+        "filter": "driver_id=sonoff-tasmota-generic&capabilities=measure_co2"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "value",
+        "type": "number",
+        "title": {
+          "en": "PPM",
+          "nl": "PPM"
+        },
+        "example": {
+          "en": "390",
+          "nl": "390"
+        }
+      },
+      {
+        "name": "previous",
+        "type": "number",
+        "title": {
+          "en": "Previous value",
+          "nl": "Vorige waarde"
+        },
+        "example": {
+          "en": "9381",
+          "nl": "9381"
+        }
+      }
+    ]
+  }
+]

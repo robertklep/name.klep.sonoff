@@ -1,30 +1,32 @@
 {
-  "id": "sonoff-tasmota-pow",
-  "class": "socket",
+  "id": "sonoff-tasmota-generic",
+  "class": "other",
   "name": {
-    "en": "POW (Tasmota)"
+    "en": "Generic (Tasmota)"
   },
   "capabilities": [
-    "onoff",
-    "measure_power",
-    "measure_voltage",
-    "measure_current",
-    "power_factor",
-    "meter_power",
+    "measure_temperature",
+    "measure_humidity",
+    "measure_pressure",
+    "measure_distance",
+    "measure_ultraviolet",
+    "measure_luminance",
+    "measure_voc",
+    "measure_co",
+    "measure_co2",
+    "light_hue",
+    "light_saturation",
+    "dim",
     "last_update_timestamp"
   ],
   "capabilitiesOptions": {
     "onoff": {
-      "greyout": false,
-      "title" : {
-        "en" : "Switch",
-        "nl" : "Schakelaar"
-      }
+      "greyout": false
     }
   },
   "images": {
-    "large": "drivers/sonoff-tasmota-pow/assets/images/large.png",
-    "small": "drivers/sonoff-tasmota-pow/assets/images/small.png"
+    "large": "drivers/sonoff-tasmota/assets/images/large.png",
+    "small": "drivers/sonoff-tasmota/assets/images/small.png"
   },
   "pair": [
     {
@@ -40,29 +42,32 @@
         "id": "icon"
       },
       {
-        "id": "toggle",
-        "capabilities": [
-          "onoff"
-        ],
-        "options": {
-          "showTitle": true
-        }
-      },
-      {
         "id": "sensor",
         "capabilities": [
-          "measure_power",
-          "measure_voltage",
-          "measure_current",
-          "power_factor",
+          "measure_temperature",
+          "measure_humidity",
+          "measure_pressure",
+          "measure_distance",
+          "measure_ultraviolet",
+          "measure_luminance",
+          "measure_voc",
+          "measure_co",
+          "measure_co2",
           "last_update_timestamp"
         ],
         "options": {
           "icons": {
-            "power_factor" : "assets/mobile/power_factor.svg",
             "last_update_timestamp" : "assets/mobile/last_update_timestamp.svg"
           }
         }
+      },
+      {
+        "id" : "color",
+        "capabilities" : [
+          "light_hue",
+          "light_saturation",
+          "light_temperature"
+        ]
       }
     ]
   },
@@ -158,28 +163,28 @@
               }
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": "Generic Tasmota",
+      "children": [
         {
-          "type": "group",
-          "label": "POW",
-          "children": [
-            {
-              "id": "telePeriod",
-              "type": "number",
-              "label": {
-                "en": "Sensor update interval (sec)"
-              },
-              "hint" : {
-                "en" : "Special values: 0 means \"disable updates\", 1 means \"reset to default\"",
-                "nl" : "Speciale waarden: 0 betekent \"schakel updates uit\", 1 betekent \"reset naar standaardwaarde\""
-              },
-              "value": 300,
-              "attr" : {
-                "min" : 0,
-                "max" : 3600
-              }
-            }
-          ]
+          "id": "telePeriod",
+          "type": "number",
+          "label": {
+            "en": "Sensor update interval (sec)"
+          },
+          "hint" : {
+            "en" : "Special values: 0 means \"disable updates\", 1 means \"reset to default\"",
+            "nl" : "Speciale waarden: 0 betekent \"schakel updates uit\", 1 betekent \"reset naar standaardwaarde\""
+          },
+          "value": 300,
+          "attr" : {
+            "min" : 0,
+            "max" : 3600
+          }
         }
       ]
     }

@@ -1,0 +1,254 @@
+# Switches
+Switch1:
+  capabilities:
+    onoff: true
+
+# Switch2:
+#   capabilities:
+#     onoff.2: true
+# 
+# Switch3:
+#   capabilities:
+#     onoff.3: true
+# 
+# Switch4:
+#   capabilities:
+#     onoff.4: true
+
+# Buttons
+Button1:
+  capabilities:
+    onoff: true
+
+#Button2:
+#  capabilities:
+#    onoff.2: true
+#
+#Button3:
+#  capabilities:
+#    onoff.3: true
+#
+#Button4:
+#  capabilities:
+#    onoff.4: true
+
+# Relays
+# Relay1:
+#   capabilities:
+#     onoff.1: true
+# 
+# Relay2:
+#   capabilities:
+#     onoff.2: true
+# 
+# Relay3:
+#   capabilities:
+#     onoff.3: true
+# 
+# Relay4:
+#   capabilities:
+#     onoff.4: true
+# 
+# Relay5:
+#   capabilities:
+#     onoff.5: true
+# 
+# Relay6:
+#   capabilities:
+#     onoff.6: true
+# 
+# Relay7:
+#   capabilities:
+#     onoff.7: true
+# 
+# Relay8:
+#   capabilities:
+#     onoff.8: true
+
+# WS2812 NeoPixel
+WS2812:
+  capabilities:
+    light_saturation: true
+    light_hue: true
+    dim: true
+
+### Specific sensor drivers
+
+# 05 DS18x20
+DS18x20: &ds18x20
+  capabilities:
+    measure_temperature: true
+
+DS18S20:
+  <<: *ds18x20
+
+DS1822:
+  <<: *ds18x20
+
+DS18B20:
+  <<: *ds18x20
+
+MAX31850:
+  <<: *ds18x20
+
+# 06 DHT11 and family
+DHT11: &dht11
+  capabilities:
+    measure_temperature: true
+    measure_humidity: true
+
+AM2301:
+  <<: *dht11
+
+DHT21:
+  <<: *dht11
+
+DHT22:
+  <<: *dht11
+
+AM2302:
+  <<: *dht11
+
+AM2321:
+  <<: *dht11
+
+SI7021:
+  <<: *dht11
+
+# 07 SHT1X
+SHT1X:
+  capabilities:
+    measure_temperature: true
+    measure_humidity: true
+
+# 08 HTU21
+HTU21: &htu21
+  capabilities:
+    measure_temperature: true
+    measure_humidity: true
+
+SI7013:
+  <<: *htu21
+
+SI7020:
+  <<: *htu21
+
+T/RH?:
+  <<: *htu21
+
+# 09 Bosch BMP/BME
+BMP180:
+  capabilities: &bmp180_caps
+    measure_temperature: true
+    measure_pressure: true
+
+BMP280:
+  capabilities:
+    <<: *bmp180_caps
+
+BME280:
+  capabilities: &bme280_caps
+    <<: *bmp180_caps
+    measure_humidity: true
+
+BME680:
+  capabilities:
+    <<: *bme280_caps
+    measure_voc: true
+
+# 10 BH1750
+BH1750:
+  capabilities:
+    measure_luminance: true
+
+# 11 VEML6070 - Ultra Violet Light Intensity
+VEML6070:
+  capabilities:
+    measure_ultraviolet: true
+
+# TODO: 12 ads1115
+
+# 13 INA219 - Low voltage (max 32V!) Current sensor
+INA219:
+  capabilities:
+    measure_voltage: true
+    measure_current: true
+    measure_power: true
+
+# 14 SHT3X
+SHT3X: &sht3x
+  capabilities:
+    measure_temperature: true
+    measure_humidity: true
+
+SHTC3:
+  <<: *sht3x
+
+# 15 MH-Z19 - CO2 sensor
+MHZ19: &mhz19
+  capabilities:
+    measure_co2: true
+
+MHZ19B:
+  <<: *mhz19
+
+# 16 TSL2561 - Light Intensity
+TSL2561:
+  capabilities:
+    measure_luminance: true
+
+# 17 SenseAir K30, K70 and S8 - CO2 sensor
+Kx0: &kx0
+  capabilities:
+    measure_temperature: true
+    measure_humidity: true
+    measure_co2: true
+
+S8:
+  <<: *kx0
+
+# 18 PlanTower PMS5003 and PMS7003 particle concentration sensor
+PMS5003:
+  capabilities:
+    measure_pm25: true
+    # TODO: measure_pm10
+
+# 19 Grove - Multichannel Gas Sensor
+MGS:
+  capabilities:
+    measure_co: true
+    # TODO: NH3, NO2, C3H8, C4H10, CH4, H2, C2H5OH
+
+# 20 Nova Fitness SDS011 (and possibly SDS021) particle concentration sensor
+SDS0X1:
+  capabilities:
+    measure_pm25: true
+    # TODO: measure_pm10
+
+# TODO: 21 SGP30 - Gas (TVOC - Total Volatile Organic Compounds) and Air Quality (CO2)
+
+# 22 HC-SR04, HC-SR04+, JSN-SR04T - Ultrasonic distance sensor
+SR04:
+  capabilities:
+    measure_distance: true
+
+# 23 Eastron SDM120-Modbus energy meter
+# 25 Eastron SDM630-Modbus energy meter
+ENERGY:
+  capabilities:
+    measure_voltage: true
+    measure_current: true
+    measure_power: true
+    # TODO: active/apparent/reactive power usage, frequency, PF
+
+# 24 SI1145/46/47 - UV Index / IR / Visible light
+SI1145:
+  capabilities:
+    measure_luminance: true
+    measure_ultraviolet: true
+    # TODO: infrared
+
+# 26 LM75AD - Temperature
+LM75AD:
+  capabilities:
+    measure_temperature: true

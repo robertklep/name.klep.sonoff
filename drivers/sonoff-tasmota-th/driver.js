@@ -1,5 +1,5 @@
 const Homey               = require('homey');
-const SonoffTasmotaDriver = require('../../lib/tasmota-driver/driver');
+const SonoffTasmotaDriver = require('../../lib/tasmota/driver');
 
 // Supported modules and capabilities for this driver.
 const MODULES      = [ 'Sonoff TH' ];

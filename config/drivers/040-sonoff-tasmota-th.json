@@ -42,7 +42,7 @@
           "onoff"
         ],
         "options": {
-          "showTitle": true
+          "showtitle": true
         }
       },
       {
