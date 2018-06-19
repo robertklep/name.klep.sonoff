@@ -1,4 +1,4 @@
-const MultiSwitchDriver = require('../../lib/tasmota-driver/multiswitch/driver');
+const MultiSwitchDriver = require('../../lib/tasmota/multiswitch/driver');
 
 // Supported modules.
 const MODULES = [ 'Sonoff T1 3CH' ];

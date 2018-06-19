@@ -25,6 +25,10 @@ As an alternative, this app supports Sonoff devices running the (unofficial) [So
 
 *Because the original firmware is limiting the "hackiness" of the Sonoff devices, most of my development efforts will focus on the Tasmota firmware, which provides a much more open, and documented, platform. If you don't mind a bit of hardware tinkering, you should consider using it instead of the original firmware (also because most features besides just turning on and off the device are implemented for the Tasmota firmware only).*
 
+### Sonoff-Tasmota configuration
+
+How to install the Sonoff-Tasmota firmware on your device is beyond the scope of this app. However, do make sure that once you have installed the firmware, you configure the firmware properly. Specifically, you need to set the "module type" (accessible through _"Configuration > Configure Module"_ in the Sonoff-Tasmota webserver) to properly reflect the device you installed it on. This is required for the app to be able to detect the device, and set all the device capabilities.
+
 ### Tested devices
 
 This driver has been tested with the following devices:
@@ -40,6 +44,13 @@ This driver has been tested with the following devices:
 * Sonoff RF (untested but should work)
 * Sonoff 4CH (untested but should work)
 * Sonoff T1 (untested but should work)
+* Generic Tasmota modules (see below)
+
+### Generic Tasmota modules
+
+The Sonoff-Tasmota firmware can also be used for generic ESP8266-based modules, like the Wemos D1 and NodeMCU modules.
+
+These are supported using the _"Generic"_ driver. Pairing may take a bit longer than for other drivers, because the app has to wait for the sensor data to become available. However, this shouldn't take more than about 30 seconds.
 
 ### Issues
 
@@ -50,6 +61,9 @@ Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
 The "Heartbeat" icon was created by Creative Stall from the <a href="https://thenounproject.com/">Noun Project</a>.
 
 ### Changelog
+
+* 4.0.9 (2018-07-01):
+  * Added support for generic Tasmota modules, including sensors
 
 * 4.0.8 (2018-06-12):
   * Fixed issue with actions for multiswitch devices

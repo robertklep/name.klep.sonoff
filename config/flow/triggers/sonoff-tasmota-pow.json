@@ -14,7 +14,7 @@
     ],
     "tokens": [
       {
-        "name": "current",
+        "name": "value",
         "type": "number",
         "title": {
           "en": "Current (A)",
@@ -54,7 +54,7 @@
     ],
     "tokens": [
       {
-        "name": "power",
+        "name": "value",
         "type": "number",
         "title": {
           "en": "Power (W)",
@@ -94,7 +94,7 @@
     ],
     "tokens": [
       {
-        "name": "voltage",
+        "name": "value",
         "type": "number",
         "title": {
           "en": "Voltage (V)",

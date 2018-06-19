@@ -1,5 +1,5 @@
 const Homey               = require('homey');
-const SonoffTasmotaDevice = require('../../lib/tasmota-driver/device');
+const SonoffTasmotaDevice = require('../../lib/tasmota/device');
 
 module.exports = class SonoffTasmotaRfBridgeDevice extends SonoffTasmotaDevice {
 

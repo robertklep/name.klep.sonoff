@@ -1,0 +1,239 @@
+{
+  "Switch1": {
+    "capabilities": {
+      "onoff": true
+    }
+  },
+  "Button1": {
+    "capabilities": {
+      "onoff": true
+    }
+  },
+  "WS2812": {
+    "capabilities": {
+      "light_saturation": true,
+      "light_hue": true,
+      "dim": true
+    }
+  },
+  "DS18x20": {
+    "capabilities": {
+      "measure_temperature": true
+    }
+  },
+  "DS18S20": {
+    "capabilities": {
+      "measure_temperature": true
+    }
+  },
+  "DS1822": {
+    "capabilities": {
+      "measure_temperature": true
+    }
+  },
+  "DS18B20": {
+    "capabilities": {
+      "measure_temperature": true
+    }
+  },
+  "MAX31850": {
+    "capabilities": {
+      "measure_temperature": true
+    }
+  },
+  "DHT11": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "AM2301": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "DHT21": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "DHT22": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "AM2302": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "AM2321": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "SI7021": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "SHT1X": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "HTU21": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "SI7013": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "SI7020": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "T/RH?": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "BMP180": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_pressure": true
+    }
+  },
+  "BMP280": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_pressure": true
+    }
+  },
+  "BME280": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_pressure": true,
+      "measure_humidity": true
+    }
+  },
+  "BME680": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_pressure": true,
+      "measure_humidity": true,
+      "measure_voc": true
+    }
+  },
+  "BH1750": {
+    "capabilities": {
+      "measure_luminance": true
+    }
+  },
+  "VEML6070": {
+    "capabilities": {
+      "measure_ultraviolet": true
+    }
+  },
+  "INA219": {
+    "capabilities": {
+      "measure_voltage": true,
+      "measure_current": true,
+      "measure_power": true
+    }
+  },
+  "SHT3X": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "SHTC3": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true
+    }
+  },
+  "MHZ19": {
+    "capabilities": {
+      "measure_co2": true
+    }
+  },
+  "MHZ19B": {
+    "capabilities": {
+      "measure_co2": true
+    }
+  },
+  "TSL2561": {
+    "capabilities": {
+      "measure_luminance": true
+    }
+  },
+  "Kx0": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true,
+      "measure_co2": true
+    }
+  },
+  "S8": {
+    "capabilities": {
+      "measure_temperature": true,
+      "measure_humidity": true,
+      "measure_co2": true
+    }
+  },
+  "PMS5003": {
+    "capabilities": {
+      "measure_pm25": true
+    }
+  },
+  "MGS": {
+    "capabilities": {
+      "measure_co": true
+    }
+  },
+  "SDS0X1": {
+    "capabilities": {
+      "measure_pm25": true
+    }
+  },
+  "SR04": {
+    "capabilities": {
+      "measure_distance": true
+    }
+  },
+  "ENERGY": {
+    "capabilities": {
+      "measure_voltage": true,
+      "measure_current": true,
+      "measure_power": true
+    }
+  },
+  "SI1145": {
+    "capabilities": {
+      "measure_luminance": true,
+      "measure_ultraviolet": true
+    }
+  },
+  "LM75AD": {
+    "capabilities": {
+      "measure_temperature": true
+    }
+  }
+}

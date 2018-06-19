@@ -1,4 +1,4 @@
-const OnOffDriver = require('../../lib/tasmota-driver/onoff/driver');
+const OnOffDriver = require('../../lib/tasmota/onoff/driver');
 
 module.exports = class SonoffTasmotaS20Driver extends OnOffDriver {
   supportedModules() {

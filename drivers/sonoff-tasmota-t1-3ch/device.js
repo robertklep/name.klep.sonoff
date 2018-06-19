@@ -1,4 +1,4 @@
-const MultiSwitchDevice = require('../../lib/tasmota-driver/multiswitch/device');
+const MultiSwitchDevice = require('../../lib/tasmota/multiswitch/device');
 
 module.exports = class SonoffTasmotaT13CHDevice extends MultiSwitchDevice {
 

@@ -14,7 +14,7 @@
     ],
     "tokens": [
       {
-        "name": "temperature",
+        "name": "value",
         "type": "number",
         "title": {
           "en": "Temperature",
@@ -54,7 +54,7 @@
     ],
     "tokens": [
       {
-        "name": "humidity",
+        "name": "value",
         "type": "number",
         "title": {
           "en": "Humidity",
