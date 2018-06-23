@@ -1,3 +1,3 @@
-const OnOffDevice = require('../../lib/tasmota/onoff/device');
+const { TasmotaDevice, mixins : { OnOffDevice } }  = require('../../lib/tasmota');
 
-module.exports = class SonoffTasmotaT11CHDevice extends OnOffDevice {}
+module.exports = class SonoffTasmotaT11CHDevice extends OnOffDevice(TasmotaDevice) {}

@@ -1,6 +1,6 @@
-const OnOffDriver = require('../../lib/tasmota/onoff/driver');
+const { TasmotaDriver, mixins : { OnOffDriver } }  = require('../../lib/tasmota');
 
-module.exports = class SonoffTasmotaRFDriver extends OnOffDriver {
+module.exports = class SonoffTasmotaRFDriver extends OnOffDriver(TasmotaDriver) {
   supportedModules() {
     return [ 'Sonoff RF' ];
   }

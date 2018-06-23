@@ -1,11 +1,11 @@
-const Homey               = require('homey');
-const SonoffTasmotaDriver = require('../../lib/tasmota/driver');
+const Homey             = require('homey');
+const { TasmotaDriver } = require('../../lib/tasmota');
 
 // Supported modules and capabilities for this driver.
 const MODULES      = [ 'Sonoff TH' ];
 const CAPABILITIES = [ 'onoff', 'measure_temperature', 'measure_humidity', 'last_update_timestamp' ];
 
-module.exports = class SonoffTasmotaThDriver extends SonoffTasmotaDriver {
+module.exports = class SonoffTasmotaThDriver extends TasmotaDriver {
 
   onInit() {
     super.onInit();
