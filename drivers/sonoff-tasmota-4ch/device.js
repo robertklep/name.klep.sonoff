@@ -1,10 +1,3 @@
-const MultiSwitchDevice = require('../../lib/tasmota/multiswitch/device');
+const { TasmotaDevice, mixins : { MultiSwitchDevice } } = require('../../lib/tasmota');
 
-module.exports = class SonoffTasmota4CHDevice extends MultiSwitchDevice {
-
-  onInit() {
-    this.switchCount = 4;
-    super.onInit();
-  }
-
-}
+module.exports = class SonoffTasmota4CHDevice extends MultiSwitchDevice(TasmotaDevice, 4) {}
