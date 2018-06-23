@@ -20,6 +20,9 @@ module.exports = class SonoffTasmotaGenericDriver extends TasmotaDriver {
       measure_co:          new Homey.FlowCardTriggerDevice('generic-co-changed').register(),
       measure_co2:         new Homey.FlowCardTriggerDevice('generic-co2-changed').register(),
     };
+
+    // Register flow actions.
+    this.registerFlowAction('sonoff-tasmota-generic-set-color');
   }
 
   supportedModules() {
