@@ -2740,6 +2740,15 @@
             "options": {
               "showTitle": true
             }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff.3"
+            ],
+            "options": {
+              "showTitle": true
+            }
           }
         ]
       },

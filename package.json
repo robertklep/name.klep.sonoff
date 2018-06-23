@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run compose; npm run sensors",
     "compose": "homeyConfig compose",
-    "sensors": "js-yaml < lib/tasmota-driver/capabilities/sensors.yaml > lib/tasmota-driver/capabilities/sensors.json"
+    "sensors": "js-yaml < lib/tasmota/capabilities/sensors.yaml > lib/tasmota/capabilities/sensors.json"
   },
   "dependencies": {
     "homey-syslog": "^1.1.0",

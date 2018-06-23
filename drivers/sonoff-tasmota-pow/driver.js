@@ -1,11 +1,11 @@
-const Homey               = require('homey');
-const SonoffTasmotaDriver = require('../../lib/tasmota/driver');
+const Homey             = require('homey');
+const { TasmotaDriver } = require('../../lib/tasmota');
 
 // Supported modules and capabilities for this driver.
 const MODULES      = [ 'Sonoff Pow', 'Sonoff Pow R2' ];
 const CAPABILITIES = [ 'onoff', 'measure_power', 'measure_voltage', 'measure_current', 'power_factor', 'meter_power', 'last_update_timestamp' ];
 
-module.exports = class SonoffTasmotaPowDriver extends SonoffTasmotaDriver {
+module.exports = class SonoffTasmotaPowDriver extends TasmotaDriver {
 
   onInit() {
     super.onInit();
