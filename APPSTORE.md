@@ -52,6 +52,10 @@ The Sonoff-Tasmota firmware can also be used for generic ESP8266-based modules, 
 
 These are supported using the _"Generic"_ driver. Pairing may take a bit longer than for other drivers, because the app has to wait for the sensor data to become available. However, this shouldn't take more than about 30 seconds.
 
+Due to the way Homey drivers work, a device needs to declare at pairing time which capabilities it supports. This means that if you add a sensor to an already-paired device, you need to re-pair it before the new sensor data will show up in the Homey app.
+
+Also, if you have multiple sensors attached that have an overlap in capabilities (for instance, two sensor that can provide temperature data), only one of them will be used (which one will be used isn't configurable).
+
 ### Issues
 
 Please report issues here: https://github.com/robertklep/name.klep.sonoff/issues
