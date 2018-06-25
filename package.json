@@ -1,6 +1,6 @@
 {
   "name": "name.klep.sonoff",
-  "version": "4.0.8",
+  "version": "4.1.0",
   "description": "Control Sonoff devices using Homey",
   "author": "Robert Klep <robert@klep.name>",
   "license": "MIT",
