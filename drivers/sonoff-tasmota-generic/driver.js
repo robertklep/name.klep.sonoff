@@ -1,7 +1,5 @@
 const Homey = require('homey');
-const { TasmotaDriver,
-        mixins       : { SensorDriver },
-        capabilities : { capabilitiesForSensor } } = require('../../lib/tasmota');
+const { TasmotaDriver, capabilities : { capabilitiesForSensor } } = require('../../lib/tasmota');
 
 module.exports = class SonoffTasmotaGenericDriver extends TasmotaDriver {
 
