@@ -127,6 +127,17 @@
       "getable": true,
       "setable": false
     },
+    "pwm": {
+      "type": "number",
+      "title": {
+        "en": "PWM",
+        "nl": "PWM"
+      },
+      "min": 0,
+      "max": 1023,
+      "getable": true,
+      "setable": true
+    },
     "last_update_timestamp": {
       "type": "string",
       "title": {
@@ -3675,21 +3686,7 @@
       "name": {
         "en": "Generic (Tasmota)"
       },
-      "capabilities": [
-        "measure_temperature",
-        "measure_humidity",
-        "measure_pressure",
-        "measure_distance",
-        "measure_ultraviolet",
-        "measure_luminance",
-        "measure_voc",
-        "measure_co",
-        "measure_co2",
-        "light_hue",
-        "light_saturation",
-        "dim",
-        "last_update_timestamp"
-      ],
+      "capabilities": [],
       "capabilitiesOptions": {
         "onoff": {
           "greyout": false
@@ -3707,41 +3704,6 @@
           "id": "list-devices"
         }
       ],
-      "mobile": {
-        "components": [
-          {
-            "id": "icon"
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "measure_temperature",
-              "measure_humidity",
-              "measure_pressure",
-              "measure_distance",
-              "measure_ultraviolet",
-              "measure_luminance",
-              "measure_voc",
-              "measure_co",
-              "measure_co2",
-              "last_update_timestamp"
-            ],
-            "options": {
-              "icons": {
-                "last_update_timestamp": "assets/mobile/last_update_timestamp.svg"
-              }
-            }
-          },
-          {
-            "id": "color",
-            "capabilities": [
-              "light_hue",
-              "light_saturation",
-              "light_temperature"
-            ]
-          }
-        ]
-      },
       "settings": [
         {
           "type": "group",

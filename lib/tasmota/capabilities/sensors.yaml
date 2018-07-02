@@ -3,14 +3,35 @@ Switch1:
   capabilities:
     onoff: true
 
+# PWM channels
+PWM1:
+  capabilities:
+    pwm.1: true
+
+PWM2:
+  capabilities:
+    pwm.2: true
+
+PWM3:
+  capabilities:
+    pwm.3: true
+
+PWM4:
+  capabilities:
+    pwm.4: true
+
+PWM5:
+  capabilities:
+    pwm.5: true
+
 # Switch2:
 #   capabilities:
 #     onoff.2: true
-# 
+#
 # Switch3:
 #   capabilities:
 #     onoff.3: true
-# 
+#
 # Switch4:
 #   capabilities:
 #     onoff.4: true
@@ -36,31 +57,31 @@ Button1:
 # Relay1:
 #   capabilities:
 #     onoff.1: true
-# 
+#
 # Relay2:
 #   capabilities:
 #     onoff.2: true
-# 
+#
 # Relay3:
 #   capabilities:
 #     onoff.3: true
-# 
+#
 # Relay4:
 #   capabilities:
 #     onoff.4: true
-# 
+#
 # Relay5:
 #   capabilities:
 #     onoff.5: true
-# 
+#
 # Relay6:
 #   capabilities:
 #     onoff.6: true
-# 
+#
 # Relay7:
 #   capabilities:
 #     onoff.7: true
-# 
+#
 # Relay8:
 #   capabilities:
 #     onoff.8: true

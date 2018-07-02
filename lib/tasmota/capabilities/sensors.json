@@ -4,6 +4,31 @@
       "onoff": true
     }
   },
+  "PWM1": {
+    "capabilities": {
+      "pwm.1": true
+    }
+  },
+  "PWM2": {
+    "capabilities": {
+      "pwm.2": true
+    }
+  },
+  "PWM3": {
+    "capabilities": {
+      "pwm.3": true
+    }
+  },
+  "PWM4": {
+    "capabilities": {
+      "pwm.4": true
+    }
+  },
+  "PWM5": {
+    "capabilities": {
+      "pwm.5": true
+    }
+  },
   "Button1": {
     "capabilities": {
       "onoff": true
