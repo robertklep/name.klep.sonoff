@@ -2,6 +2,7 @@
   "id": "name.klep.sonoff",
   "version": "4.0.8",
   "athomForumDiscussionId": 4677,
+  "homeyCommunityTopicId": 119,
   "sdk": 2,
   "name": {
     "en": "Sonoff"
