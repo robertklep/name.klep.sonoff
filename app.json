@@ -2088,7 +2088,7 @@
       "id": "sonoff-tasmota-s20",
       "class": "socket",
       "name": {
-        "en": "S20 (Tasmota)"
+        "en": "S20/S26 (Tasmota)"
       },
       "capabilities": [
         "onoff"
