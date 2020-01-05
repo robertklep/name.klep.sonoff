@@ -2,6 +2,12 @@
 
 Control ITEAD Sonoff WiFi devices using Homey.
 
+### DEPRECATED
+
+Because I stopped using Homey, I can no longer properly support this app, which means I won't be implementing new features or bugfixes.
+
+If another developer wants to assume responsibility for further development of this app, feel free to contact me.
+
 #### Initial device setup (original firmware)
 
 This driver works with Sonoff WiFi devices that run the original Sonoff firmware. The hardware setup mimics the Sonoff _eWelink_ mobile app by tricking the device into using the Homey as its cloud server. Once the hardware setup is complete, the device will not be using the Chinese cloud service, but your Homey.
