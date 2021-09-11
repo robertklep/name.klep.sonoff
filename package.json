@@ -13,8 +13,5 @@
     "sonoff-tasmota-mqtt": "github:robertklep/sonoff-tasmota-mqtt#v1.2.1",
     "watchout": "0.0.5",
     "ws": "^3.3.2"
-  },
-  "devDependencies": {
-    "homey-app-upload-lib": "^1.1.0"
   }
 }
